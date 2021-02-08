@@ -2,11 +2,21 @@ import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
 
-import {
-  GET_ERRORS,
-  SET_CURRENT_USER,
-  USER_LOADING
-} from "./types";
+// TODO: what's the point in having a file of strings?
+// TODO: The type field should be a string that gives this action a descriptive name,
+// like "todos/todoAdded". We usually write that type string like
+// "domain/eventName", where the first part is the feature or category that
+// this action belongs to, and the second part is the specific thing that
+// happened.
+// https://redux.js.org/tutorials/essentials/part-1-overview-concepts#actions
+// import {
+//   GET_ERRORS,
+//   SET_CURRENT_USER,
+//   USER_LOADING
+// } from "./types";
+
+// These functions are action creators
+// https://redux.js.org/tutorials/essentials/part-1-overview-concepts#action-creators
 
 // Register User
 export const registerUser = (userData, history) => dispatch => {
@@ -15,7 +25,7 @@ export const registerUser = (userData, history) => dispatch => {
     .then(res => history.push("/login")) // re-direct to login on successful register
     .catch(err =>
       dispatch({
-        type: GET_ERRORS,
+        type: 'getErrors',
         payload: err.response.data
       })
     );
@@ -40,7 +50,7 @@ export const loginUser = userData => dispatch => {
     })
     .catch(err =>
       dispatch({
-        type: GET_ERRORS,
+        type: 'getErrors',
         payload: err.response.data
       })
     );
@@ -49,7 +59,7 @@ export const loginUser = userData => dispatch => {
 // Set logged in user
 export const setCurrentUser = decoded => {
   return {
-    type: SET_CURRENT_USER,
+    type: 'auth/setCurrentUser',
     payload: decoded
   };
 };
@@ -57,7 +67,7 @@ export const setCurrentUser = decoded => {
 // User loading
 export const setUserLoading = () => {
   return {
-    type: USER_LOADING
+    type: 'auth/userLoading'
   };
 };
 

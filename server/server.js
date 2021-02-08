@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 
 const users = require("./routes/api/users");
+const fileRoute = require('./routes/api/file');
 
 const app = express();
 
@@ -20,10 +21,11 @@ const db = require("./config/keys").mongoURI;
 
 // Connect to MongoDB
 mongoose
-  .connect(
-    db,
-    { useNewUrlParser: true, useUnifiedTopology: true }
-  )
+  .connect(db, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true
+  })
   .then(() => console.log("MongoDB successfully connected"))
   .catch(err => console.log(err));
 
@@ -34,7 +36,9 @@ app.use(passport.initialize());
 require("./config/passport")(passport);
 
 // Routes
+// what is the first string arg here?
 app.use("/api/users", users);
+app.use("/api/file", fileRoute);
 
 const port = process.env.PORT || 5000; // process.env.port is Heroku's port if you choose to deploy there
 

@@ -13,6 +13,8 @@ import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import PrivateRoute from "./components/private-route/PrivateRoute";
 import Dashboard from "./components/dashboard/Dashboard";
+import FilesList from './components/files-list/FilesList';
+import FileUpload from './components/file-upload/FileUpload';
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -35,6 +37,12 @@ if (localStorage.jwtToken) {
   }
 }
 
+// It's a single page app. That's why the homepage (path "/") is
+// Landing component.  React-router-dom routes it per below.
+
+// https://medium.com/@jenniferdobak/react-router-vs-switch-components-2af3a9fc72e
+// https://medium.com/@thanhbinh.tran93/private-route-public-route-and-restricted-route-with-react-router-d50b27c15f5e
+
 class App extends Component {
   render() {
     return (
@@ -42,11 +50,13 @@ class App extends Component {
         <Router>
           <div className="App">
             <Navbar />
+            <Switch>
             <Route exact path="/" component={Landing} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
-            <Switch>
-              <PrivateRoute exact path="/dashboard" component={Dashboard} />
+            <PrivateRoute exact path="/dashboard" component={Dashboard} />
+            <PrivateRoute exact path="/list" component={FilesList} />
+            <PrivateRoute exact path="/upload" component={FileUpload} />
             </Switch>
           </div>
         </Router>
