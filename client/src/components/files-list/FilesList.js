@@ -99,12 +99,13 @@ const FilesList = (props) => {
   // https://scotch.io/starters/react/handling-lists-in-react-jsx#toc-looping-over-an-object-instead-of-an-array
 
 return (
-  <div className="files-container">
+  <div>
     <Button variant="primary" as={Link} to="/upload">Add word</Button>
     <Button variant="success" as={Link} to="/play">Play game</Button>
+    <div className="photos-list">
     {filesList.length > 0 &&
       filesList.map((word) =>
-      <Card key={word._id} id={word._id} style={{ width: '18rem' }}>
+      <Card className="photo" key={word._id} id={word._id} style={{ width: '18rem' }}>
         <Card.Img variant="top" src={'http://localhost:5000/' + word.file_path} onClick={() => handleClick(word._id)} />
         <Card.Body>
           <Card.Title>{word.word}</Card.Title>
@@ -115,6 +116,7 @@ return (
       </Card>
       )
     }
+    </div>
   </div>
   );
 };
