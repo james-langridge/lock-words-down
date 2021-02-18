@@ -1,22 +1,50 @@
-import React, { useState, useRef } from 'react'; // https://reactjs.org/
+import React, { useState, useEffect, useRef } from 'react'; // https://reactjs.org/
 import { Form, Row, Col, Button } from 'react-bootstrap'; // https://react-bootstrap.github.io/
 import Dropzone from 'react-dropzone'; // https://react-dropzone.js.org/
 import axios from 'axios'; // https://www.npmjs.com/package/axios
 // import { API_URL } from '../../utils/constants';
+import { useLocation } from "react-router-dom";
+import { useDispatch } from 'react-redux';
 
-const FileUpload = (props) => {
+const WordEdit = (props) => {
   // https://reactjs.org/docs/hooks-intro.html
   // https://reactjs.org/docs/hooks-reference.html#usestate
   const [file, setFile] = useState(null); // state for storing actual image
   const [previewSrc, setPreviewSrc] = useState(''); // state for storing previewImage
+  const [image, setImage] = useState(null);
   const [state, setState] = useState({
     word: '',
     syllable: ''
   });
   const [errorMsg, setErrorMsg] = useState('');
-  const [isPreviewAvailable, setIsPreviewAvailable] = useState(false); // state to show preview only for images
+  const [isPreviewAvailable, setIsPreviewAvailable] = useState(true); // state to show preview only for images
   // https://reactjs.org/docs/hooks-reference.html#useref
   const dropRef = useRef(); // React ref for managing the hover state of droppable area
+  const query = useQuery();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const getFile = async () => {
+      try {
+        const { data } = await axios.get('file/getFile/' + query.get('id'));
+        setErrorMsg('');
+        setState({
+          ...state,
+          word: data.word,
+          syllable: data.syllable
+        });
+        setPreviewSrc('http://localhost:5000/' + data.file_path);
+      } catch (error) {
+        error.response && setErrorMsg(error.response.data);
+      }
+    };
+
+    getFile();
+  }, []);
+
+  function useQuery() {
+    return new URLSearchParams(useLocation().search);
+  }
 
   const handleInputChange = (event) => {
     setState({
@@ -57,7 +85,20 @@ const FileUpload = (props) => {
     try {
       const { word, syllable } = state;
       if (word.trim() !== '' && syllable.trim() !== '') {
-        if (file) {
+        if (!file) {
+          // https://developer.mozilla.org/en-US/docs/Web/API/FormData
+          const formData = new FormData();
+          formData.append('word', word);
+          formData.append('syllable', syllable);
+
+          setErrorMsg('');
+          await axios.post('file/update/' + query.get('id'), formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          });
+          props.history.push('/list');
+        } else if (file) {
           // https://developer.mozilla.org/en-US/docs/Web/API/FormData
           const formData = new FormData();
           formData.append('file', file);
@@ -65,7 +106,7 @@ const FileUpload = (props) => {
           formData.append('syllable', syllable);
 
           setErrorMsg('');
-          await axios.post('file/upload', formData, {
+          await axios.post('file/update/' + query.get('id'), formData, {
             headers: {
               'Content-Type': 'multipart/form-data'
             }
@@ -156,4 +197,4 @@ const FileUpload = (props) => {
   );
 };
 
-export default FileUpload;
+export default WordEdit;

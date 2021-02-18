@@ -2,12 +2,12 @@ const mongoose = require('mongoose');
 
 const fileSchema = mongoose.Schema(
   {
-    title: {
+    word: {
       type: String,
       required: true,
       trim: true
     },
-    description: {
+    syllable: {
       type: String,
       required: true,
       trim: true

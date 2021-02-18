@@ -1,16 +1,25 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from "react-router-dom";
 import download from 'downloadjs';
 import axios from 'axios';
-import { API_URL } from '../../utils/constants';
+import Table from 'react-bootstrap/Table';
+import Button from 'react-bootstrap/Button';
+import BootstrapTable from 'react-bootstrap-table-next';
+import { useDispatch } from 'react-redux';
+import WordCard from './WordCard';
+import { Card } from 'react-bootstrap';
+import ListGroup from 'react-bootstrap/ListGroup';
+// import { API_URL } from '../../utils/constants';
 
-const FilesList = () => {
+const FilesList = (props) => {
   const [filesList, setFilesList] = useState([]);
   const [errorMsg, setErrorMsg] = useState('');
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getFilesList = async () => {
       try {
-        const { data } = await axios.get('api/file/getAllFiles');
+        const { data } = await axios.get('file/getAllFiles');
         setErrorMsg('');
         setFilesList(data);
       } catch (error) {
@@ -23,7 +32,7 @@ const FilesList = () => {
 
   const downloadFile = async (id, path, mimetype) => {
     try {
-      const result = await axios.get('api/file/download/${id}', {
+      const result = await axios.get(`file/download/${id}`, {
         responseType: 'blob'
       });
       const split = path.split('/');
@@ -37,47 +46,76 @@ const FilesList = () => {
     }
   };
 
+  const getImage = async (id, path, mimetype) => {
+    try {
+      const result = await axios.get(`file/download/${id}`, {
+        responseType: 'blob'
+      });
+      const split = path.split('/');
+      const filename = split[split.length - 1];
+      setErrorMsg('');
+
+      return result.data;
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        setErrorMsg('Error while downloading file.  Try again later.');
+      }
+    }
+  };
+
+  const handleDelete = async (id) => {
+    const result = window.confirm('Delete this word? You cannot undo this.')
+    if (result) {
+      try {
+        await axios.delete(`file/delete/${id}`);
+        setErrorMsg('');
+        try {
+          const { data } = await axios.get('file/getAllFiles');
+          setErrorMsg('');
+          setFilesList(data);
+        } catch (error) {
+          error.response && setErrorMsg(error.response.data);
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 400) {
+          setErrorMsg('Error while deleting file.  Try again later.');
+        }
+      }
+    }
+  };
+
+  const handleClick = (id) => {
+    const el = document.getElementById(id);
+    el.classList.toggle('selected');
+    el.classList.toggle('bg-success');
+    const isSelected = el.classList.contains('selected')
+    if (isSelected) {
+      dispatch({ type: 'words/selectWord', payload: id })
+    } else if (!isSelected) {
+      dispatch({ type: 'words/unselectWord', payload: id })
+    }
+  }
+
+  // https://scotch.io/starters/react/handling-lists-in-react-jsx#toc-looping-over-an-object-instead-of-an-array
+
 return (
   <div className="files-container">
-      {errorMsg && <p className="errorMsg">{errorMsg}</p>}
-      <table className="files-table">
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Download File</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filesList.length > 0 ? (
-            filesList.map(
-              ({ _id, title, description, file_path, file_mimetype }) => (
-                <tr key={_id}>
-                  <td className="file-title">{title}</td>
-                  <td className="file-description">{description}</td>
-                  <td>
-                    <a
-                      href="#/"
-                      onClick={() =>
-                        downloadFile(_id, file_path, file_mimetype)
-                      }
-                    >
-                      Download
-                    </a>
-                  </td>
-                </tr>
-              )
-            )
-          ) : (
-            <tr>
-              <td colSpan={3} style={{ fontWeight: '300' }}>
-                No files found. Please add some.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    </div>
+    <Button variant="primary" as={Link} to="/upload">Add word</Button>
+    <Button variant="success" as={Link} to="/play">Play game</Button>
+    {filesList.length > 0 &&
+      filesList.map((word) =>
+      <Card key={word._id} id={word._id} style={{ width: '18rem' }}>
+        <Card.Img variant="top" src={'http://localhost:5000/' + word.file_path} onClick={() => handleClick(word._id)} />
+        <Card.Body>
+          <Card.Title>{word.word}</Card.Title>
+          <Card.Text>{word.syllable}</Card.Text>
+          <Card.Link as={Link} to={'/edit?id=' + word._id}>Edit</Card.Link>
+          <Card.Link href="#" onClick={() => handleDelete(word._id)}>Delete</Card.Link>
+        </Card.Body>
+      </Card>
+      )
+    }
+  </div>
   );
 };
 

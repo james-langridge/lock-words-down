@@ -5,8 +5,8 @@
   "main": "server.js",
   "scripts": {
     "client-install": "npm install --prefix client",
-    "start": "node server.js",
-    "server": "nodemon server.js",
+    "start": "DEBUG=express:* node server.js",
+    "server": "DEBUG=express:* DEBUG_COLORS=true DEBUG_FD=1 nodemon server.js",
     "client": "npm start --prefix client"
   },
   "keywords": [],
