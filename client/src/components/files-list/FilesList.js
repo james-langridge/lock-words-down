@@ -84,15 +84,15 @@ const FilesList = (props) => {
     }
   };
 
-  const handleClick = (id) => {
-    const el = document.getElementById(id);
+  const handleClick = (word) => {
+    const el = document.getElementById(word._id);
     el.classList.toggle('selected');
     el.classList.toggle('bg-success');
     const isSelected = el.classList.contains('selected')
     if (isSelected) {
-      dispatch({ type: 'words/selectWord', payload: id })
+      dispatch({ type: 'words/selectWord', payload: word })
     } else if (!isSelected) {
-      dispatch({ type: 'words/unselectWord', payload: id })
+      dispatch({ type: 'words/unselectWord', payload: word })
     }
   }
 
@@ -101,12 +101,12 @@ const FilesList = (props) => {
 return (
   <div>
     <Button variant="primary" as={Link} to="/upload">Add word</Button>
-    <Button variant="success" as={Link} to="/play">Play game</Button>
+    <Button variant="success" as={Link} to="/game">Play game</Button>
     <div className="photos-list">
     {filesList.length > 0 &&
       filesList.map((word) =>
       <Card className="photo" key={word._id} id={word._id} style={{ width: '18rem' }}>
-        <Card.Img variant="top" src={'http://localhost:5000/' + word.file_path} onClick={() => handleClick(word._id)} />
+        <Card.Img variant="top" src={'http://localhost:5000/' + word.file_path} onClick={() => handleClick(word)} />
         <Card.Body>
           <Card.Title>{word.word}</Card.Title>
           <Card.Text>{word.syllable}</Card.Text>

@@ -1,14 +1,14 @@
-export const selectWord = id => {
+export const selectWord = word => {
   return {
     type: 'words/selectWord',
-    payload: id
+    payload: word
   }
 }
 
-export const unselectWord = id => {
+export const unselectWord = word => {
   return {
     type: 'words/unselectWord',
-    payload: id
+    payload: word
   }
 }
 

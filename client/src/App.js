@@ -16,6 +16,7 @@ import Dashboard from "./components/dashboard/Dashboard";
 import FilesList from './components/files-list/FilesList';
 import FileUpload from './components/file-upload/FileUpload';
 import WordEdit from './components/word-edit/WordEdit';
+import Game from './components/game/Game';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
@@ -61,6 +62,7 @@ class App extends Component {
               <PrivateRoute exact path="/list" component={FilesList} />
               <PrivateRoute exact path="/upload" component={FileUpload} />
               <PrivateRoute exact path="/edit" component={WordEdit} />
+              <PrivateRoute exact path="/game" component={Game} />
             </Switch>
           </div>
         </Router>
