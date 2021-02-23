@@ -1,18 +1,38 @@
 const path = require('path');
+const AWS = require('aws-sdk');
 const express = require('express');
 const multer = require('multer'); // https://www.npmjs.com/package/multer
+const multerS3 = require('multer-s3');
 const File = require('../models/file');
 const Router = express.Router();
 
+AWS.config.getCredentials(function(err) {
+  if (err) console.log(err.stack);
+  // credentials not loaded
+  else {
+    console.log("Access key:", AWS.config.credentials.accessKeyId);
+  }
+});
+
+AWS.config.update({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+});
+
+const s3 = new AWS.S3();
+
 const upload = multer({
   // https://www.npmjs.com/package/multer#diskstorage
-  storage: multer.diskStorage({
-    destination(req, file, cb) {
-      cb(null, './files');
+  storage: multerS3({
+    s3: s3,
+    bucket: process.env.S3_BUCKET,
+    acl: "public-read",
+    metadata: function (req, file, cb) {
+      cb(null, { fieldName: "TESTING_METADATA" });
     },
-    filename(req, file, cb) {
-      cb(null, `${new Date().getTime()}_${file.originalname}`);
-    }
+    key: function (req, file, cb) {
+      cb(null, Date.now().toString());
+    },
   }),
   limits: {
     fileSize: 1000000 // max file size 1MB = 1000000 bytes
@@ -37,14 +57,14 @@ Router.post(
   '/upload',
   upload.single('file'),
   async (req, res) => {
+    console.log(req.file);
     try {
       const { word, syllable } = req.body;
-      const { path, mimetype } = req.file;
+      const imageUrl = req.file.location;
       const file = new File({
         word,
         syllable,
-        file_path: path,
-        file_mimetype: mimetype
+        image_url: imageUrl
       });
       await file.save();
       res.send('file uploaded successfully.');
@@ -70,9 +90,8 @@ Router.post(
       const file = await File.findById(req.params.id);
       const { word, syllable } = req.body;
       if (req.file) {
-        const { path, mimetype } = req.file;
-        file.file_path = path;
-        file.file_mimetype = mimetype;
+        const imageUrl = req.file.location;
+        file.image_url = imageUrl;
       }
       file.word = word;
       file.syllable = syllable;

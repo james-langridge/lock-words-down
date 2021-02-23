@@ -33,7 +33,7 @@ const WordEdit = (props) => {
           word: data.word,
           syllable: data.syllable
         });
-        setPreviewSrc('http://localhost:5000/' + data.file_path);
+        setPreviewSrc(data.image_url);
       } catch (error) {
         error.response && setErrorMsg(error.response.data);
       }

@@ -19,7 +19,7 @@ import WordEdit from './components/word-edit/WordEdit';
 import Game from './components/game/Game';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
+// import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {

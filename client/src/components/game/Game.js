@@ -11,7 +11,7 @@ const Container = styled.div`
 const Game = () => {
   const selectedWords = useSelector(state => state.words.selectedWords);
   const words = selectedWords.map(word => word.word);
-  const imagesSrc = selectedWords.map(word => word.file_path);
+  const imagesSrc = selectedWords.map(word => word.image_url);
   const syllables = selectedWords.map(word => word.syllable);
   const initialData = {
     syllables: {},
@@ -46,7 +46,7 @@ const Game = () => {
 
   imagesSrc.forEach((src, i) => {
     const columnId = `column-${i+2}`;
-    initialData.columns[columnId].src = 'http://localhost:5000/' + src
+    initialData.columns[columnId].src = src
   })
 
   const [state, setState] = useState(initialData);

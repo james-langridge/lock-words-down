@@ -4,7 +4,6 @@ import download from 'downloadjs';
 import axios from 'axios';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
-import BootstrapTable from 'react-bootstrap-table-next';
 import { useDispatch } from 'react-redux';
 import WordCard from './WordCard';
 import { Card } from 'react-bootstrap';
@@ -106,7 +105,7 @@ return (
     {filesList.length > 0 &&
       filesList.map((word) =>
       <Card className="photo" key={word._id} id={word._id} style={{ width: '18rem' }}>
-        <Card.Img variant="top" src={'http://localhost:5000/' + word.file_path} onClick={() => handleClick(word)} />
+        <Card.Img variant="top" src={word.image_url} onClick={() => handleClick(word)} />
         <Card.Body>
           <Card.Title>{word.word}</Card.Title>
           <Card.Text>{word.syllable}</Card.Text>
