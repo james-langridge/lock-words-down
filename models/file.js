@@ -15,6 +15,10 @@ const fileSchema = mongoose.Schema(
     image_url: {
       type: String,
       required: true
+    },
+    created_by: {
+      type: String,
+      required: true
     }
   },
   {

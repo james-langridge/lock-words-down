@@ -21,7 +21,6 @@ export const selectAllWords = ids => {
 
 export const unselectAllWords = ids => {
   return {
-    type: 'words/unselectAllWords',
-    payload: ids
+    type: 'words/unselectAllWords'
   }
 }

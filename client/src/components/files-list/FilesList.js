@@ -8,9 +8,11 @@ import { useDispatch } from 'react-redux';
 import WordCard from './WordCard';
 import { Card } from 'react-bootstrap';
 import ListGroup from 'react-bootstrap/ListGroup';
+import { useSelector } from 'react-redux';
 // import { API_URL } from '../../utils/constants';
 
 const FilesList = (props) => {
+  const userId = useSelector(state => state.auth.user.id);
   const [filesList, setFilesList] = useState([]);
   const [errorMsg, setErrorMsg] = useState('');
   const dispatch = useDispatch();
@@ -18,7 +20,7 @@ const FilesList = (props) => {
   useEffect(() => {
     const getFilesList = async () => {
       try {
-        const { data } = await axios.get('file/getAllFiles');
+        const { data } = await axios.get(`file/getAllFiles/${userId}`);
         setErrorMsg('');
         setFilesList(data);
       } catch (error) {

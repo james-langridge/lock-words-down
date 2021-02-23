@@ -3,12 +3,16 @@ import Column from './Column';
 import { useSelector } from 'react-redux';
 import { DragDropContext } from 'react-beautiful-dnd';
 import styled from 'styled-components';
+import { Link } from "react-router-dom";
+import Button from 'react-bootstrap/Button';
+import { useDispatch } from 'react-redux';
 
 const Container = styled.div`
   display: flex;
 `;
 
 const Game = () => {
+  const dispatch = useDispatch();
   const selectedWords = useSelector(state => state.words.selectedWords);
   const words = selectedWords.map(word => word.word);
   const imagesSrc = selectedWords.map(word => word.image_url);
@@ -116,8 +120,11 @@ const Game = () => {
     setState(newState);
   };
 
+  const clearSelectedWords = () => dispatch({ type: 'words/unselectAllWords' })
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
+    <Button variant="primary" as={Link} to="/list" onClick={clearSelectedWords}>Admin</Button>
       <Container>
         {state.columnOrder.map(columnId => {
           const column = state.columns[columnId];

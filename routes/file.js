@@ -59,12 +59,13 @@ Router.post(
   async (req, res) => {
     console.log(req.file);
     try {
-      const { word, syllable } = req.body;
+      const { word, syllable, userId } = req.body;
       const imageUrl = req.file.location;
       const file = new File({
         word,
         syllable,
-        image_url: imageUrl
+        image_url: imageUrl,
+        created_by: userId
       });
       await file.save();
       res.send('file uploaded successfully.');
@@ -123,9 +124,9 @@ Router.get('/getFile/:id', async (req, res) => {
 // @route GET file/getAllFiles
 // @desc Get all files
 // @access Public
-Router.get('/getAllFiles', async (req, res) => {
+Router.get('/getAllFiles/:id', async (req, res) => {
   try {
-    const files = await File.find({});
+    const files = await File.find({ created_by: req.params.id });
     const sortedByCreationDate = files.sort(
       (a, b) => b.createdAt - a.createdAt
     );

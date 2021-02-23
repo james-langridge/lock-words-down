@@ -2,11 +2,13 @@ import React, { useState, useRef } from 'react'; // https://reactjs.org/
 import { Form, Row, Col, Button } from 'react-bootstrap'; // https://react-bootstrap.github.io/
 import Dropzone from 'react-dropzone'; // https://react-dropzone.js.org/
 import axios from 'axios'; // https://www.npmjs.com/package/axios
+import { useSelector } from 'react-redux';
 // import { API_URL } from '../../utils/constants';
 
 const FileUpload = (props) => {
   // https://reactjs.org/docs/hooks-intro.html
   // https://reactjs.org/docs/hooks-reference.html#usestate
+  const userId = useSelector(state => state.auth.user.id);
   const [file, setFile] = useState(null); // state for storing actual image
   const [previewSrc, setPreviewSrc] = useState(''); // state for storing previewImage
   const [state, setState] = useState({
@@ -63,6 +65,7 @@ const FileUpload = (props) => {
           formData.append('file', file);
           formData.append('word', word);
           formData.append('syllable', syllable);
+          formData.append('userId', userId);
 
           setErrorMsg('');
           await axios.post('file/upload', formData, {
@@ -109,6 +112,17 @@ const FileUpload = (props) => {
                 value={state.syllable || ''}
                 placeholder="Enter syllable"
                 onChange={handleInputChange}
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Form.Group controlId="userId">
+              <Form.Control
+                type="hidden"
+                name="userId"
+                value={userId}
               />
             </Form.Group>
           </Col>
