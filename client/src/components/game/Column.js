@@ -1,5 +1,5 @@
 import React from 'react';
-import { Droppable } from 'react-beautiful-dnd';
+import { Droppable, Draggable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import Syllable from './Syllable';
 
@@ -22,23 +22,31 @@ const SyllableList = styled.div`
 const Column = (props) => {
 
   return (
-    <Container>
-      <img src={props.src}/>
-      <Droppable droppableId={props.column.id}>
-        {(provided, snapshot) => (
-          <SyllableList
-            ref={provided.innerRef}
-            {...provided.droppableProps}
-            isDraggingOver={snapshot.isDraggingOver}
-          >
-            {props.syllables.map((syllable, index) => (
-              <Syllable key={syllable.id} syllable={syllable} index={index} />
-            ))}
-            {provided.placeholder}
-          </SyllableList>
-        )}
-      </Droppable>
-    </Container>
+    <Draggable draggableId={props.column.id} index={props.index}>
+    {provided => (
+      <Container
+        {...provided.draggableProps}
+        ref={provided.innerRef}
+        {...provided.dragHandleProps}
+      >
+        <img src={props.src} />
+        <Droppable droppableId={props.column.id} type="syllable">
+          {(provided, snapshot) => (
+            <SyllableList
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+              isDraggingOver={snapshot.isDraggingOver}
+            >
+              {props.syllables.map((syllable, index) => (
+                <Syllable key={syllable.id} syllable={syllable} index={index} />
+              ))}
+              {provided.placeholder}
+            </SyllableList>
+          )}
+        </Droppable>
+      </Container>
+      )}
+    </Draggable>
   );
 }
 

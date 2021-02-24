@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { DragDropContext } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { Link } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
@@ -61,7 +61,7 @@ const Game = () => {
   const [state, setState] = useState(initialData);
 
   const onDragEnd = result => {
-    const { destination, source, draggableId } = result;
+    const { destination, source, draggableId, type } = result;
 
     if (!destination) {
       return;
@@ -71,6 +71,20 @@ const Game = () => {
       destination.droppableId === source.droppableId &&
       destination.index === source.index
     ) {
+      return;
+    }
+
+    if (type === 'column') {
+      const newColumnOrder = Array.from(state.columnOrder);
+      newColumnOrder.splice(source.index, 1);
+      newColumnOrder.splice(destination.index, 0, draggableId);
+
+      const newState = {
+        ...state,
+        columnOrder: newColumnOrder,
+      };
+
+      setState(newState);
       return;
     }
 
@@ -129,16 +143,24 @@ const Game = () => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-    <Button variant="primary" as={Link} to="/list" onClick={clearSelectedWords}>Admin</Button>
-      <Container>
-        {state.columnOrder.map(columnId => {
-          const column = state.columns[columnId];
-          const syllables = column.syllableIds.map(syllableId => state.syllables[syllableId]);
-          const imageSrc = column.src;
+      <Button variant="primary" as={Link} to="/list" onClick={clearSelectedWords}>Admin</Button>
+      <Droppable droppableId="all-columns" direction="horizontal" type="column">
+      {provided => (
+        <Container
+          {...provided.droppableProps}
+          ref={provided.innerRef}
+        >
+          {state.columnOrder.map((columnId, index) => {
+            const column = state.columns[columnId];
+            const syllables = column.syllableIds.map(syllableId => state.syllables[syllableId]);
+            const imageSrc = column.src;
 
-          return <Column key={column.id} column={column} syllables={syllables} src={imageSrc} />
-        })}
-      </Container>
+            return <Column key={column.id} column={column} syllables={syllables} src={imageSrc} index={index} />
+          })}
+          {provided.placeholder}
+        </Container>
+      )}
+      </Droppable>
     </DragDropContext>
   );
 }
