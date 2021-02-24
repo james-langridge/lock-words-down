@@ -1,7 +1,7 @@
 import React from 'react';
-import Syllable from './Syllable';
-import styled from 'styled-components';
 import { Droppable } from 'react-beautiful-dnd';
+import styled from 'styled-components';
+import Syllable from './Syllable';
 
 const Container = styled.div`
   margin: 8px;
@@ -10,9 +10,6 @@ const Container = styled.div`
   width: 220px;
   display: flex;
   flex-direction: column;
-`;
-const Title = styled.h3`
-  padding: 8px;
 `;
 const SyllableList = styled.div`
   padding: 8px;
@@ -27,7 +24,6 @@ const Column = (props) => {
   return (
     <Container>
       <img src={props.src}/>
-      <Title>{props.column.title}</Title>
       <Droppable droppableId={props.column.id}>
         {(provided, snapshot) => (
           <SyllableList
@@ -47,5 +43,3 @@ const Column = (props) => {
 }
 
 export default Column;
-
-// <img src={src}/>
