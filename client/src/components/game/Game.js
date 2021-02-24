@@ -7,7 +7,11 @@ import styled from 'styled-components';
 import Column from './Column';
 
 const Container = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  max-width: 1000px;
+  margin: 0 auto;
 `;
 
 const Game = () => {
