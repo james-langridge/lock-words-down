@@ -34,9 +34,6 @@ const upload = multer({
       cb(null, Date.now().toString());
     },
   }),
-  limits: {
-    fileSize: 1000000 // max file size 1MB = 1000000 bytes
-  },
   // https://www.npmjs.com/package/multer#filefilter
   fileFilter(req, file, cb) {
     if (!file.originalname.match(/\.(jpeg|jpg|png)$/)) {
