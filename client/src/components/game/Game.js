@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import Column from './Column';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { DragDropContext } from 'react-beautiful-dnd';
-import styled from 'styled-components';
 import { Link } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
-import { useDispatch } from 'react-redux';
+import styled from 'styled-components';
+import Column from './Column';
 
 const Container = styled.div`
   display: flex;
@@ -13,10 +12,20 @@ const Container = styled.div`
 
 const Game = () => {
   const dispatch = useDispatch();
+  const shuffle = array =>
+    [...Array(array.length)]
+      .map((...args) => Math.floor(Math.random() * (args[1] + 1)))
+      .reduce( (a, rv, i) => ([a[i], a[rv]] = [a[rv], a[i]]) && a, array);
   const selectedWords = useSelector(state => state.words.selectedWords);
-  const words = selectedWords.map(word => word.word);
-  const imagesSrc = selectedWords.map(word => word.image_url);
-  const syllables = selectedWords.map(word => word.syllable);
+  const syllables = shuffle(selectedWords.map(word => word.syllable));
+  const columnsData = selectedWords.map(word => {
+    const data = {};
+    data.word = word.word;
+    data.image_url = word.image_url;
+
+    return data;
+  });
+  const shuffledColumnsData = shuffle([...columnsData]);
   const initialData = {
     syllables: {},
     columns: {
@@ -38,20 +47,16 @@ const Game = () => {
       initialData.columns.['column-1'].syllableIds.push(`syllable-${i+1}`);
   });
 
-  words.forEach((word, i) => {
+  shuffledColumnsData.forEach((item, i) => {
     const columnId = `column-${i+2}`;
     initialData.columns[columnId] = {
         id: columnId,
-        title: word,
+        title: item.word,
         syllableIds: [],
+        src: item.image_url,
       }
     initialData.columnOrder.push(columnId);
   });
-
-  imagesSrc.forEach((src, i) => {
-    const columnId = `column-${i+2}`;
-    initialData.columns[columnId].src = src
-  })
 
   const [state, setState] = useState(initialData);
 
