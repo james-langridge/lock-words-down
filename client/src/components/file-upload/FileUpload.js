@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react'; // https://reactjs.org/
+import { Link } from "react-router-dom";
 import { Form, Row, Col, Button } from 'react-bootstrap'; // https://react-bootstrap.github.io/
 import Dropzone from 'react-dropzone'; // https://react-dropzone.js.org/
 import axios from 'axios'; // https://www.npmjs.com/package/axios
@@ -162,9 +163,8 @@ const FileUpload = (props) => {
             </div>
           )}
         </div>
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
+        <Button variant="primary" type="submit">Submit</Button>
+        <Button className="mx-2" variant="secondary" as={Link} to="/list">Cancel</Button>
       </Form>
     </React.Fragment>
   );
