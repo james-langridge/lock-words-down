@@ -31,6 +31,7 @@ const Column = (props) => {
     <Draggable draggableId={props.column.id} index={props.index}>
     {provided => (
       <Container
+        className="box-shadow"
         {...provided.draggableProps}
         ref={provided.innerRef}
         {...provided.dragHandleProps}
