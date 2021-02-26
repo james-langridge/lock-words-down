@@ -79,27 +79,6 @@ body {
   padding: 1rem;
 }
 
-.photos-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-
-  .photo {
-    width: 28.8rem;
-    overflow: hidden;
-    margin: 1rem;
-
-    img {
-      width: 100%;
-      transform: scale(1.1);
-      transition: all 1s;
-      &:hover {
-        transform: scale(1.01);
-      }
-    }
-  }
-}
-
 .centered-message {
   width: 50rem;
   margin: auto;
@@ -112,23 +91,11 @@ body {
   line-height: 20rem;
 }
 
-@media only screen and (max-width: 620px) {
-  .photos-list {
-    .photo {
-      width: 80%;
-    }
-  }
-}
-
 .form-signin {
   width: 100%;
   max-width: 330px;
   padding: 15px;
   margin: 0 auto;
-}
-
-.form-signin .checkbox {
-  font-weight: 400;
 }
 
 .form-signin .form-control {
@@ -155,4 +122,6 @@ body {
   border-top-right-radius: 0;
 }
 
-.box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
