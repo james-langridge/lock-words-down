@@ -89,7 +89,7 @@ const FileUpload = (props) => {
   return (
     // https://reactjs.org/docs/fragments.html
     <React.Fragment>
-      <Form className="search-form" onSubmit={handleOnSubmit}>
+      <Form className="form-upload" onSubmit={handleOnSubmit}>
         {errorMsg && <p className="errorMsg">{errorMsg}</p>}
         <Row>
           <Col>
@@ -103,8 +103,6 @@ const FileUpload = (props) => {
               />
             </Form.Group>
           </Col>
-        </Row>
-        <Row>
           <Col>
             <Form.Group controlId="syllable">
               <Form.Control

@@ -127,11 +127,12 @@ const WordEdit = (props) => {
   return (
     // https://reactjs.org/docs/fragments.html
     <React.Fragment>
-      <Form className="search-form" onSubmit={handleOnSubmit}>
+      <Form className="form-upload" onSubmit={handleOnSubmit}>
         {errorMsg && <p className="errorMsg">{errorMsg}</p>}
         <Row>
           <Col>
             <Form.Group controlId="word">
+              <Form.Label htmlFor="word">Word</Form.Label>
               <Form.Control
                 type="text"
                 name="word"
@@ -141,10 +142,9 @@ const WordEdit = (props) => {
               />
             </Form.Group>
           </Col>
-        </Row>
-        <Row>
           <Col>
             <Form.Group controlId="syllable">
+              <Form.Label htmlFor="syllable">Syllable</Form.Label>
               <Form.Control
                 type="text"
                 name="syllable"
@@ -165,7 +165,7 @@ const WordEdit = (props) => {
               // https://reactjs.org/docs/refs-and-the-dom.html
               <div {...getRootProps({ className: 'drop-zone' })} ref={dropRef}>
                 <input {...getInputProps()} />
-                <p>Drag and drop a file OR click here to select a file</p>
+                <p className="text-center">To change image, drag and drop a file OR click here to select a file</p>
                 {file && (
                   <div>
                     <strong>Selected file:</strong> {file.name}
