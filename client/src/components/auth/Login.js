@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { loginUser } from "../../actions/authActions";
 import classnames from "classnames";
 import styled from 'styled-components';
+import { Form, Button } from 'react-bootstrap';
 
 const Container = styled.div`
   width: 100%;
@@ -67,48 +68,52 @@ class Login extends Component {
 
     return (
       <Container className="text-center">
-        <form className="form-signin" noValidate onSubmit={this.onSubmit}>
+        <Form className="form-signin" noValidate onSubmit={this.onSubmit}>
           <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
-          <label className="sr-only" htmlFor="email">Email address</label>
-          <input
-            onChange={this.onChange}
-            error={errors.email}
-            value={this.state.email}
-            id="email"
-            type="email"
-            className="form-control"
-            placeholder="Email address"
-            required=""
-            autoFocus=""
-          />
-          <span className="red-text">
-            {errors.email}
-            {errors.emailnotfound}
-          </span>
-          <label className="sr-only" htmlFor="password">Password</label>
-            <input
+          <Form.Group controlId="email">
+            <Form.Label htmlFor="email" srOnly>Email address</Form.Label>
+            <Form.Control
+              onChange={this.onChange}
+              error={errors.email}
+              value={this.state.email}
+              type="email"
+              id="email"
+              placeholder="Email address"
+              required=""
+              autoFocus=""
+            />
+            <span className="red-text">
+              {errors.email}
+              {errors.emailnotfound}
+            </span>
+          </Form.Group>
+          <Form.Group controlId="password">
+            <Form.Label htmlFor="password" srOnly>Password</Form.Label>
+            <Form.Control
               onChange={this.onChange}
               error={errors.password}
               value={this.state.password}
               id="password"
               type="password"
-              className="form-control"
               placeholder="Password"
               required=""
             />
-          <span className="red-text">
-            {errors.password}
-            {errors.passwordincorrect}
-          </span>
-          <button
+            <span className="red-text">
+              {errors.password}
+              {errors.passwordincorrect}
+            </span>
+          </Form.Group>
+          <Button block
+            variant="primary"
             type="submit"
-            className="mb-3 btn btn-lg btn-primary btn-block"
+            size="lg"
+            className="mb-3"
           >
             Sign in
-          </button>
+          </Button>
           <p>No account yet?  <Link to="/register">Register here</Link></p>
           <p className="mt-5 mb-3 text-muted">© 2021</p>
-        </form>
+        </Form>
       </Container>
     );
   }

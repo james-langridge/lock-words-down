@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { registerUser } from "../../actions/authActions";
 import classnames from "classnames";
 import styled from 'styled-components';
+import { Form, Button } from 'react-bootstrap';
 
 const Container = styled.div`
   width: 100%;
@@ -67,69 +68,75 @@ class Register extends Component {
 
     return (
       <Container className="text-center">
-        <form className="form-signin" noValidate onSubmit={this.onSubmit}>
+        <Form className="form-signin" noValidate onSubmit={this.onSubmit}>
           <h1 className="h3 mb-3 font-weight-normal">Please register</h1>
-          <label className="sr-only" htmlFor="name">Name</label>
-          <input
-            onChange={this.onChange}
-            error={errors.name}
-            value={this.state.name}
-            id="name"
-            type="text"
-            className="form-control"
-            placeholder="Name"
-            required=""
-            autoFocus=""
-          />
-          <span className="red-text">
-            {errors.email}
-            {errors.emailnotfound}
-          </span>
-          <label className="sr-only" htmlFor="email">Email</label>
-            <input
+          <Form.Group controlId="name">
+            <Form.Label htmlFor="name" srOnly>Name</Form.Label>
+            <Form.Control
               onChange={this.onChange}
-              error={errors.email}
-              value={this.state.email}
-              id="email"
-              type="email"
-              className="form-control"
-              placeholder="Email"
+              error={errors.name}
+              value={this.state.name}
+              id="name"
+              type="text"
+              placeholder="Name"
               required=""
+              autoFocus=""
             />
-          <span className="red-text">{errors.email}</span>
-          <label className="sr-only" htmlFor="password">Password</label>
-            <input
-              onChange={this.onChange}
-              error={errors.password}
-              value={this.state.password}
-              id="password"
-              type="password"
-              className="form-control"
-              placeholder="Password"
-              required=""
-            />
-          <span className="red-text">{errors.password}</span>
-          <label className="sr-only" htmlFor="password2">Confirm password</label>
-            <input
-              onChange={this.onChange}
-              error={errors.password2}
-              value={this.state.password2}
-              id="password2"
-              type="password"
-              className="form-control"
-              placeholder="Confirm password"
-              required=""
-            />
-          <span className="red-text">{errors.password2}</span>
-          <button
+            <span className="red-text">
+              {errors.email}
+              {errors.emailnotfound}
+            </span>
+          </Form.Group>
+          <Form.Group controlId="email">
+            <Form.Label htmlFor="email" srOnly>Email</Form.Label>
+              <Form.Control
+                onChange={this.onChange}
+                error={errors.email}
+                value={this.state.email}
+                id="email"
+                type="email"
+                placeholder="Email"
+                required=""
+              />
+            <span className="red-text">{errors.email}</span>
+          </Form.Group>
+          <Form.Group controlId="password">
+            <Form.Label htmlFor="password" srOnly>Password</Form.Label>
+              <Form.Control
+                onChange={this.onChange}
+                error={errors.password}
+                value={this.state.password}
+                id="password"
+                type="password"
+                placeholder="Password"
+                required=""
+              />
+            <span className="red-text">{errors.password}</span>
+          </Form.Group>
+          <Form.Group controlId="password2">
+            <Form.Label className="sr-only" htmlFor="password2">Confirm password</Form.Label>
+              <Form.Control
+                onChange={this.onChange}
+                error={errors.password2}
+                value={this.state.password2}
+                id="password2"
+                type="password"
+                placeholder="Confirm password"
+                required=""
+              />
+            <span className="red-text">{errors.password2}</span>
+          </Form.Group>
+          <Button block
+            variant="primary"
             type="submit"
-            className="mb-3 btn btn-lg btn-primary btn-block"
+            size="lg"
+            className="mb-3"
           >
             Sign up
-          </button>
+          </Button>
           <p>Already have an account? <Link to="/login">Log in</Link></p>
           <p className="mt-5 mb-3 text-muted">© 2021</p>
-        </form>
+        </Form>
       </Container>
     );
   }
