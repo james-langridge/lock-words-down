@@ -57,11 +57,14 @@ class App extends Component {
               <Route exact path="/" component={Login} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
-              <PrivateRoute exact path="/dashboard" component={Dashboard} />
-              <PrivateRoute exact path="/list" component={FilesList} />
-              <PrivateRoute exact path="/upload" component={FileUpload} />
-              <PrivateRoute exact path="/edit" component={WordEdit} />
               <PrivateRoute exact path="/game" component={Game} />
+              <>
+                <Header />
+                <PrivateRoute exact path="/dashboard" component={Dashboard} />
+                <PrivateRoute exact path="/list" component={FilesList} />
+                <PrivateRoute exact path="/upload" component={FileUpload} />
+                <PrivateRoute exact path="/edit" component={WordEdit} />
+              </>
             </Switch>
           </div>
         </Router>

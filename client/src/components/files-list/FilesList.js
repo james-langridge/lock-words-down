@@ -80,35 +80,30 @@ const FilesList = (props) => {
   }
 
 return (
-  <div>
-    <Button variant="primary" as={Link} to="/upload">Add word</Button>
-    <Button className={`mx-2 ${selectedWords.length ? "" : "disabled"}`} variant="success" as={Link} to="/game">Play game</Button>
-    <Button className="mx-2" variant="danger" onClick={() => logOut()}>Log out</Button>
-    <Container>
-      <Row>
-        {filesList.length > 0 ?
-          filesList.map((word) =>
-          <Col md={6} lg={4}>
-            <Card className="mb-4 box-shadow" key={word._id} id={word._id} style={{ width: '18rem' }}>
-              <Card.Img variant="top" src={word.image_url} onClick={() => handleClick(word)} />
-              <Card.Body>
-                <Card.Title>{word.word}</Card.Title>
-                <Card.Text>{word.syllable}</Card.Text>
-                <div className="d-flex justify-content-between align-items-center">
-                  <ButtonGroup size="sm">
-                    <Button variant="outline-secondary" onClick={() => handleClick(word)}>Select</Button>
-                    <Button variant="outline-secondary" as={Link} to={'/edit?id=' + word._id}>Edit</Button>
-                    <Button variant="outline-secondary" onClick={() => handleDelete(word._id)}>Delete</Button>
-                  </ButtonGroup>
-                </div>
-              </Card.Body>
-            </Card>
-          </Col>
-        ) : <Alert variant="primary"><Alert.Link as={Link} to="/upload">Add some words!</Alert.Link></Alert>
-        }
-      </Row>
-    </Container>
-  </div>
+  <Container>
+    <Row>
+      {filesList.length > 0 ?
+        filesList.map((word) =>
+        <Col md={6} lg={4}>
+          <Card className="mb-4 box-shadow" key={word._id} id={word._id} style={{ width: '18rem' }}>
+            <Card.Img variant="top" src={word.image_url} onClick={() => handleClick(word)} />
+            <Card.Body>
+              <Card.Title>{word.word}</Card.Title>
+              <Card.Text>{word.syllable}</Card.Text>
+              <div className="d-flex justify-content-between align-items-center">
+                <ButtonGroup size="sm">
+                  <Button variant="outline-secondary" onClick={() => handleClick(word)}>Select</Button>
+                  <Button variant="outline-secondary" as={Link} to={'/edit?id=' + word._id}>Edit</Button>
+                  <Button variant="outline-secondary" onClick={() => handleDelete(word._id)}>Delete</Button>
+                </ButtonGroup>
+              </div>
+            </Card.Body>
+          </Card>
+        </Col>
+      ) : <Alert variant="primary"><Alert.Link as={Link} to="/upload">Add some words!</Alert.Link></Alert>
+      }
+    </Row>
+  </Container>
   );
 };
 

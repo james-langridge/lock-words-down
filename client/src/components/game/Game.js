@@ -149,8 +149,12 @@ const Game = () => {
 
   useEffect(() => {
     document.body.style.backgroundColor = "#F6FCE6";
+    document.body.style["padding-top"] = "10px";
 
-    return () => document.body.style.backgroundColor = "white";
+    return () => {
+      document.body.style.backgroundColor = "white";
+      document.body.style["padding-top"] = "4.5rem"
+    }
   }, []);
 
   return (
