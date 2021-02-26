@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { Link } from "react-router-dom";
@@ -12,6 +12,8 @@ const Container = styled.div`
   gap: 1rem;
   max-width: 1000px;
   margin: 0 auto;
+  background-color: #F6FCE6;
+  color: #5A70D9;
 `;
 
 const Game = () => {
@@ -143,7 +145,13 @@ const Game = () => {
     setState(newState);
   };
 
-  const clearSelectedWords = () => dispatch({ type: 'words/unselectAllWords' })
+  const clearSelectedWords = () => dispatch({ type: 'words/unselectAllWords' });
+
+  useEffect(() => {
+    document.body.style.backgroundColor = "#F6FCE6";
+
+    return () => document.body.style.backgroundColor = "white";
+  }, []);
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>

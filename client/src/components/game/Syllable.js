@@ -7,7 +7,7 @@ const Container = styled.div`
   border-radius: 2px;
   padding: 8px;
   margin: 8px;
-  background-color: ${props => (props.isDragging ? 'lightgreen' : 'white')};
+  background-color: ${props => (props.isDragging ? 'lightgreen' : '#F6FCE6')};
   display: inline-block;
 `;
 

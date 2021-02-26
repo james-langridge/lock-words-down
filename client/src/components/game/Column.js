@@ -15,7 +15,7 @@ const Container = styled.div`
 const SyllableList = styled.div`
   padding: 8px;
   transition: background-color 0.2s ease;
-  background-color: ${props => (props.isDraggingOver ? 'skyblue' : 'white')};
+  background-color: ${props => (props.isDraggingOver ? '#485DF0' : '#F6FCE6')};
   flex-grow: 1;
   min-height: 50px;
   text-align: center;
