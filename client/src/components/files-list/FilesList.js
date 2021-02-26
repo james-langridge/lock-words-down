@@ -11,6 +11,7 @@ import WordCard from './WordCard';
 
 const FilesList = (props) => {
   const userId = useSelector(state => state.auth.user.id);
+  const selectedWords = useSelector(state => state.words.selectedWords);
   const [filesList, setFilesList] = useState([]);
   const [errorMsg, setErrorMsg] = useState('');
   const dispatch = useDispatch();
@@ -28,39 +29,6 @@ const FilesList = (props) => {
 
     getFilesList();
   }, []);
-
-  // const downloadFile = async (id, path, mimetype) => {
-  //   try {
-  //     const result = await axios.get(`file/download/${id}`, {
-  //       responseType: 'blob'
-  //     });
-  //     const split = path.split('/');
-  //     const filename = split[split.length - 1];
-  //     setErrorMsg('');
-  //     return download(result.data, filename, mimetype);
-  //   } catch (error) {
-  //     if (error.response && error.response.status === 400) {
-  //       setErrorMsg('Error while downloading file.  Try again later.');
-  //     }
-  //   }
-  // };
-
-  // const getImage = async (id, path, mimetype) => {
-  //   try {
-  //     const result = await axios.get(`file/download/${id}`, {
-  //       responseType: 'blob'
-  //     });
-  //     const split = path.split('/');
-  //     const filename = split[split.length - 1];
-  //     setErrorMsg('');
-  //
-  //     return result.data;
-  //   } catch (error) {
-  //     if (error.response && error.response.status === 400) {
-  //       setErrorMsg('Error while downloading file.  Try again later.');
-  //     }
-  //   }
-  // };
 
   const handleDelete = async (id) => {
     const result = window.confirm('Delete this word? You cannot undo this.')
@@ -105,7 +73,7 @@ const FilesList = (props) => {
 return (
   <div>
     <Button variant="primary" as={Link} to="/upload">Add word</Button>
-    <Button className="mx-2" variant="success" as={Link} to="/game">Play game</Button>
+    <Button className={`mx-2 ${selectedWords.length ? "" : "disabled"}`} variant="success" as={Link} to="/game">Play game</Button>
     <Button variant="danger" onClick={() => logOut()}>Log out</Button>
     <div className="photos-list">
     {filesList.length > 0 &&
