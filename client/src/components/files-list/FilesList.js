@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { logoutUser } from "../../actions/authActions";
 import { Link } from "react-router-dom";
 import download from 'downloadjs';
 import axios from 'axios';
-import Table from 'react-bootstrap/Table';
-import Button from 'react-bootstrap/Button';
-import { useDispatch } from 'react-redux';
-import WordCard from './WordCard';
 import { Card } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
-import { useSelector } from 'react-redux';
-// import { API_URL } from '../../utils/constants';
+import WordCard from './WordCard';
 
 const FilesList = (props) => {
   const userId = useSelector(state => state.auth.user.id);
@@ -31,38 +29,38 @@ const FilesList = (props) => {
     getFilesList();
   }, []);
 
-  const downloadFile = async (id, path, mimetype) => {
-    try {
-      const result = await axios.get(`file/download/${id}`, {
-        responseType: 'blob'
-      });
-      const split = path.split('/');
-      const filename = split[split.length - 1];
-      setErrorMsg('');
-      return download(result.data, filename, mimetype);
-    } catch (error) {
-      if (error.response && error.response.status === 400) {
-        setErrorMsg('Error while downloading file.  Try again later.');
-      }
-    }
-  };
+  // const downloadFile = async (id, path, mimetype) => {
+  //   try {
+  //     const result = await axios.get(`file/download/${id}`, {
+  //       responseType: 'blob'
+  //     });
+  //     const split = path.split('/');
+  //     const filename = split[split.length - 1];
+  //     setErrorMsg('');
+  //     return download(result.data, filename, mimetype);
+  //   } catch (error) {
+  //     if (error.response && error.response.status === 400) {
+  //       setErrorMsg('Error while downloading file.  Try again later.');
+  //     }
+  //   }
+  // };
 
-  const getImage = async (id, path, mimetype) => {
-    try {
-      const result = await axios.get(`file/download/${id}`, {
-        responseType: 'blob'
-      });
-      const split = path.split('/');
-      const filename = split[split.length - 1];
-      setErrorMsg('');
-
-      return result.data;
-    } catch (error) {
-      if (error.response && error.response.status === 400) {
-        setErrorMsg('Error while downloading file.  Try again later.');
-      }
-    }
-  };
+  // const getImage = async (id, path, mimetype) => {
+  //   try {
+  //     const result = await axios.get(`file/download/${id}`, {
+  //       responseType: 'blob'
+  //     });
+  //     const split = path.split('/');
+  //     const filename = split[split.length - 1];
+  //     setErrorMsg('');
+  //
+  //     return result.data;
+  //   } catch (error) {
+  //     if (error.response && error.response.status === 400) {
+  //       setErrorMsg('Error while downloading file.  Try again later.');
+  //     }
+  //   }
+  // };
 
   const handleDelete = async (id) => {
     const result = window.confirm('Delete this word? You cannot undo this.')
@@ -99,10 +97,16 @@ const FilesList = (props) => {
 
   // https://scotch.io/starters/react/handling-lists-in-react-jsx#toc-looping-over-an-object-instead-of-an-array
 
+  const logOut = () => {
+    dispatch(logoutUser());
+    window.location.href = "./login";
+  }
+
 return (
   <div>
     <Button variant="primary" as={Link} to="/upload">Add word</Button>
-    <Button variant="success" as={Link} to="/game">Play game</Button>
+    <Button className="mx-2" variant="success" as={Link} to="/game">Play game</Button>
+    <Button variant="danger" onClick={() => logOut()}>Log out</Button>
     <div className="photos-list">
     {filesList.length > 0 &&
       filesList.map((word) =>
