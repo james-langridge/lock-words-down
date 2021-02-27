@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import React, { Component, useEffect } from "react";
+import { BrowserRouter as Router, Route, Switch, useLocation } from "react-router-dom";
+import { useDispatch } from 'react-redux';
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
 
-import { Provider } from "react-redux";
 import store from "./store";
 
 import Header from "./components/layout/Header";
@@ -18,7 +18,6 @@ import WordEdit from './components/word-edit/WordEdit';
 import Game from './components/game/Game';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -41,36 +40,33 @@ if (localStorage.jwtToken) {
   }
 }
 
-// It's a single page app. That's why the homepage (path "/") is
-// Landing component.  React-router-dom routes it per below.
+const App = () => {
+  const location = useLocation();
+  const dispatch = useDispatch();
 
-// https://medium.com/@jenniferdobak/react-router-vs-switch-components-2af3a9fc72e
-// https://medium.com/@thanhbinh.tran93/private-route-public-route-and-restricted-route-with-react-router-d50b27c15f5e
+  useEffect(() => {
+    if (location.pathname !== '/game') {
+      dispatch({ type: 'words/unselectAllWords' });
+    }
+  }, [location]);
 
-class App extends Component {
-  render() {
-    return (
-      <Provider store={store}>
-        <Router>
-          <div className="App">
-            <Switch>
-              <Route exact path="/" component={Login} />
-              <Route exact path="/register" component={Register} />
-              <Route exact path="/login" component={Login} />
-              <PrivateRoute exact path="/game" component={Game} />
-              <>
-                <Header />
-                <PrivateRoute exact path="/dashboard" component={Dashboard} />
-                <PrivateRoute exact path="/list" component={FilesList} />
-                <PrivateRoute exact path="/upload" component={FileUpload} />
-                <PrivateRoute exact path="/edit" component={WordEdit} />
-              </>
-            </Switch>
-          </div>
-        </Router>
-      </Provider>
-    );
-  }
+  return (
+    <div className="App">
+      <Switch>
+        <Route exact path="/" component={Login} />
+        <Route exact path="/register" component={Register} />
+        <Route exact path="/login" component={Login} />
+        <PrivateRoute exact path="/game" component={Game} />
+        <>
+          <Header />
+          <PrivateRoute exact path="/dashboard" component={Dashboard} />
+          <PrivateRoute exact path="/list" component={FilesList} />
+          <PrivateRoute exact path="/upload" component={FileUpload} />
+          <PrivateRoute exact path="/edit" component={WordEdit} />
+        </>
+      </Switch>
+    </div>
+  );
 }
 
 export default App;

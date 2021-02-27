@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { Link } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
@@ -17,7 +17,6 @@ const Container = styled.div`
 `;
 
 const Game = () => {
-  const dispatch = useDispatch();
   const shuffle = array =>
     [...Array(array.length)]
       .map((...args) => Math.floor(Math.random() * (args[1] + 1)))
@@ -145,8 +144,6 @@ const Game = () => {
     setState(newState);
   };
 
-  const clearSelectedWords = () => dispatch({ type: 'words/unselectAllWords' });
-
   useEffect(() => {
     document.body.style.backgroundColor = "#F6FCE6";
     document.body.style["padding-top"] = "10px";
@@ -159,7 +156,7 @@ const Game = () => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Button variant="primary" as={Link} to="/list" onClick={clearSelectedWords}>Admin</Button>
+      <Button variant="primary" as={Link} to="/list">Admin</Button>
       <Droppable droppableId="all-columns" direction="horizontal" type="column">
       {provided => (
         <Container
