@@ -3,12 +3,11 @@ const initialState = { selectedWords: [] }
 export default function(state = initialState, action) {
   switch (action.type) {
     case 'words/selectWord':
-      if (!state.selectedWords.some(e => e._id === action.payload._id)) {
-        return {
-          ...state,
-          selectedWords: [...state.selectedWords, action.payload]
-        }
+      return {
+        ...state,
+        selectedWords: [...state.selectedWords, action.payload]
       }
+
     case 'words/unselectWord':
       const index = state.selectedWords.indexOf(action.payload);
       return {

@@ -57,15 +57,26 @@ const FilesList = (props) => {
   };
 
   const handleClick = (word) => {
-    const el = document.getElementById(word._id);
-    el.classList.toggle('selected');
-    el.classList.toggle('bg-success');
-    const isSelected = el.classList.contains('selected')
-    if (isSelected) {
+    document.getElementById(word._id).classList.toggle('bg-success');
+    if (!selectedWords.includes(word)) {
       dispatch({ type: 'words/selectWord', payload: word })
-    } else if (!isSelected) {
+    } else {
       dispatch({ type: 'words/unselectWord', payload: word })
     }
+  }
+
+  const selectAll = () => {
+    document.querySelectorAll('.card').forEach(el => el.classList.add('bg-success'));
+    filesList.forEach(word => {
+      if (!selectedWords.includes(word)) {
+        dispatch({ type: 'words/selectWord', payload: word });
+      }
+    });
+  }
+
+  const unselectAll = () => {
+    document.querySelectorAll('.card').forEach(el => el.classList.remove('bg-success'));
+    dispatch({ type: 'words/unselectAllWords' });
   }
 
   // https://scotch.io/starters/react/handling-lists-in-react-jsx#toc-looping-over-an-object-instead-of-an-array
@@ -118,6 +129,11 @@ return (
     <ButtonGroup size="sm" className="mb-3">
       <Button variant="outline-primary" onClick={() => sortAlpha()}>Sort alphabetically</Button>
       <Button variant="outline-primary" onClick={() => sortCreated()}>Sort by date created</Button>
+    </ButtonGroup>
+    <br />
+    <ButtonGroup size="sm" className="mb-3">
+      <Button variant="outline-primary" onClick={() => selectAll()}>Select all</Button>
+      <Button variant="outline-primary" onClick={() => unselectAll()}>Unselect all</Button>
     </ButtonGroup>
     <Row>
       {filesList.length > 0 ?
