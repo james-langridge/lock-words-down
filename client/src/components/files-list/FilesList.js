@@ -79,13 +79,51 @@ const FilesList = (props) => {
     console.log('selectedWords', selectedWords);
   }
 
+  const compareAlpha = (a,b) => {
+    if ( a.word < b.word ) {
+      return -1;
+    }
+    if ( a.word > b.word ){
+      return 1;
+    }
+
+    return 0;
+  }
+
+  const compareCreated = (a,b) => {
+    if ( a.createdAt > b.createdAt ) {
+      return -1;
+    }
+    if ( a.createdAt < b.createdAt ){
+      return 1;
+    }
+
+    return 0;
+  }
+
+  const sortAlpha = () => {
+    const newFileList = [...filesList];
+    newFileList.sort(compareAlpha);
+    setFilesList(newFileList);
+  }
+
+  const sortCreated = () => {
+    const newFileList = [...filesList];
+    newFileList.sort(compareCreated);
+    setFilesList(newFileList);
+  }
+
 return (
   <Container>
+    <ButtonGroup size="sm" className="mb-3">
+      <Button variant="outline-primary" onClick={() => sortAlpha()}>Sort alphabetically</Button>
+      <Button variant="outline-primary" onClick={() => sortCreated()}>Sort by date created</Button>
+    </ButtonGroup>
     <Row>
       {filesList.length > 0 ?
         filesList.map((word) =>
-        <Col md={6} lg={4}>
-          <Card className="mb-4 box-shadow" key={word._id} id={word._id} style={{ width: '18rem' }}>
+        <Col md={6} lg={4} key={word._id}>
+          <Card className="mb-4 box-shadow" id={word._id} style={{ width: '18rem' }}>
             <Card.Img variant="top" src={word.image_url} onClick={() => handleClick(word)} />
             <Card.Body>
               <Card.Title>{word.word}</Card.Title>
