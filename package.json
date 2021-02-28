@@ -4,7 +4,7 @@
   "engines": {
     "node": "15.x"
   },
-  "description": "",
+  "description": "An educational word game app for use by specialist teachers of dyslexic children.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -19,7 +19,7 @@
   },
   "keywords": [],
   "author": "James Langridge",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "aws-sdk": "^2.848.0",
     "bcryptjs": "^2.4.3",
