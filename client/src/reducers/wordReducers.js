@@ -1,4 +1,7 @@
-const initialState = { selectedWords: [] }
+const initialState = {
+  selectedWords: [],
+  wordList: []
+}
 
 export default function(state = initialState, action) {
   switch (action.type) {
@@ -26,6 +29,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         selectedWords: []
+      };
+    case 'words/setWordList':
+      return {
+        ...state,
+        wordList: action.payload
       };
     default:
       return state;

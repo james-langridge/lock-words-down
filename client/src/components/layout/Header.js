@@ -14,6 +14,7 @@ import axios from 'axios';
 const Header = () => {
   const userId = useSelector(state => state.auth.user.id);
   const selectedWords = useSelector(state => state.words.selectedWords);
+  const wordList = useSelector(state => state.words.wordList);
   const [selections, setSelections] = useState([]);
   const [errorMsg, setErrorMsg] = useState('');
   const dispatch = useDispatch();
@@ -48,6 +49,54 @@ const Header = () => {
     });
   }
 
+  const selectAll = () => {
+    document.querySelectorAll('.card').forEach(el => el.classList.add('bg-success'));
+    wordList.forEach(word => {
+      if (!selectedWords.some(e => e.word === word.word)) {
+        dispatch({ type: 'words/selectWord', payload: word });
+      }
+    });
+  }
+
+  const unselectAll = () => {
+    dispatch({ type: 'words/unselectAllWords' });
+    document.querySelectorAll('.card').forEach(el => el.classList.remove('bg-success'));
+  }
+
+  const compareAlpha = (a,b) => {
+    if ( a.word < b.word ) {
+      return -1;
+    }
+    if ( a.word > b.word ){
+      return 1;
+    }
+
+    return 0;
+  }
+
+  const compareCreated = (a,b) => {
+    if ( a.createdAt > b.createdAt ) {
+      return -1;
+    }
+    if ( a.createdAt < b.createdAt ){
+      return 1;
+    }
+
+    return 0;
+  }
+
+  const sortAlpha = () => {
+    const newWordList = [...wordList];
+    newWordList.sort(compareAlpha);
+    dispatch({ type: 'words/setWordList', payload: newWordList })
+  }
+
+  const sortCreated = () => {
+    const newWordList = [...wordList];
+    newWordList.sort(compareCreated);
+    dispatch({ type: 'words/setWordList', payload: newWordList })
+  }
+
   return (
     <Navbar variant="dark" fixed="top" bg="dark" expand="md">
       <Container fluid>
@@ -57,10 +106,17 @@ const Header = () => {
             <Button variant="success" as={Link} to="/game" className={selectedWords.length ? "mx-2" : "mx-2 disabled"}>Play game</Button>
             <Button variant="primary" as={Link} to="/upload">Add word</Button>
             <Button variant="primary" as={Link} to="/selection" className={selectedWords.length ? "mx-2" : "mx-2 disabled"}>Save selection</Button>
-            <DropdownButton id="dropdown-basic-button" title="Saved selections" disabled={selections.length && location.pathname === '/list' ? false : true} className="mr-2">
+            <DropdownButton id="dropdown-basic-button" title="Select" disabled={selections.length && location.pathname === '/list' ? false : true} className="mr-2">
+              <Dropdown.Item onClick={() => selectAll()}>Select all</Dropdown.Item>
+              <Dropdown.Item onClick={() => unselectAll()}>Select none</Dropdown.Item>
+              <Dropdown.Divider />
               {selections.map(selection =>
                 <Dropdown.Item onClick={() => selectSelection(selection.selection)} key={selection._id}>{selection.title}</Dropdown.Item>
               )}
+            </DropdownButton>
+            <DropdownButton id="dropdown-basic-button" title="Sort" disabled={wordList.length && location.pathname === '/list' ? false : true} className="mr-2">
+              <Dropdown.Item onClick={() => sortAlpha()}>Alphabetially</Dropdown.Item>
+              <Dropdown.Item onClick={() => sortCreated()}>Date created</Dropdown.Item>
             </DropdownButton>
             <Button variant="danger" onClick={() => logOut()}>Log out</Button>
           </Nav>

@@ -24,3 +24,10 @@ export const unselectAllWords = ids => {
     type: 'words/unselectAllWords'
   }
 }
+
+export const setWordList = data => {
+  return {
+    type: 'words/setWordList',
+    payload: data
+  }
+}

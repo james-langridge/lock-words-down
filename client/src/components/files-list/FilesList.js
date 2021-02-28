@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { logoutUser } from "../../actions/authActions";
 import { Link } from "react-router-dom";
 import download from 'downloadjs';
 import axios from 'axios';
@@ -17,6 +16,7 @@ import WordCard from './WordCard';
 const FilesList = () => {
   const userId = useSelector(state => state.auth.user.id);
   const selectedWords = useSelector(state => state.words.selectedWords);
+  const wordList = useSelector(state => state.words.wordList);
   const [filesList, setFilesList] = useState([]);
   const [errorMsg, setErrorMsg] = useState('');
   const dispatch = useDispatch();
@@ -27,6 +27,7 @@ const FilesList = () => {
         const { data } = await axios.get(`file/getAllFiles/${userId}`);
         setErrorMsg('');
         setFilesList(data);
+        dispatch({ type: 'words/setWordList', payload: data })
       } catch (error) {
         error.response && setErrorMsg(error.response.data);
       }
@@ -34,6 +35,10 @@ const FilesList = () => {
 
     getFilesList();
   }, []);
+
+  useEffect(() => {
+    setFilesList(wordList);
+  }, [wordList]);
 
   const handleDelete = async (id) => {
     const result = window.confirm('Delete this word? You cannot undo this.')
@@ -65,72 +70,10 @@ const FilesList = () => {
     }
   }
 
-  const selectAll = () => {
-    document.querySelectorAll('.card').forEach(el => el.classList.add('bg-success'));
-    filesList.forEach(word => {
-      if (!selectedWords.some(e => e.word === word.word)) {
-        dispatch({ type: 'words/selectWord', payload: word });
-      }
-    });
-  }
-
-  const unselectAll = () => {
-    document.querySelectorAll('.card').forEach(el => el.classList.remove('bg-success'));
-    dispatch({ type: 'words/unselectAllWords' });
-  }
-
   // https://scotch.io/starters/react/handling-lists-in-react-jsx#toc-looping-over-an-object-instead-of-an-array
-
-  const logOut = () => {
-    dispatch(logoutUser());
-    window.location.href = "./login";
-  }
-
-  const compareAlpha = (a,b) => {
-    if ( a.word < b.word ) {
-      return -1;
-    }
-    if ( a.word > b.word ){
-      return 1;
-    }
-
-    return 0;
-  }
-
-  const compareCreated = (a,b) => {
-    if ( a.createdAt > b.createdAt ) {
-      return -1;
-    }
-    if ( a.createdAt < b.createdAt ){
-      return 1;
-    }
-
-    return 0;
-  }
-
-  const sortAlpha = () => {
-    const newFileList = [...filesList];
-    newFileList.sort(compareAlpha);
-    setFilesList(newFileList);
-  }
-
-  const sortCreated = () => {
-    const newFileList = [...filesList];
-    newFileList.sort(compareCreated);
-    setFilesList(newFileList);
-  }
 
 return (
   <Container>
-    <ButtonGroup size="sm" className="mb-3">
-      <Button variant="outline-primary" onClick={() => sortAlpha()}>Sort alphabetically</Button>
-      <Button variant="outline-primary" onClick={() => sortCreated()}>Sort by date created</Button>
-    </ButtonGroup>
-    <br />
-    <ButtonGroup size="sm" className="mb-3">
-      <Button variant="outline-primary" onClick={() => selectAll()}>Select all</Button>
-      <Button variant="outline-primary" onClick={() => unselectAll()}>Unselect all</Button>
-    </ButtonGroup>
     <Row>
       {filesList.length > 0 ?
         filesList.map((word) =>
