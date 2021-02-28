@@ -14,7 +14,7 @@ import Col from 'react-bootstrap/Col';
 import Alert from 'react-bootstrap/Alert';
 import WordCard from './WordCard';
 
-const FilesList = (props) => {
+const FilesList = () => {
   const userId = useSelector(state => state.auth.user.id);
   const selectedWords = useSelector(state => state.words.selectedWords);
   const [filesList, setFilesList] = useState([]);
@@ -58,7 +58,7 @@ const FilesList = (props) => {
 
   const handleClick = (word) => {
     document.getElementById(word._id).classList.toggle('bg-success');
-    if (!selectedWords.includes(word)) {
+    if (!selectedWords.find(e => e.word === word.word)) {
       dispatch({ type: 'words/selectWord', payload: word })
     } else {
       dispatch({ type: 'words/unselectWord', payload: word })
@@ -68,7 +68,7 @@ const FilesList = (props) => {
   const selectAll = () => {
     document.querySelectorAll('.card').forEach(el => el.classList.add('bg-success'));
     filesList.forEach(word => {
-      if (!selectedWords.includes(word)) {
+      if (!selectedWords.some(e => e.word === word.word)) {
         dispatch({ type: 'words/selectWord', payload: word });
       }
     });
@@ -84,10 +84,6 @@ const FilesList = (props) => {
   const logOut = () => {
     dispatch(logoutUser());
     window.location.href = "./login";
-  }
-
-  const saveSelection = () => {
-    console.log('selectedWords', selectedWords);
   }
 
   const compareAlpha = (a,b) => {

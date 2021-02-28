@@ -9,7 +9,7 @@ export default function(state = initialState, action) {
       }
 
     case 'words/unselectWord':
-      const index = state.selectedWords.indexOf(action.payload);
+      const index = state.selectedWords.findIndex(item => item._id === action.payload._id);
       return {
         ...state,
         selectedWords: [

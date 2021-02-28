@@ -16,6 +16,7 @@ import FilesList from './components/files-list/FilesList';
 import FileUpload from './components/file-upload/FileUpload';
 import WordEdit from './components/word-edit/WordEdit';
 import Game from './components/game/Game';
+import SelectionSave from './components/selection/SelectionSave';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -45,7 +46,7 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (location.pathname !== '/game') {
+    if (location.pathname !== '/game' && location.pathname !== '/selection') {
       dispatch({ type: 'words/unselectAllWords' });
     }
   }, [location]);
@@ -60,6 +61,7 @@ const App = () => {
         <>
           <Header />
           <PrivateRoute exact path="/dashboard" component={Dashboard} />
+          <PrivateRoute exact path="/selection" component={SelectionSave} />
           <PrivateRoute exact path="/list" component={FilesList} />
           <PrivateRoute exact path="/upload" component={FileUpload} />
           <PrivateRoute exact path="/edit" component={WordEdit} />

@@ -4,6 +4,7 @@ const express = require('express');
 const multer = require('multer'); // https://www.npmjs.com/package/multer
 const multerS3 = require('multer-s3');
 const File = require('../models/file');
+const Selection = require('../models/selection');
 const Router = express.Router();
 
 AWS.config.getCredentials(function(err) {
@@ -54,7 +55,6 @@ Router.post(
   '/upload',
   upload.single('file'),
   async (req, res) => {
-    console.log(req.file);
     try {
       const { word, syllable, userId } = req.body;
       const imageUrl = req.file.location;
@@ -72,6 +72,32 @@ Router.post(
   },
   (error, req, res, next) => {
     if (error) {
+      res.status(500).send(error.message);
+    }
+  }
+);
+
+// @route POST file/selection
+// @desc Save selection
+// @access Public
+Router.post('/selection', async (req, res) => {
+    try {
+      const { title, selectedWords, userId } = req.body;
+      const selection = new Selection({
+        title,
+        selection: selectedWords,
+        created_by: userId
+      });
+      await selection.save();
+      res.send('selection saved successfully.');
+    } catch (error) {
+      console.log(error);
+      res.status(500).send('Error while saving selection. Try again later.');
+    }
+  },
+  (error, req, res, next) => {
+    if (error) {
+      console.log(error);
       res.status(500).send(error.message);
     }
   }
@@ -130,6 +156,21 @@ Router.get('/getAllFiles/:id', async (req, res) => {
     res.send(sortedByCreationDate);
   } catch (error) {
     res.status(500).send('Error while getting list of files. Try again later.');
+  }
+});
+
+// @route GET file/getAllSelections
+// @desc Get all selections
+// @access Public
+Router.get('/getAllSelections/:id', async (req, res) => {
+  try {
+    const selections = await Selection.find({ created_by: req.params.id });
+    const sortedByCreationDate = selections.sort(
+      (a, b) => b.createdAt - a.createdAt
+    );
+    res.send(sortedByCreationDate);
+  } catch (error) {
+    res.status(500).send('Error while getting list of selections. Try again later.');
   }
 });
 
