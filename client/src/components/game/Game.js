@@ -5,8 +5,10 @@ import { Link } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
 import Column from './Column';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
 
-const Container = styled.div`
+const RbdContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 1rem;
@@ -144,22 +146,71 @@ const Game = () => {
     setState(newState);
   };
 
+  const correctAnswers = selectedWords.map(word => {
+    const data = {};
+    data.word = word.word;
+    data.syllable = word.syllable;
+
+    return data;
+  });
+
+  const checkAnswers = () => {
+    const answers = [];
+    for (const column in state.columns) {
+      const foobar = state.columns[column];
+      const obj = {};
+      obj.columnId = foobar.id;
+      obj.word = foobar.title;
+      if (foobar.syllableIds.length === 1) {
+        obj.syllable = state.syllables[foobar.syllableIds[0]].content;
+      } else {
+        obj.syllable = foobar.syllableIds.map(syllableId => state.syllables[syllableId].content);
+      }
+
+      answers.push(obj);
+    }
+    answers.splice(0,1);
+
+    correctAnswers.forEach((item) => {
+      const answer = answers.find( e => e.word === item.word );
+      const element = document.getElementById(answer.columnId);
+      if (answer.syllable === item.syllable) {
+        element.classList.add('bg-success');
+        setTimeout(() => { element.classList.remove('bg-success'); }, 2000);
+      } else {
+        element.classList.add('bg-danger');
+        setTimeout(() => { element.classList.remove('bg-danger'); }, 2000);
+      }
+    });
+  }
+
   useEffect(() => {
     document.body.style.backgroundColor = "#F6FCE6";
-    document.body.style["padding-top"] = "10px";
 
     return () => {
       document.body.style.backgroundColor = "white";
-      document.body.style["padding-top"] = "4.5rem"
     }
   }, []);
 
   return (
+    <>
+    <Navbar variant="dark" fixed="top" bg="dark">
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+        <Nav className="me-auto mb-2 mb-md-0">
+        <Button variant="primary" size="lg" onClick={() => checkAnswers()}>Check answers</Button>
+        </Nav>
+        </Navbar.Collapse>
+        <Nav>
+          <Nav.Item>
+            <Button size="sm" variant="outline-secondary" as={Link} to="/list">Exit</Button>
+          </Nav.Item>
+        </Nav>
+    </Navbar>
     <DragDropContext onDragEnd={onDragEnd}>
-      <Button variant="primary" as={Link} to="/list">Admin</Button>
       <Droppable droppableId="all-columns" direction="horizontal" type="column">
       {provided => (
-        <Container
+        <RbdContainer
           {...provided.droppableProps}
           ref={provided.innerRef}
         >
@@ -171,10 +222,11 @@ const Game = () => {
             return <Column key={column.id} column={column} syllables={syllables} src={imageSrc} index={index} />
           })}
           {provided.placeholder}
-        </Container>
+        </RbdContainer>
       )}
       </Droppable>
     </DragDropContext>
+    </>
   );
 }
 

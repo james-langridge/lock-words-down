@@ -45,6 +45,7 @@ const Column = (props) => {
               ref={provided.innerRef}
               {...provided.droppableProps}
               isDraggingOver={snapshot.isDraggingOver}
+              id={props.column.id}
             >
               {props.syllables.map((syllable, index) => (
                 <Syllable key={syllable.id} syllable={syllable} index={index} />
