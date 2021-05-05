@@ -4,12 +4,12 @@ import styled from 'styled-components';
 import Syllable from './Syllable';
 
 const Container = styled.div`
-  margin: 8px;
-  border: 1px solid lightgrey;
-  border-radius: 2px;
   width: 220px;
   display: flex;
   flex-direction: column;
+  margin: 8px;
+  border: 1px solid lightgrey;
+  border-radius: 2px;
   place-self: center;
 `;
 const SyllableList = styled.div`
@@ -24,6 +24,17 @@ const Title = styled.h3`
   padding: 8px;
   text-align: center;
 `;
+const ImageContainer = styled.div`
+  height: 220px;
+  width: 220px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const Image = styled.img`
+  max-width: 100%;
+  max-height: 100%;
+`;
 
 const Column = (props) => {
 
@@ -36,9 +47,12 @@ const Column = (props) => {
         ref={provided.innerRef}
         {...provided.dragHandleProps}
       >
-        {props.column.id === 'column-1' &&
-      <Title>Syllables</Title>}
-        <img src={props.src} />
+        {props.column.id === 'column-1' ? <Title>Syllables</Title> :
+         props.column.id !== 'column-1' &&
+          <ImageContainer>
+            <Image src={props.src} />
+          </ImageContainer>
+        }
         <Droppable droppableId={props.column.id} type="syllable">
           {(provided, snapshot) => (
             <SyllableList
