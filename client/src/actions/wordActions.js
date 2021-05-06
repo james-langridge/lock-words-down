@@ -31,3 +31,10 @@ export const setWordList = data => {
     payload: data
   }
 }
+
+export const setTitle = title {
+  return {
+    type: 'words/setTitle',
+    payload: title
+  }
+}

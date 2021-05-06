@@ -1,6 +1,7 @@
 const initialState = {
   selectedWords: [],
-  wordList: []
+  wordList: [],
+  title: 'Syllables',
 }
 
 export default function(state = initialState, action) {
@@ -34,6 +35,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         wordList: action.payload
+      };
+    case 'words/setTitle':
+      return {
+        ...state,
+        title: action.payload
       };
     default:
       return state;

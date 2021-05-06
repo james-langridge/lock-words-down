@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import Syllable from './Syllable';
@@ -37,6 +38,7 @@ const Image = styled.img`
 `;
 
 const Column = (props) => {
+  const title = useSelector(state => state.words.title);
 
   return (
     <Draggable draggableId={props.column.id} index={props.index}>
@@ -47,7 +49,7 @@ const Column = (props) => {
         ref={provided.innerRef}
         {...provided.dragHandleProps}
       >
-        {props.column.id === 'column-1' ? <Title>Syllables</Title> :
+        {props.column.id === 'column-1' ? <Title>{title}</Title> :
          props.column.id !== 'column-1' &&
           <ImageContainer>
             <Image src={props.src} />
