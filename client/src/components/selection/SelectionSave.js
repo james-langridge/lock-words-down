@@ -54,7 +54,7 @@ const SelectionSave = () => {
         <Row>
           <Col>
             <Form.Group>
-              <Form.Label htmlFor="title" srOnly>Title</Form.Label>
+              <Form.Label srOnly>Title</Form.Label>
               <Form.Control
                 type="text"
                 name="title"

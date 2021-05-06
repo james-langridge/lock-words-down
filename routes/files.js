@@ -1,7 +1,7 @@
 const path = require('path');
 const AWS = require('aws-sdk');
 const express = require('express');
-const multer = require('multer'); // https://www.npmjs.com/package/multer
+const multer = require('multer');
 const multerS3 = require('multer-s3');
 const File = require('../models/file');
 const Selection = require('../models/selection');
@@ -9,7 +9,6 @@ const Router = express.Router();
 
 AWS.config.getCredentials(function(err) {
   if (err) console.log(err.stack);
-  // credentials not loaded
   else {
     console.log("Access key:", AWS.config.credentials.accessKeyId);
   }
@@ -23,7 +22,6 @@ AWS.config.update({
 const s3 = new AWS.S3();
 
 const upload = multer({
-  // https://www.npmjs.com/package/multer#diskstorage
   storage: multerS3({
     s3: s3,
     bucket: process.env.S3_BUCKET,
@@ -35,7 +33,6 @@ const upload = multer({
       cb(null, Date.now().toString());
     },
   }),
-  // https://www.npmjs.com/package/multer#filefilter
   fileFilter(req, file, cb) {
     if (!file.originalname.match(/\.(jpeg|jpg|png)$/)) {
       return cb(
@@ -44,7 +41,7 @@ const upload = multer({
         )
       );
     }
-    cb(undefined, true); // continue with upload
+    cb(undefined, true);
   }
 });
 

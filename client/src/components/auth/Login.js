@@ -30,7 +30,6 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    // If logged in and user navigates to Login page, should redirect them to dashboard
     if (this.props.auth.isAuthenticated) {
       this.props.history.push("/list");
     }
@@ -38,7 +37,7 @@ class Login extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
-      this.props.history.push("/list"); // push user to dashboard when they login
+      this.props.history.push("/list");
     }
 
     if (nextProps.errors) {
@@ -60,7 +59,7 @@ class Login extends Component {
       password: this.state.password
     };
 
-    this.props.loginUser(userData); // since we handle the redirect within our component, we don't need to pass in this.props.history as a parameter
+    this.props.loginUser(userData);
   };
 
   render() {
@@ -71,13 +70,12 @@ class Login extends Component {
         <Form className="form-signin" noValidate onSubmit={this.onSubmit}>
           <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
           <Form.Group controlId="email">
-            <Form.Label htmlFor="email" srOnly>Email address</Form.Label>
+            <Form.Label srOnly>Email address</Form.Label>
             <Form.Control
               onChange={this.onChange}
               error={errors.email}
               value={this.state.email}
               type="email"
-              id="email"
               placeholder="Email address"
               required=""
               autoFocus=""
@@ -88,12 +86,11 @@ class Login extends Component {
             </span>
           </Form.Group>
           <Form.Group controlId="password">
-            <Form.Label htmlFor="password" srOnly>Password</Form.Label>
+            <Form.Label srOnly>Password</Form.Label>
             <Form.Control
               onChange={this.onChange}
               error={errors.password}
               value={this.state.password}
-              id="password"
               type="password"
               placeholder="Password"
               required=""

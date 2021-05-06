@@ -1,25 +1,21 @@
-import React, { useState, useRef } from 'react'; // https://reactjs.org/
+import React, { useState, useRef } from 'react';
 import { Link } from "react-router-dom";
-import { Form, Row, Col, Button } from 'react-bootstrap'; // https://react-bootstrap.github.io/
-import Dropzone from 'react-dropzone'; // https://react-dropzone.js.org/
-import axios from 'axios'; // https://www.npmjs.com/package/axios
+import { Form, Row, Col, Button } from 'react-bootstrap';
+import Dropzone from 'react-dropzone';
+import axios from 'axios';
 import { useSelector } from 'react-redux';
-// import { API_URL } from '../../utils/constants';
 
 const FileUpload = (props) => {
-  // https://reactjs.org/docs/hooks-intro.html
-  // https://reactjs.org/docs/hooks-reference.html#usestate
   const userId = useSelector(state => state.auth.user.id);
-  const [file, setFile] = useState(null); // state for storing actual image
-  const [previewSrc, setPreviewSrc] = useState(''); // state for storing previewImage
+  const [file, setFile] = useState(null);
+  const [previewSrc, setPreviewSrc] = useState('');
   const [state, setState] = useState({
     word: '',
     syllable: ''
   });
   const [errorMsg, setErrorMsg] = useState('');
-  const [isPreviewAvailable, setIsPreviewAvailable] = useState(false); // state to show preview only for images
-  // https://reactjs.org/docs/hooks-reference.html#useref
-  const dropRef = useRef(); // React ref for managing the hover state of droppable area
+  const [isPreviewAvailable, setIsPreviewAvailable] = useState(false);
+  const dropRef = useRef();
 
   const handleInputChange = (event) => {
     setState({
@@ -29,12 +25,9 @@ const FileUpload = (props) => {
   };
 
   const onDrop = (files) => {
-    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment
-    // assigns files[0] to uploadedFile
     const [uploadedFile] = files;
     setFile(uploadedFile);
 
-    // https://developer.mozilla.org/en-US/docs/Web/API/FileReader
     const fileReader = new FileReader();
     fileReader.onload = () => {
       setPreviewSrc(fileReader.result);
@@ -52,16 +45,13 @@ const FileUpload = (props) => {
     }
   };
 
-  // https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Async_await
   const handleOnSubmit = async (event) => {
     event.preventDefault();
 
-    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch
     try {
       const { word, syllable } = state;
       if (word.trim() !== '' && syllable.trim() !== '') {
         if (file) {
-          // https://developer.mozilla.org/en-US/docs/Web/API/FormData
           const formData = new FormData();
           formData.append('file', file);
           formData.append('word', word);
@@ -87,7 +77,6 @@ const FileUpload = (props) => {
   };
 
   return (
-    // https://reactjs.org/docs/fragments.html
     <React.Fragment>
       <Form className="form-upload" onSubmit={handleOnSubmit}>
         {errorMsg && <p className="errorMsg">{errorMsg}</p>}
@@ -133,7 +122,6 @@ const FileUpload = (props) => {
             onDragLeave={() => updateBorder('leave')}
           >
             {({ getRootProps, getInputProps }) => (
-              // https://reactjs.org/docs/refs-and-the-dom.html
               <div {...getRootProps({ className: 'drop-zone' })} ref={dropRef}>
                 <input {...getInputProps()} />
                 <p>Drag and drop a file OR click here to select a file</p>

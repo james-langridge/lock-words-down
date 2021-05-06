@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Syllable from './Syllable';
 
 const Container = styled.div`
-  width: 220px;
+  width: 222px;
   display: flex;
   flex-direction: column;
   margin: 8px;

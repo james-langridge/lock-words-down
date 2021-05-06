@@ -83,8 +83,6 @@ const FilesList = () => {
     }
   }
 
-  // https://scotch.io/starters/react/handling-lists-in-react-jsx#toc-looping-over-an-object-instead-of-an-array
-
 return (
   <Container>
     <Row>

@@ -1,26 +1,22 @@
-import React, { useState, useEffect, useRef } from 'react'; // https://reactjs.org/
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from "react-router-dom";
-import { Form, Row, Col, Button } from 'react-bootstrap'; // https://react-bootstrap.github.io/
-import Dropzone from 'react-dropzone'; // https://react-dropzone.js.org/
-import axios from 'axios'; // https://www.npmjs.com/package/axios
-// import { API_URL } from '../../utils/constants';
+import { Form, Row, Col, Button } from 'react-bootstrap';
+import Dropzone from 'react-dropzone';
+import axios from 'axios';
 import { useLocation } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 
 const WordEdit = (props) => {
-  // https://reactjs.org/docs/hooks-intro.html
-  // https://reactjs.org/docs/hooks-reference.html#usestate
-  const [file, setFile] = useState(null); // state for storing actual image
-  const [previewSrc, setPreviewSrc] = useState(''); // state for storing previewImage
+  const [file, setFile] = useState(null);
+  const [previewSrc, setPreviewSrc] = useState('');
   const [image, setImage] = useState(null);
   const [state, setState] = useState({
     word: '',
     syllable: ''
   });
   const [errorMsg, setErrorMsg] = useState('');
-  const [isPreviewAvailable, setIsPreviewAvailable] = useState(true); // state to show preview only for images
-  // https://reactjs.org/docs/hooks-reference.html#useref
-  const dropRef = useRef(); // React ref for managing the hover state of droppable area
+  const [isPreviewAvailable, setIsPreviewAvailable] = useState(true);
+  const dropRef = useRef();
   const query = useQuery();
   const dispatch = useDispatch();
 
@@ -55,12 +51,9 @@ const WordEdit = (props) => {
   };
 
   const onDrop = (files) => {
-    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment
-    // assigns files[0] to uploadedFile
     const [uploadedFile] = files;
     setFile(uploadedFile);
 
-    // https://developer.mozilla.org/en-US/docs/Web/API/FileReader
     const fileReader = new FileReader();
     fileReader.onload = () => {
       setPreviewSrc(fileReader.result);
@@ -78,16 +71,13 @@ const WordEdit = (props) => {
     }
   };
 
-  // https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Async_await
   const handleOnSubmit = async (event) => {
     event.preventDefault();
 
-    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch
     try {
       const { word, syllable } = state;
       if (word.trim() !== '' && syllable.trim() !== '') {
         if (!file) {
-          // https://developer.mozilla.org/en-US/docs/Web/API/FormData
           const formData = new FormData();
           formData.append('word', word);
           formData.append('syllable', syllable);
@@ -100,7 +90,6 @@ const WordEdit = (props) => {
           });
           props.history.push('/list');
         } else if (file) {
-          // https://developer.mozilla.org/en-US/docs/Web/API/FormData
           const formData = new FormData();
           formData.append('file', file);
           formData.append('word', word);
@@ -125,14 +114,13 @@ const WordEdit = (props) => {
   };
 
   return (
-    // https://reactjs.org/docs/fragments.html
     <React.Fragment>
       <Form className="form-upload" onSubmit={handleOnSubmit}>
         {errorMsg && <p className="errorMsg">{errorMsg}</p>}
         <Row>
           <Col>
             <Form.Group controlId="word">
-              <Form.Label htmlFor="word">Word</Form.Label>
+              <Form.Label>Word</Form.Label>
               <Form.Control
                 type="text"
                 name="word"
@@ -144,7 +132,7 @@ const WordEdit = (props) => {
           </Col>
           <Col>
             <Form.Group controlId="syllable">
-              <Form.Label htmlFor="syllable">Syllable</Form.Label>
+              <Form.Label>Syllable</Form.Label>
               <Form.Control
                 type="text"
                 name="syllable"
@@ -162,7 +150,6 @@ const WordEdit = (props) => {
             onDragLeave={() => updateBorder('leave')}
           >
             {({ getRootProps, getInputProps }) => (
-              // https://reactjs.org/docs/refs-and-the-dom.html
               <div {...getRootProps({ className: 'drop-zone' })} ref={dropRef}>
                 <input {...getInputProps()} />
                 <p className="text-center">To change image, drag and drop a file OR click here to select a file</p>
