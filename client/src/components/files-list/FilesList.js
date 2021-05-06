@@ -12,6 +12,19 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Alert from 'react-bootstrap/Alert';
 import WordCard from './WordCard';
+import styled from 'styled-components';
+
+const ImageContainer = styled.div`
+  height: 220px;
+  width: 220px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const Image = styled.img`
+  max-width: 100%;
+  max-height: 100%;
+`;
 
 const FilesList = () => {
   const userId = useSelector(state => state.auth.user.id);
@@ -77,9 +90,11 @@ return (
     <Row>
       {filesList.length > 0 ?
         filesList.map((word) =>
-        <Col md={6} lg={4} key={word._id}>
-          <Card className="mb-4 box-shadow" id={word._id} style={{ width: '18rem' }}>
-            <Card.Img variant="top" src={word.image_url} onClick={() => handleClick(word)} />
+        <Col sm={6} md={4} lg={3} key={word._id}>
+          <Card className="mb-4 box-shadow" id={word._id} style={{ width: 222 }}>
+          <ImageContainer>
+            <Image src={word.image_url} onClick={() => handleClick(word)} />
+          </ImageContainer>
             <Card.Body>
               <Card.Title>{word.word}</Card.Title>
               <Card.Text>{word.syllable}</Card.Text>
