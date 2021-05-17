@@ -13,8 +13,7 @@ const fileSchema = mongoose.Schema(
       trim: true
     },
     image_url: {
-      type: String,
-      required: true
+      type: String
     },
     created_by: {
       type: String,

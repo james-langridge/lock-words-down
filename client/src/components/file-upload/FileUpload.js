@@ -51,7 +51,20 @@ const FileUpload = (props) => {
     try {
       const { word, syllable } = state;
       if (word.trim() !== '' && syllable.trim() !== '') {
-        if (file) {
+        if (!file) {
+          const formData = new FormData();
+          formData.append('word', word);
+          formData.append('syllable', syllable);
+          formData.append('userId', userId);
+
+          setErrorMsg('');
+          await axios.post('file/upload', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          });
+          props.history.push('/list');
+        } else if (file) {
           const formData = new FormData();
           formData.append('file', file);
           formData.append('word', word);
@@ -66,10 +79,8 @@ const FileUpload = (props) => {
           });
           props.history.push('/list');
         } else {
-          setErrorMsg('Please select a file to add.');
-        }
-      } else {
         setErrorMsg('Please enter all the field values.');
+      }
       }
     } catch (error) {
       error.response && setErrorMsg(error.response.data);

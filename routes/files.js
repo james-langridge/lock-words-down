@@ -54,13 +54,15 @@ Router.post(
   async (req, res) => {
     try {
       const { word, syllable, userId } = req.body;
-      const imageUrl = req.file.location;
       const file = new File({
         word,
         syllable,
-        image_url: imageUrl,
         created_by: userId
       });
+      if (req.file) {
+        const imageUrl = req.file.location;
+        file.image_url = imageUrl;
+      }
       await file.save();
       res.send('file uploaded successfully.');
     } catch (error) {

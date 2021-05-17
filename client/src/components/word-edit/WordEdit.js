@@ -103,12 +103,10 @@ const WordEdit = (props) => {
           });
           props.history.push('/list');
         } else {
-          setErrorMsg('Please select a file to add.');
-        }
-      } else {
         setErrorMsg('Please enter all the field values.');
       }
-    } catch (error) {
+    }
+  } catch (error) {
       error.response && setErrorMsg(error.response.data);
     }
   };
