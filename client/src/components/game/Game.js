@@ -186,9 +186,11 @@ const Game = () => {
 
   useEffect(() => {
     document.body.style.backgroundColor = "#F6FCE6";
+    document.body.style.overflow = "hidden";
 
     return () => {
       document.body.style.backgroundColor = "white";
+      document.body.style.overflow = "auto";
     }
   }, []);
 
