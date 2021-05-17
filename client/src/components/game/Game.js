@@ -220,8 +220,9 @@ const Game = () => {
             const column = state.columns[columnId];
             const syllables = column.syllableIds.map(syllableId => state.syllables[syllableId]);
             const imageSrc = column.src;
+            const word = column.title;
 
-            return <Column key={column.id} column={column} syllables={syllables} src={imageSrc} index={index} />
+            return <Column key={column.id} column={column} syllables={syllables} src={imageSrc} index={index} word={word} />
           })}
           {provided.placeholder}
         </RbdContainer>
