@@ -41,13 +41,8 @@ const Column = (props) => {
   const title = useSelector(state => state.words.title);
 
   return (
-    <Draggable draggableId={props.column.id} index={props.index}>
-    {provided => (
       <Container
         className="box-shadow"
-        {...provided.draggableProps}
-        ref={provided.innerRef}
-        {...provided.dragHandleProps}
       >
         {props.column.id === 'column-1' ? <Title>{title}</Title> :
          props.column.id !== 'column-1' &&
@@ -71,8 +66,6 @@ const Column = (props) => {
           )}
         </Droppable>
       </Container>
-      )}
-    </Draggable>
   );
 }
 
