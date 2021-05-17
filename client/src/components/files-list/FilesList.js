@@ -37,18 +37,18 @@ const FilesList = () => {
   const [errorMsg, setErrorMsg] = useState('');
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const getFilesList = async () => {
-      try {
-        const { data } = await axios.get(`file/getAllFiles/${userId}`);
-        setErrorMsg('');
-        setFilesList(data);
-        dispatch({ type: 'words/setWordList', payload: data })
-      } catch (error) {
-        error.response && setErrorMsg(error.response.data);
-      }
-    };
+  const getFilesList = async () => {
+    try {
+      const { data } = await axios.get(`file/getAllFiles/${userId}`);
+      setErrorMsg('');
+      setFilesList(data);
+      dispatch({ type: 'words/setWordList', payload: data })
+    } catch (error) {
+      error.response && setErrorMsg(error.response.data);
+    }
+  };
 
+  useEffect(() => {
     getFilesList();
   }, []);
 
@@ -62,18 +62,12 @@ const FilesList = () => {
       try {
         await axios.delete(`file/delete/${id}`);
         setErrorMsg('');
-        try {
-          const { data } = await axios.get('file/getAllFiles');
-          setErrorMsg('');
-          setFilesList(data);
-        } catch (error) {
-          error.response && setErrorMsg(error.response.data);
-        }
       } catch (error) {
         if (error.response && error.response.status === 400) {
           setErrorMsg('Error while deleting file.  Try again later.');
         }
       }
+      getFilesList();
     }
   };
 
