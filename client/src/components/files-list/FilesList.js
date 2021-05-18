@@ -104,9 +104,10 @@ const FilesList = () => {
           filesList.map((word) =>
           <Col sm={6} md={4} lg={3} key={word._id}>
             <Card className="mb-4 box-shadow" id={word._id} style={{ width: 222 }}>
+            {word.image_url &&
             <ImageContainer>
               <Image src={word.image_url} onClick={() => handleClick(word)} />
-            </ImageContainer>
+            </ImageContainer>}
               <Card.Body>
                 <Card.Title>{word.word}</Card.Title>
                 <Card.Text>{word.syllable}</Card.Text>
