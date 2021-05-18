@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from 'react-redux';
-import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import { DragDropContext } from 'react-beautiful-dnd';
 import { Link } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
@@ -68,7 +68,7 @@ const Game = () => {
   const [state, setState] = useState(initialData);
 
   const onDragEnd = result => {
-    const { destination, source, draggableId, type } = result;
+    const { destination, source, draggableId } = result;
 
     if (!destination) {
       return;
@@ -78,20 +78,6 @@ const Game = () => {
       destination.droppableId === source.droppableId &&
       destination.index === source.index
     ) {
-      return;
-    }
-
-    if (type === 'column') {
-      const newColumnOrder = Array.from(state.columnOrder);
-      newColumnOrder.splice(source.index, 1);
-      newColumnOrder.splice(destination.index, 0, draggableId);
-
-      const newState = {
-        ...state,
-        columnOrder: newColumnOrder,
-      };
-
-      setState(newState);
       return;
     }
 
@@ -196,26 +182,21 @@ const Game = () => {
 
   return (
     <>
-    <Navbar variant="dark" fixed="top" bg="dark">
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="me-auto mb-2 mb-md-0">
-        <Button variant="primary" size="lg" onClick={() => checkAnswers()}>Check answers</Button>
-        </Nav>
-        </Navbar.Collapse>
-        <Nav>
-          <Nav.Item>
-            <Button size="sm" variant="outline-secondary" as={Link} to="/list">Exit</Button>
-          </Nav.Item>
-        </Nav>
-    </Navbar>
-    <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId="all-columns" direction="horizontal" type="column">
-      {provided => (
-        <RbdContainer
-          {...provided.droppableProps}
-          ref={provided.innerRef}
-        >
+      <Navbar variant="dark" fixed="top" bg="dark">
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto mb-2 mb-md-0">
+          <Button variant="primary" size="lg" onClick={() => checkAnswers()}>Check answers</Button>
+          </Nav>
+          </Navbar.Collapse>
+          <Nav>
+            <Nav.Item>
+              <Button size="sm" variant="outline-secondary" as={Link} to="/list">Exit</Button>
+            </Nav.Item>
+          </Nav>
+      </Navbar>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <RbdContainer>
           {state.columnOrder.map((columnId, index) => {
             const column = state.columns[columnId];
             const syllables = column.syllableIds.map(syllableId => state.syllables[syllableId]);
@@ -224,11 +205,8 @@ const Game = () => {
 
             return <Column key={column.id} column={column} syllables={syllables} src={imageSrc} index={index} word={word} />
           })}
-          {provided.placeholder}
         </RbdContainer>
-      )}
-      </Droppable>
-    </DragDropContext>
+      </DragDropContext>
     </>
   );
 }

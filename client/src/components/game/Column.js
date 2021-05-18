@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Droppable, Draggable } from 'react-beautiful-dnd';
+import { Droppable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import Syllable from './Syllable';
 
@@ -41,9 +41,7 @@ const Column = (props) => {
   const title = useSelector(state => state.words.title);
 
   return (
-      <Container
-        className="box-shadow"
-      >
+      <Container className="box-shadow">
         {props.column.id === 'column-1' && <Title>{title}</Title>}
         {(props.column.id !== 'column-1' && !props.src) && <Title>{props.word}</Title>}
         {(props.column.id !== 'column-1' && props.src) &&
