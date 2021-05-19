@@ -104,6 +104,7 @@ const Header = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto mb-2 mb-md-0">
             <Button variant="success" as={Link} to="/game" className={selectedWords.length ? "mx-2" : "mx-2 disabled"}>Play game</Button>
+            <Button variant="success" as={Link} to="/alpha-sort" className={selectedWords.length ? "mx-2" : "mx-2 disabled"}>Play Alpha Sort</Button>
             <Button variant="primary" as={Link} to="/upload">Add word</Button>
             <Button variant="primary" as={Link} to="/selection" className={selectedWords.length ? "mx-2" : "mx-2 disabled"}>Save selection</Button>
             <DropdownButton id="dropdown-basic-button" title="Select" disabled={selections.length && location.pathname === '/list' ? false : true} className="mr-2">

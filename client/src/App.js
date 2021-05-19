@@ -16,6 +16,7 @@ import FileUpload from './components/file-upload/FileUpload';
 import WordEdit from './components/word-edit/WordEdit';
 import Game from './components/game/Game';
 import SelectionSave from './components/selection/SelectionSave';
+import AlphaSort from './components/game/AlphaSort';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -38,7 +39,7 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (location.pathname !== '/game' && location.pathname !== '/selection') {
+    if (location.pathname !== '/game' && location.pathname !== '/selection' && location.pathname !== '/alpha-sort') {
       dispatch({ type: 'words/unselectAllWords' });
     }
   }, [location]);
@@ -50,6 +51,7 @@ const App = () => {
         <Route exact path="/register" component={Register} />
         <Route exact path="/login" component={Login} />
         <PrivateRoute exact path="/game" component={Game} />
+        <PrivateRoute exact path="/alpha-sort" component={AlphaSort} />
         <>
           <Header />
           <PrivateRoute exact path="/selection" component={SelectionSave} />
