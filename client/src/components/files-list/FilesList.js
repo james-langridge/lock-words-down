@@ -15,6 +15,8 @@ import WordCard from './WordCard';
 import styled from 'styled-components';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
+import SortAlpha from '../buttons/SortAlpha';
+import SortModified from '../buttons/SortModified';
 
 const ImageContainer = styled.div`
   height: 220px;
@@ -92,13 +94,17 @@ const FilesList = () => {
     <Container>
       <InputGroup className="mb-3">
         <InputGroup.Prepend>
-          <InputGroup.Text>Change title:</InputGroup.Text>
+          <InputGroup.Text>Change game title:</InputGroup.Text>
         </InputGroup.Prepend>
         <Form.Control
-          placeholder={title}
+          placeholder="e.g. Syllables..."
           onChange={changeTitle}
         />
       </InputGroup>
+      <ButtonGroup size="sm" className="mb-3">
+        <SortAlpha/>
+        <SortModified/>
+      </ButtonGroup>
       <Row>
         {filesList.length > 0 ?
           filesList.map((word) =>

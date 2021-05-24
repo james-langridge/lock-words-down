@@ -63,40 +63,6 @@ const Header = () => {
     document.querySelectorAll('.card').forEach(el => el.classList.remove('bg-success'));
   }
 
-  const compareAlpha = (a,b) => {
-    if ( a.word < b.word ) {
-      return -1;
-    }
-    if ( a.word > b.word ){
-      return 1;
-    }
-
-    return 0;
-  }
-
-  const compareCreated = (a,b) => {
-    if ( a.createdAt > b.createdAt ) {
-      return -1;
-    }
-    if ( a.createdAt < b.createdAt ){
-      return 1;
-    }
-
-    return 0;
-  }
-
-  const sortAlpha = () => {
-    const newWordList = [...wordList];
-    newWordList.sort(compareAlpha);
-    dispatch({ type: 'words/setWordList', payload: newWordList })
-  }
-
-  const sortCreated = () => {
-    const newWordList = [...wordList];
-    newWordList.sort(compareCreated);
-    dispatch({ type: 'words/setWordList', payload: newWordList })
-  }
-
   return (
     <Navbar variant="dark" fixed="top" bg="dark" expand="md">
       <Container fluid>
@@ -114,10 +80,6 @@ const Header = () => {
               {selections.map(selection =>
                 <Dropdown.Item onClick={() => selectSelection(selection.selection)} key={selection._id}>{selection.title}</Dropdown.Item>
               )}
-            </DropdownButton>
-            <DropdownButton id="dropdown-basic-button" title="Sort" disabled={wordList.length && location.pathname === '/list' ? false : true} className="mr-2">
-              <Dropdown.Item onClick={() => sortAlpha()}>Alphabetially</Dropdown.Item>
-              <Dropdown.Item onClick={() => sortCreated()}>Date created</Dropdown.Item>
             </DropdownButton>
             <Button variant="danger" onClick={() => logOut()}>Log out</Button>
           </Nav>
