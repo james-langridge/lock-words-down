@@ -99,6 +99,7 @@ const FilesList = () => {
         <Form.Control
           placeholder="e.g. Syllables..."
           onChange={changeTitle}
+          value={title || ''}
         />
       </InputGroup>
       <ButtonGroup size="sm" className="mb-3">

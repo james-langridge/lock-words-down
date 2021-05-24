@@ -3,9 +3,12 @@ const Schema = mongoose.Schema;
 const FileSchema = mongoose.model('File').schema;
 
 const SelectionSchema = new Schema({
-    title: {
+    selectionTitle: {
       type: String,
       required: true
+    },
+    gameTitle: {
+      type: String
     },
     selection: [FileSchema],
     created_by: {

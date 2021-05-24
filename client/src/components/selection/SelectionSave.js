@@ -10,7 +10,10 @@ const SelectionSave = () => {
   const history = useHistory();
   const userId = useSelector(state => state.auth.user.id);
   const [errorMsg, setErrorMsg] = useState('');
-  const [title, setTitle] = useState('');
+  const [titles, setTitles] = useState({
+    selectionTitle: '',
+    gameTitle: '',
+  });
   const selection = selectedWords.map(word => {
     const obj = {};
     obj.word = word.word;
@@ -22,15 +25,21 @@ const SelectionSave = () => {
   });
 
   const handleInputChange = (event) => {
-    setTitle(event.target.value);
+    // setTitle(event.target.value);
+    setTitles({
+      ...titles,
+      [event.target.name]: event.target.value,
+    });
+    console.log('titles:', titles);
   };
 
   const handleOnSubmit = async (event) => {
     event.preventDefault();
     try {
-      if (title.trim() !== '') {
+      if (titles.selectionTitle.trim() !== '' && titles.gameTitle.trim() !== '') {
         const data = {
-          title: title,
+          selectionTitle: titles.selectionTitle,
+          gameTitle: titles.gameTitle,
           selectedWords: selectedWords,
           userId: userId
         }
@@ -54,12 +63,22 @@ const SelectionSave = () => {
         <Row>
           <Col>
             <Form.Group>
-              <Form.Label srOnly>Title</Form.Label>
+              <Form.Label srOnly>Selection name</Form.Label>
               <Form.Control
                 type="text"
-                name="title"
-                value={title || ''}
-                placeholder="Enter title for selection"
+                name="selectionTitle"
+                value={titles.selectionTitle || ''}
+                placeholder="What is this selection called for your reference?"
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label srOnly>Game name</Form.Label>
+              <Form.Control
+                type="text"
+                name="gameTitle"
+                value={titles.gameTitle || ''}
+                placeholder="What is the name of the game you will play with it?"
                 onChange={handleInputChange}
               />
             </Form.Group>

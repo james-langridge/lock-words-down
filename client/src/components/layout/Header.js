@@ -43,10 +43,12 @@ const Header = () => {
     dispatch({ type: 'words/unselectAllWords' });
     document.querySelectorAll('.card').forEach(el => el.classList.remove('bg-success'));
 
-    selection.forEach(word => {
+    selection.selection.forEach(word => {
       dispatch({ type: 'words/selectWord', payload: word });
       document.getElementById(word._id).classList.add('bg-success');
     });
+
+    dispatch({ type: 'words/setTitle', payload: selection.gameTitle });
   }
 
   const selectAll = () => {
@@ -78,7 +80,7 @@ const Header = () => {
               <Dropdown.Item onClick={() => unselectAll()}>Select none</Dropdown.Item>
               <Dropdown.Divider />
               {selections.map(selection =>
-                <Dropdown.Item onClick={() => selectSelection(selection.selection)} key={selection._id}>{selection.title}</Dropdown.Item>
+                <Dropdown.Item onClick={() => selectSelection(selection)} key={selection._id}>{selection.title || selection.selectionTitle}</Dropdown.Item>
               )}
             </DropdownButton>
             <Button variant="danger" onClick={() => logOut()}>Log out</Button>

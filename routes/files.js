@@ -81,9 +81,10 @@ Router.post(
 // @access Public
 Router.post('/selection', async (req, res) => {
     try {
-      const { title, selectedWords, userId } = req.body;
+      const { selectionTitle, gameTitle, selectedWords, userId } = req.body;
       const selection = new Selection({
-        title,
+        selectionTitle,
+        gameTitle,
         selection: selectedWords,
         created_by: userId
       });
