@@ -19,7 +19,7 @@
   },
   "keywords": [],
   "author": "James Langridge",
-  "license": "MIT",
+  "license": "AGPL-3.0-or-later",
   "dependencies": {
     "aws-sdk": "^2.848.0",
     "bcryptjs": "^2.4.3",
