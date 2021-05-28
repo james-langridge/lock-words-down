@@ -14,7 +14,9 @@ import axios from 'axios';
 const Header = () => {
   const userId = useSelector(state => state.auth.user.id);
   const selectedWords = useSelector(state => state.words.selectedWords);
+  const selectedSelection = useSelector(state => state.words.selectedSelection);
   const wordList = useSelector(state => state.words.wordList);
+  const selectionList = useSelector(state => state.words.selectionList);
   const [selections, setSelections] = useState([]);
   const [errorMsg, setErrorMsg] = useState('');
   const dispatch = useDispatch();
@@ -30,14 +32,17 @@ const Header = () => {
     try {
       const { data } = await axios.get(`file/getAllSelections/${userId}`);
       setErrorMsg('');
-      setSelections(data);
+      dispatch({ type: 'words/setSelectionList', payload: data });
     } catch (error) {
       error.response && setErrorMsg(error.response.data);
     }
   };
-
-  getSelections();
+    getSelections();
   }, [location]);
+
+  useEffect(() => {
+    setSelections(selectionList);
+  }, [selectionList]);
 
   const selectSelection = (selection) => {
     dispatch({ type: 'words/unselectAllWords' });
@@ -48,7 +53,8 @@ const Header = () => {
       document.getElementById(word._id).classList.add('bg-success');
     });
 
-    dispatch({ type: 'words/setTitle', payload: selection.gameTitle });
+    dispatch({ type: 'words/selectSelection', payload: selection });
+    dispatch({ type: 'words/setGameTitle', payload: selection.gameTitle });
   }
 
   const selectAll = () => {
@@ -75,12 +81,22 @@ const Header = () => {
             <Button variant="success" as={Link} to="/alpha-sort" className={selectedWords.length ? "mx-2" : "mx-2 disabled"}>Play Alpha Sort</Button>
             <Button variant="primary" as={Link} to="/upload">Add word</Button>
             <Button variant="primary" as={Link} to="/selection" className={selectedWords.length ? "mx-2" : "mx-2 disabled"}>Save selection</Button>
-            <DropdownButton id="dropdown-basic-button" title="Select" disabled={selections.length && location.pathname === '/list' ? false : true} className="mr-2">
+            <DropdownButton
+              id="dropdown-basic-button"
+              title="Select"
+              disabled={selections.length && location.pathname === '/list' ? false : true}
+              className="mr-2"
+            >
               <Dropdown.Item onClick={() => selectAll()}>Select all</Dropdown.Item>
               <Dropdown.Item onClick={() => unselectAll()}>Select none</Dropdown.Item>
               <Dropdown.Divider />
               {selections.map(selection =>
-                <Dropdown.Item onClick={() => selectSelection(selection)} key={selection._id}>{selection.title || selection.selectionTitle}</Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() => selectSelection(selection)}
+                  key={selection._id}
+                >
+                    {selection.title || selection.selectionTitle}
+                </Dropdown.Item>
               )}
             </DropdownButton>
             <Button variant="danger" onClick={() => logOut()}>Log out</Button>

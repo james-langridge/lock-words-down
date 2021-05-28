@@ -5,6 +5,13 @@ export const selectWord = word => {
   }
 }
 
+export const selectSelection = selection => {
+  return {
+    type: 'words/selectSelection',
+    payload: selection
+  }
+}
+
 export const unselectWord = word => {
   return {
     type: 'words/unselectWord',
@@ -32,9 +39,16 @@ export const setWordList = data => {
   }
 }
 
-export const setTitle = title {
+export const setGameTitle = title => {
   return {
-    type: 'words/setTitle',
+    type: 'words/setGameTitle',
     payload: title
+  }
+}
+
+export const setSelectionList = data => {
+  return {
+    type: 'words/setSelectionList',
+    payload: data
   }
 }

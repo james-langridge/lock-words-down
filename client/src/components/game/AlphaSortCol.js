@@ -27,7 +27,7 @@ const Title = styled.h3`
 `;
 
 const AlphaSortCol = (props) => {
-  const title = useSelector(state => state.words.title);
+  const title = useSelector(state => state.words.gameTitle);
 
   return (
       <Container className="box-shadow">

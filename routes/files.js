@@ -174,6 +174,18 @@ Router.get('/getAllSelections/:id', async (req, res) => {
   }
 });
 
+// @route DELETE file/deleteSelection/:id
+// @desc Delete selection
+// @access Public
+Router.delete('/deleteSelection/:id', async (req, res) => {
+  try {
+    await Selection.findByIdAndDelete(req.params.id);
+    res.send('selection deleted successfully.');
+  } catch (error) {
+    res.status(400).send('Error while deleting selection. Try again later.');
+  }
+});
+
 // @route GET file/download/:id
 // @desc Download single file
 // @access Public

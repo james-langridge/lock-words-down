@@ -38,7 +38,7 @@ const Image = styled.img`
 `;
 
 const Column = (props) => {
-  const title = useSelector(state => state.words.title);
+  const title = useSelector(state => state.words.gameTitle);
 
   return (
       <Container className="box-shadow">
