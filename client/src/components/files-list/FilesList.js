@@ -1,20 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from "react-router-dom";
-import download from 'downloadjs';
 import axios from 'axios';
-import { Card } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
-import ListGroup from 'react-bootstrap/ListGroup';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Alert from 'react-bootstrap/Alert';
-import WordCard from './WordCard';
+import { Alert, Button, ButtonGroup, Card, Col, Container, Form, InputGroup, Row } from 'react-bootstrap';
 import styled from 'styled-components';
-import InputGroup from 'react-bootstrap/InputGroup';
-import Form from 'react-bootstrap/Form';
 import SortAlpha from '../buttons/SortAlpha';
 import SortModified from '../buttons/SortModified';
 
@@ -36,7 +25,6 @@ const FilesList = () => {
   const selectedWords = useSelector(state => state.words.selectedWords);
   const wordList = useSelector(state => state.words.wordList);
   const selectedSelection = useSelector(state => state.selections.selectedSelection);
-  const selectionList = useSelector(state => state.selections.selectionList);
   const [errorMsg, setErrorMsg] = useState('');
   const dispatch = useDispatch();
 
@@ -94,14 +82,16 @@ const FilesList = () => {
           setErrorMsg('Error while deleting selection.  Try again later.');
         }
       }
-      dispatch({ type: 'selections/selectSelection', payload: {} });
+      dispatch({ type: 'selections/selectSelection', payload: '' });
       dispatch({ type: 'game/setGameTitle', payload: '' });
       getSelectionList();
     }
   };
 
   const handleClick = (word) => {
-    dispatch({ type: 'selections/selectSelection', payload: {} });
+    if (selectedSelection) {
+      dispatch({ type: 'selections/selectSelection', payload: '' });
+    }
     document.getElementById(word._id).classList.toggle('bg-success');
     if (!selectedWords.find(e => e.word === word.word)) {
       dispatch({ type: 'words/selectWord', payload: word })
@@ -126,7 +116,7 @@ const FilesList = () => {
           value={gameTitle || ''}
         />
       </InputGroup>
-      {Object.keys(selectedSelection).length !== 0 &&
+      {selectedSelection &&
         <h1 className="align-bottom">{selectedSelection.selectionTitle || selectedSelection.title}</h1>
       }
       <ButtonGroup size="sm" className="mb-3">

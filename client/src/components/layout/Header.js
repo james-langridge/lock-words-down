@@ -1,23 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { logoutUser } from "../../actions/authActions";
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import Nav from 'react-bootstrap/Nav';
-import Container from 'react-bootstrap/Container'
-import Button from 'react-bootstrap/Button';
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
+import { Button, Container, Dropdown, DropdownButton, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import axios from 'axios';
 
 const Header = () => {
-  const userId = useSelector(state => state.auth.user.id);
   const selectedWords = useSelector(state => state.words.selectedWords);
   const wordList = useSelector(state => state.words.wordList);
-  const selectedSelection = useSelector(state => state.selections.selectedSelection);
   const selectionList = useSelector(state => state.selections.selectionList);
-  const [errorMsg, setErrorMsg] = useState('');
   const dispatch = useDispatch();
   const location = useLocation();
 
@@ -59,10 +50,10 @@ const Header = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto mb-2 mb-md-0">
-            <Button variant="success" as={Link} to="/game" className={selectedWords.length ? "mx-2" : "mx-2 disabled"}>Play game</Button>
-            <Button variant="success" as={Link} to="/alpha-sort" className={selectedWords.length ? "mx-2" : "mx-2 disabled"}>Play Alpha Sort</Button>
-            <Button variant="primary" as={Link} to="/upload">Add word</Button>
-            <Button variant="primary" as={Link} to="/selection" className={selectedWords.length ? "mx-2" : "mx-2 disabled"}>Save selection</Button>
+            <Button variant="success" as={Link} to="/game" className={selectedWords.length ? "mr-2" : "mr-2 disabled"}>Play game</Button>
+            <Button variant="success" as={Link} to="/alpha-sort" className={selectedWords.length ? "mr-2" : "mr-2 disabled"}>Play Alpha Sort</Button>
+            <Button variant="primary" as={Link} to="/upload" className="mr-2">Add word</Button>
+            <Button variant="primary" as={Link} to="/selection" className={selectedWords.length ? "mr-2" : "mr-2 disabled"}>Save selection</Button>
             <DropdownButton
               id="dropdown-basic-button"
               title="Select"

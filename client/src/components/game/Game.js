@@ -2,11 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from 'react-redux';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { Link } from "react-router-dom";
-import Button from 'react-bootstrap/Button';
+import { Button, Nav, Navbar } from 'react-bootstrap';
 import styled from 'styled-components';
 import Column from './Column';
-import Navbar from 'react-bootstrap/Navbar';
-import Nav from 'react-bootstrap/Nav';
 
 const RbdContainer = styled.div`
   display: grid;
