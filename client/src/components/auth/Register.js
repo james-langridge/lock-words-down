@@ -131,7 +131,7 @@ class Register extends Component {
             Sign up
           </Button>
           <p>Already have an account? <Link to="/login">Log in</Link></p>
-          <p className="mt-5 mb-3 text-muted">© 2021</p>
+          <p className="mt-5 mb-3 text-muted">© James Langridge 2021</p>
         </Form>
       </Container>
     );

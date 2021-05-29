@@ -9,6 +9,7 @@ const Header = () => {
   const selectedWords = useSelector(state => state.words.selectedWords);
   const wordList = useSelector(state => state.words.wordList);
   const selectionList = useSelector(state => state.selections.selectionList);
+  const selectedSelection = useSelector(state => state.selections.selectedSelection);
   const dispatch = useDispatch();
   const location = useLocation();
 
@@ -21,16 +22,29 @@ const Header = () => {
     dispatch({ type: 'words/unselectAllWords' });
     document.querySelectorAll('.card').forEach(el => el.classList.remove('bg-success'));
 
+    const selectedWordIds = [];
     selection.selection.forEach(word => {
       dispatch({ type: 'words/selectWord', payload: word });
       document.getElementById(word._id).classList.add('bg-success');
+      selectedWordIds.push(word._id);
     });
 
+    const sortedWordList = wordList.reduce((acc, word) => {
+      if (selectedWordIds.includes(word._id)) {
+        return [word, ...acc];
+      }
+      return [...acc, word];
+    }, []);
+
+    dispatch({ type: 'words/setWordList', payload: sortedWordList })
     dispatch({ type: 'selections/selectSelection', payload: selection });
     dispatch({ type: 'game/setGameTitle', payload: selection.gameTitle });
   }
 
   const selectAll = () => {
+    if (selectedSelection) {
+      dispatch({ type: 'selections/selectSelection', payload: '' });
+    }
     document.querySelectorAll('.card').forEach(el => el.classList.add('bg-success'));
     wordList.forEach(word => {
       if (!selectedWords.some(e => e.word === word.word)) {
@@ -40,6 +54,9 @@ const Header = () => {
   }
 
   const unselectAll = () => {
+    if (selectedSelection) {
+      dispatch({ type: 'selections/selectSelection', payload: '' });
+    }
     dispatch({ type: 'words/unselectAllWords' });
     document.querySelectorAll('.card').forEach(el => el.classList.remove('bg-success'));
   }
