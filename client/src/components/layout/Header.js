@@ -14,10 +14,9 @@ import axios from 'axios';
 const Header = () => {
   const userId = useSelector(state => state.auth.user.id);
   const selectedWords = useSelector(state => state.words.selectedWords);
-  const selectedSelection = useSelector(state => state.words.selectedSelection);
   const wordList = useSelector(state => state.words.wordList);
-  const selectionList = useSelector(state => state.words.selectionList);
-  const [selections, setSelections] = useState([]);
+  const selectedSelection = useSelector(state => state.selections.selectedSelection);
+  const selectionList = useSelector(state => state.selections.selectionList);
   const [errorMsg, setErrorMsg] = useState('');
   const dispatch = useDispatch();
   const location = useLocation();
@@ -26,23 +25,6 @@ const Header = () => {
     dispatch(logoutUser());
     window.location.href = "./login";
   }
-
-  useEffect(() => {
-  const getSelections = async () => {
-    try {
-      const { data } = await axios.get(`file/getAllSelections/${userId}`);
-      setErrorMsg('');
-      dispatch({ type: 'words/setSelectionList', payload: data });
-    } catch (error) {
-      error.response && setErrorMsg(error.response.data);
-    }
-  };
-    getSelections();
-  }, [location]);
-
-  useEffect(() => {
-    setSelections(selectionList);
-  }, [selectionList]);
 
   const selectSelection = (selection) => {
     dispatch({ type: 'words/unselectAllWords' });
@@ -53,8 +35,8 @@ const Header = () => {
       document.getElementById(word._id).classList.add('bg-success');
     });
 
-    dispatch({ type: 'words/selectSelection', payload: selection });
-    dispatch({ type: 'words/setGameTitle', payload: selection.gameTitle });
+    dispatch({ type: 'selections/selectSelection', payload: selection });
+    dispatch({ type: 'game/setGameTitle', payload: selection.gameTitle });
   }
 
   const selectAll = () => {
@@ -84,13 +66,13 @@ const Header = () => {
             <DropdownButton
               id="dropdown-basic-button"
               title="Select"
-              disabled={selections.length && location.pathname === '/list' ? false : true}
+              disabled={selectionList.length && location.pathname === '/list' ? false : true}
               className="mr-2"
             >
               <Dropdown.Item onClick={() => selectAll()}>Select all</Dropdown.Item>
               <Dropdown.Item onClick={() => unselectAll()}>Select none</Dropdown.Item>
               <Dropdown.Divider />
-              {selections.map(selection =>
+              {selectionList.map(selection =>
                 <Dropdown.Item
                   onClick={() => selectSelection(selection)}
                   key={selection._id}

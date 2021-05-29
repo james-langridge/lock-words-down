@@ -32,20 +32,18 @@ const Image = styled.img`
 
 const FilesList = () => {
   const userId = useSelector(state => state.auth.user.id);
-  const gameTitle = useSelector(state => state.words.gameTitle);
+  const gameTitle = useSelector(state => state.game.gameTitle);
   const selectedWords = useSelector(state => state.words.selectedWords);
-  const selectedSelection = useSelector(state => state.words.selectedSelection);
   const wordList = useSelector(state => state.words.wordList);
-  const selectionList = useSelector(state => state.words.selectionList);
-  const [filesList, setFilesList] = useState([]);
+  const selectedSelection = useSelector(state => state.selections.selectedSelection);
+  const selectionList = useSelector(state => state.selections.selectionList);
   const [errorMsg, setErrorMsg] = useState('');
   const dispatch = useDispatch();
 
-  const getFilesList = async () => {
+  const getWordList = async () => {
     try {
       const { data } = await axios.get(`file/getAllFiles/${userId}`);
       setErrorMsg('');
-      setFilesList(data);
       dispatch({ type: 'words/setWordList', payload: data })
     } catch (error) {
       error.response && setErrorMsg(error.response.data);
@@ -56,54 +54,54 @@ const FilesList = () => {
     try {
       const { data } = await axios.get(`file/getAllSelections/${userId}`);
       setErrorMsg('');
-      dispatch({ type: 'words/setSelectionList', payload: data });
+      dispatch({ type: 'selections/setSelectionList', payload: data });
     } catch (error) {
       error.response && setErrorMsg(error.response.data);
     }
   };
 
   useEffect(() => {
-    getFilesList();
+    getWordList();
+    getSelectionList();
   }, []);
 
-  useEffect(() => {
-    setFilesList(wordList);
-  }, [wordList]);
-
-  const handleDelete = async (id) => {
-    const result = window.confirm('Delete this word? You cannot undo this.')
+  const deleteWord = async (word) => {
+    const result = window.confirm(`Delete word: ${word.word}? You cannot undo this!`)
     if (result) {
       try {
-        await axios.delete(`file/delete/${id}`);
+        await axios.delete(`file/delete/${word._id}`);
         setErrorMsg('');
       } catch (error) {
         if (error.response && error.response.status === 400) {
           setErrorMsg('Error while deleting file.  Try again later.');
         }
       }
-      getFilesList();
+      if (selectedWords.find(e => e.word === word.word)) {
+        dispatch({ type: 'words/unselectWord', payload: word })
+      }
+      getWordList();
     }
   };
 
-  const deleteSelection = async (id) => {
-    const result = window.confirm('Delete this selection? You cannot undo this.')
+  const deleteSelection = async (selectedSelection) => {
+    const result = window.confirm(`Delete selection: ${selectedSelection.title || selectedSelection.selectionTitle}? You cannot undo this!`)
     if (result) {
       try {
-        await axios.delete(`file/deleteSelection/${id}`);
+        await axios.delete(`file/deleteSelection/${selectedSelection._id}`);
         setErrorMsg('');
       } catch (error) {
         if (error.response && error.response.status === 400) {
           setErrorMsg('Error while deleting selection.  Try again later.');
         }
       }
-      dispatch({ type: 'words/selectSelection', payload: {} });
-      dispatch({ type: 'words/setGameTitle', payload: '' });
+      dispatch({ type: 'selections/selectSelection', payload: {} });
+      dispatch({ type: 'game/setGameTitle', payload: '' });
       getSelectionList();
     }
   };
 
   const handleClick = (word) => {
-    dispatch({ type: 'words/selectSelection', payload: {} });
+    dispatch({ type: 'selections/selectSelection', payload: {} });
     document.getElementById(word._id).classList.toggle('bg-success');
     if (!selectedWords.find(e => e.word === word.word)) {
       dispatch({ type: 'words/selectWord', payload: word })
@@ -113,18 +111,14 @@ const FilesList = () => {
   }
 
   const changeGameTitle = e => {
-    if (e.target.value === '') {
-      dispatch({ type: 'words/setGameTitle', payload: 'Syllables' });
-    } else {
-      dispatch({ type: 'words/setGameTitle', payload: e.target.value });
-    }
+    dispatch({ type: 'game/setGameTitle', payload: e.target.value });
   };
 
   return (
     <Container>
       <InputGroup className="mb-3">
         <InputGroup.Prepend>
-          <InputGroup.Text>Change game title:</InputGroup.Text>
+          <InputGroup.Text>Game title:</InputGroup.Text>
         </InputGroup.Prepend>
         <Form.Control
           placeholder="e.g. Syllables..."
@@ -141,15 +135,15 @@ const FilesList = () => {
         {Object.keys(selectedSelection).length !== 0 &&
           <Button
             variant="outline-danger"
-            onClick={() => deleteSelection(selectedSelection._id)}
+            onClick={() => deleteSelection(selectedSelection)}
           >
             Delete selection
           </Button>
         }
       </ButtonGroup>
       <Row>
-        {filesList.length > 0 ?
-          filesList.map((word) =>
+          {wordList.length > 0 ?
+          wordList.map((word) =>
           <Col sm={6} md={4} lg={3} key={word._id}>
             <Card className="mb-4 box-shadow" id={word._id} style={{ width: 222 }}>
             {word.image_url &&
@@ -163,7 +157,7 @@ const FilesList = () => {
                   <ButtonGroup size="sm">
                     <Button variant="outline-secondary" onClick={() => handleClick(word)}>Select</Button>
                     <Button variant="outline-secondary" as={Link} to={'/edit?id=' + word._id}>Edit</Button>
-                    <Button variant="outline-secondary" onClick={() => handleDelete(word._id)}>Delete</Button>
+                    <Button variant="outline-secondary" onClick={() => deleteWord(word)}>Delete</Button>
                   </ButtonGroup>
                 </div>
               </Card.Body>

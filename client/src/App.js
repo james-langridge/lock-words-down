@@ -41,6 +41,8 @@ const App = () => {
   useEffect(() => {
     if (location.pathname !== '/game' && location.pathname !== '/selection' && location.pathname !== '/alpha-sort') {
       dispatch({ type: 'words/unselectAllWords' });
+      dispatch({ type: 'selections/selectSelection', payload: {} });
+      dispatch({ type: 'game/setGameTitle', payload: '' });
     }
   }, [location]);
 

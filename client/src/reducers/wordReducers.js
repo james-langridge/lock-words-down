@@ -1,9 +1,6 @@
 const initialState = {
   selectedWords: [],
-  selectedSelection: {},
   wordList: [],
-  selectionList: [],
-  gameTitle: 'Syllables',
 }
 
 export default function(state = initialState, action) {
@@ -12,21 +9,19 @@ export default function(state = initialState, action) {
       return {
         ...state,
         selectedWords: [...state.selectedWords, action.payload]
-      }
-    case 'words/selectSelection':
-      return {
-        ...state,
-        selectedSelection: action.payload
-      }
+      };
     case 'words/unselectWord':
       const index = state.selectedWords.findIndex(item => item._id === action.payload._id);
-      return {
-        ...state,
-        selectedWords: [
-          ...state.selectedWords.slice(0, index),
-          ...state.selectedWords.slice(index + 1)
-        ]
-      };
+      if (index !== -1) {
+        return {
+          ...state,
+          selectedWords: [
+            ...state.selectedWords.slice(0, index),
+            ...state.selectedWords.slice(index + 1)
+          ]
+        };
+      }
+      return state;
     case 'words/selectAllWords':
       return {
         ...state,
@@ -41,16 +36,6 @@ export default function(state = initialState, action) {
       return {
         ...state,
         wordList: action.payload
-      };
-    case 'words/setGameTitle':
-      return {
-        ...state,
-        gameTitle: action.payload
-      };
-    case 'words/setSelectionList':
-      return {
-        ...state,
-        selectionList: action.payload
       };
     default:
       return state;
