@@ -1,5 +1,5 @@
 {
-  "name": "syllable-game",
+  "name": "Lock Words Down",
   "version": "1.0.0",
   "engines": {
     "node": "15.x"
@@ -13,12 +13,22 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
+  "homepage": "https://github.com/james-langridge/lock-words-down#readme",
+  "bugs": {
+    "url": "https://github.com/james-langridge/lock-words-down/issues"
+  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/james-langridge/syllable-game.git"
+    "url": "git+https://github.com/james-langridge/lock-words-down.git"
   },
-  "keywords": [],
-  "author": "James Langridge",
+  "keywords": [
+    "dyslexia",
+    "education",
+    "teachers",
+    "teaching-materials",
+    "english-language"
+  ],
+  "author": "James Langridge <l@ngridge.com> (https://www.linkedin.com/in/james-langridge/)",
   "license": "AGPL-3.0-or-later",
   "dependencies": {
     "aws-sdk": "^2.848.0",
