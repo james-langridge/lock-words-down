@@ -6,6 +6,7 @@ import { Alert, Button, ButtonGroup, Card, Col, Container, Form, InputGroup, Row
 import styled from 'styled-components';
 import SortAlpha from '../buttons/SortAlpha';
 import SortModified from '../buttons/SortModified';
+import WordCard from './WordCard';
 
 const ImageContainer = styled.div`
   height: 220px;
@@ -133,27 +134,20 @@ const FilesList = () => {
       </ButtonGroup>
       <Row>
           {wordList.length > 0 ?
-          wordList.map((word) =>
-          <Col sm={6} md={4} lg={3} key={word._id}>
-            <Card className="mb-4 box-shadow" id={word._id} style={{ width: 222 }}>
-            {word.image_url &&
-            <ImageContainer>
-              <Image src={word.image_url} onClick={() => handleClick(word)} />
-            </ImageContainer>}
-              <Card.Body>
-                <Card.Title>{word.word}</Card.Title>
-                <Card.Text>{word.syllable}</Card.Text>
-                <div className="d-flex justify-content-between align-items-center">
-                  <ButtonGroup size="sm">
-                    <Button variant="outline-secondary" onClick={() => handleClick(word)}>Select</Button>
-                    <Button variant="outline-secondary" as={Link} to={'/edit?id=' + word._id}>Edit</Button>
-                    <Button variant="outline-secondary" onClick={() => deleteWord(word)}>Delete</Button>
-                  </ButtonGroup>
-                </div>
-              </Card.Body>
-            </Card>
-          </Col>
-        ) : <Alert variant="primary"><Alert.Link as={Link} to="/upload">Add some words!</Alert.Link></Alert>
+            wordList.map((word) =>
+            <WordCard
+              word={word}
+              functions={[handleClick, deleteWord]}
+              key={word._id}
+            />) :
+            <Alert variant="primary">
+              <Alert.Link
+                as={Link}
+                to="/upload"
+              >
+                Add some words!
+              </Alert.Link>
+            </Alert>
         }
       </Row>
     </Container>
