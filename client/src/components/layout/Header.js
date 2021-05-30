@@ -77,7 +77,7 @@ const Header = () => {
   }
 
   return (
-    <Navbar variant="dark" fixed="top" bg="dark" expand="md">
+    <Navbar variant="dark" fixed="top" bg="dark" expand="lg">
       <Container fluid>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -112,11 +112,7 @@ const Header = () => {
               variant="primary"
               as={Link}
               to="/selection"
-              disabled={
-                selectedWords.length && location.pathname === '/list' ?
-                false : true
-              }
-              className="mr-2"
+              className={selectedWords.length ? "mr-2" : "mr-2 disabled"}
             >
               Save selection
             </Button>

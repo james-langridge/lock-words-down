@@ -6,6 +6,7 @@ const multerS3 = require('multer-s3');
 const File = require('../models/file');
 const Selection = require('../models/selection');
 const Router = express.Router();
+require("dotenv").config();
 
 AWS.config.getCredentials(function(err) {
   if (err) console.log(err.stack);

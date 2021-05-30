@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const keys = require("../config/keys");
+require("dotenv").config();
 
 const validateRegisterInput = require("../validation/register");
 const validateLoginInput = require("../validation/login");
@@ -70,7 +70,7 @@ router.post("/register", (req, res) => {
 
           jwt.sign(
             payload,
-            keys.secretOrKey,
+            process.env.SECRET_OR_KEY,
             {
               expiresIn: 31556926 // 1 year in seconds
             },
