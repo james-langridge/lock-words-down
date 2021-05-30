@@ -67,10 +67,37 @@ const Header = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto mb-2 mb-md-0">
-            <Button variant="success" as={Link} to="/game" className={selectedWords.length ? "mr-2" : "mr-2 disabled"}>Play game</Button>
-            <Button variant="success" as={Link} to="/alpha-sort" className={selectedWords.length ? "mr-2" : "mr-2 disabled"}>Play Alpha Sort</Button>
-            <Button variant="primary" as={Link} to="/upload" className="mr-2">Add word</Button>
-            <Button variant="primary" as={Link} to="/selection" className={selectedWords.length ? "mr-2" : "mr-2 disabled"}>Save selection</Button>
+            <DropdownButton
+              id="dropdown-basic-button"
+              variant="success"
+              title="Play"
+              disabled={selectedWords.length && location.pathname === '/list' ? false : true}
+              className="mr-2"
+            >
+              <Dropdown.Item as={Link} to="/game">
+                Match
+              </Dropdown.Item>
+              <Dropdown.Item as={Link} to="/alpha-sort">
+                Sort
+              </Dropdown.Item>
+            </DropdownButton>
+            <Button
+              variant="primary"
+              as={Link}
+              to="/upload"
+              className="mr-2"
+            >
+              Add word
+            </Button>
+            <Button
+              variant="primary"
+              as={Link}
+              to="/selection"
+              disabled={selectedWords.length && location.pathname === '/list' ? false : true}
+              className="mr-2"
+            >
+              Save selection
+            </Button>
             <DropdownButton
               id="dropdown-basic-button"
               title="Select"

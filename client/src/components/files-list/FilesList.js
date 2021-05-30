@@ -118,7 +118,9 @@ const FilesList = () => {
         />
       </InputGroup>
       {selectedSelection &&
-        <h1 className="align-bottom">{selectedSelection.selectionTitle || selectedSelection.title}</h1>
+        <h1>
+          {selectedSelection.selectionTitle || selectedSelection.title}
+        </h1>
       }
       <ButtonGroup size="sm" className="mb-3">
         <SortAlpha/>
