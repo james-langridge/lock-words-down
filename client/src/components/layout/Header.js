@@ -2,7 +2,15 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { logoutUser } from "../../actions/authActions";
-import { Button, Container, Dropdown, DropdownButton, Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import {
+  Button,
+  Container,
+  Dropdown,
+  DropdownButton,
+  Nav,
+  Navbar,
+  NavDropdown
+} from 'react-bootstrap';
 import axios from 'axios';
 
 const Header = () => {
@@ -20,7 +28,9 @@ const Header = () => {
 
   const selectSelection = (selection) => {
     dispatch({ type: 'words/unselectAllWords' });
-    document.querySelectorAll('.card').forEach(el => el.classList.remove('bg-success'));
+    document.querySelectorAll('.card').forEach(el => {
+      el.classList.remove('bg-success')
+    });
 
     const selectedWordIds = [];
     selection.selection.forEach(word => {
@@ -45,7 +55,9 @@ const Header = () => {
     if (selectedSelection) {
       dispatch({ type: 'selections/selectSelection', payload: '' });
     }
-    document.querySelectorAll('.card').forEach(el => el.classList.add('bg-success'));
+    document.querySelectorAll('.card').forEach(el => {
+      el.classList.add('bg-success')
+    });
     wordList.forEach(word => {
       if (!selectedWords.some(e => e.word === word.word)) {
         dispatch({ type: 'words/selectWord', payload: word });
@@ -58,7 +70,9 @@ const Header = () => {
       dispatch({ type: 'selections/selectSelection', payload: '' });
     }
     dispatch({ type: 'words/unselectAllWords' });
-    document.querySelectorAll('.card').forEach(el => el.classList.remove('bg-success'));
+    document.querySelectorAll('.card').forEach(el => {
+      el.classList.remove('bg-success')
+    });
   }
 
   return (
@@ -66,12 +80,15 @@ const Header = () => {
       <Container fluid>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto mb-2 mb-md-0">
+          <Nav className="me-auto mb-2 mb-md-0 mr-auto">
             <DropdownButton
               id="dropdown-basic-button"
               variant="success"
               title="Play"
-              disabled={selectedWords.length && location.pathname === '/list' ? false : true}
+              disabled={
+                selectedWords.length && location.pathname === '/list' ?
+                false : true
+              }
               className="mr-2"
             >
               <Dropdown.Item as={Link} to="/game">
@@ -93,7 +110,10 @@ const Header = () => {
               variant="primary"
               as={Link}
               to="/selection"
-              disabled={selectedWords.length && location.pathname === '/list' ? false : true}
+              disabled={
+                selectedWords.length && location.pathname === '/list' ?
+                false : true
+              }
               className="mr-2"
             >
               Save selection
@@ -101,11 +121,17 @@ const Header = () => {
             <DropdownButton
               id="dropdown-basic-button"
               title="Select"
-              disabled={selectionList.length && location.pathname === '/list' ? false : true}
-              className="mr-2"
+              disabled={
+                selectionList.length && location.pathname === '/list' ?
+                false : true
+              }
             >
-              <Dropdown.Item onClick={() => selectAll()}>Select all</Dropdown.Item>
-              <Dropdown.Item onClick={() => unselectAll()}>Select none</Dropdown.Item>
+              <Dropdown.Item onClick={() => selectAll()}>
+                Select all
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => unselectAll()}>
+                Select none
+              </Dropdown.Item>
               <Dropdown.Divider />
               {selectionList.map(selection =>
                 <Dropdown.Item
@@ -116,6 +142,8 @@ const Header = () => {
                 </Dropdown.Item>
               )}
             </DropdownButton>
+          </Nav>
+          <Nav>
             <Button variant="danger" onClick={() => logOut()}>Log out</Button>
           </Nav>
         </Navbar.Collapse>

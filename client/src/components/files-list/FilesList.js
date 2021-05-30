@@ -2,7 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from "react-router-dom";
 import axios from 'axios';
-import { Alert, Button, ButtonGroup, Card, Col, Container, Form, InputGroup, Row } from 'react-bootstrap';
+import {
+  Alert,
+  Button,
+  ButtonGroup,
+  Card,
+  Col,
+  Container,
+  Form,
+  InputGroup,
+  Row
+} from 'react-bootstrap';
 import styled from 'styled-components';
 import SortAlpha from '../buttons/SortAlpha';
 import SortModified from '../buttons/SortModified';
