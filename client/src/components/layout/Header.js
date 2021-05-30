@@ -7,6 +7,7 @@ import {
   Container,
   Dropdown,
   DropdownButton,
+  Form,
   Nav,
   Navbar,
   NavDropdown
@@ -80,6 +81,7 @@ const Header = () => {
       <Container fluid>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
+          <Navbar.Brand as={Link} to="/list">Lock Words Down</Navbar.Brand>
           <Nav className="me-auto mb-2 mb-md-0 mr-auto">
             <DropdownButton
               id="dropdown-basic-button"
@@ -125,6 +127,7 @@ const Header = () => {
                 selectionList.length && location.pathname === '/list' ?
                 false : true
               }
+              className="mr-2"
             >
               <Dropdown.Item onClick={() => selectAll()}>
                 Select all
@@ -142,6 +145,15 @@ const Header = () => {
                 </Dropdown.Item>
               )}
             </DropdownButton>
+            <Form className="d-flex">
+              <Form.Control
+                type="search"
+                placeholder="Search"
+                className="mr-2"
+                aria-label="Search"
+              />
+              <Button variant="outline-success">Search</Button>
+            </Form>
           </Nav>
           <Nav>
             <Button variant="danger" onClick={() => logOut()}>Log out</Button>
