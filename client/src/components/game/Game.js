@@ -22,11 +22,11 @@ const Game = () => {
       .map((...args) => Math.floor(Math.random() * (args[1] + 1)))
       .reduce( (a, rv, i) => ([a[i], a[rv]] = [a[rv], a[i]]) && a, array);
   const selectedWords = useSelector(state => state.words.selectedWords);
-  const syllables = shuffle(selectedWords.map(word => word.syllable));
-  const columnsData = selectedWords.map(word => {
+  const syllables = shuffle(selectedWords.map(termEntry => termEntry.syllable));
+  const columnsData = selectedWords.map(termEntry => {
     const data = {};
-    data.word = word.word;
-    data.image_url = word.image_url;
+    data.term = termEntry.term;
+    data.image_url = termEntry.image_url;
 
     return data;
   });
@@ -52,13 +52,13 @@ const Game = () => {
       initialData.columns.['column-1'].syllableIds.push(`syllable-${i+1}`);
   });
 
-  shuffledColumnsData.forEach((item, i) => {
+  shuffledColumnsData.forEach((termEntry, i) => {
     const columnId = `column-${i+2}`;
     initialData.columns[columnId] = {
         id: columnId,
-        title: item.word,
+        title: termEntry.term,
         syllableIds: [],
-        src: item.image_url,
+        src: termEntry.image_url,
       }
     initialData.columnOrder.push(columnId);
   });
@@ -130,10 +130,10 @@ const Game = () => {
     setState(newState);
   };
 
-  const correctAnswers = selectedWords.map(word => {
+  const correctAnswers = selectedWords.map(termEntry => {
     const data = {};
-    data.word = word.word;
-    data.syllable = word.syllable;
+    data.term = termEntry.term;
+    data.syllable = termEntry.syllable;
 
     return data;
   });
@@ -144,7 +144,7 @@ const Game = () => {
       const foobar = state.columns[column];
       const obj = {};
       obj.columnId = foobar.id;
-      obj.word = foobar.title;
+      obj.term = foobar.title;
       if (foobar.syllableIds.length === 1) {
         obj.syllable = state.syllables[foobar.syllableIds[0]].content;
       } else {
@@ -155,10 +155,10 @@ const Game = () => {
     }
     answers.splice(0,1);
 
-    correctAnswers.forEach((item) => {
-      const answer = answers.find( e => e.word === item.word );
+    correctAnswers.forEach((termEntry) => {
+      const answer = answers.find( e => e.term === termEntry.term );
       const element = document.getElementById(answer.columnId);
-      if (answer.syllable === item.syllable) {
+      if (answer.syllable === termEntry.syllable) {
         element.classList.add('bg-success');
         setTimeout(() => { element.classList.remove('bg-success'); }, 2000);
       } else {
@@ -199,9 +199,16 @@ const Game = () => {
             const column = state.columns[columnId];
             const syllables = column.syllableIds.map(syllableId => state.syllables[syllableId]);
             const imageSrc = column.src;
-            const word = column.title;
+            const term = column.title;
 
-            return <Column key={column.id} column={column} syllables={syllables} src={imageSrc} index={index} word={word} />
+            return <Column
+                      key={column.id}
+                      column={column}
+                      syllables={syllables}
+                      src={imageSrc}
+                      index={index}
+                      term={term}
+                    />
           })}
         </RbdContainer>
       </DragDropContext>

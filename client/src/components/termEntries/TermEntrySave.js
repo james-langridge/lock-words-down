@@ -5,12 +5,12 @@ import Dropzone from 'react-dropzone';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
-const FileUpload = (props) => {
+const TermEntrySave = (props) => {
   const userId = useSelector(state => state.auth.user.id);
   const [file, setFile] = useState(null);
   const [previewSrc, setPreviewSrc] = useState('');
   const [state, setState] = useState({
-    word: '',
+    term: '',
     syllable: ''
   });
   const [errorMsg, setErrorMsg] = useState('');
@@ -49,16 +49,16 @@ const FileUpload = (props) => {
     event.preventDefault();
 
     try {
-      const { word, syllable } = state;
-      if (word.trim() !== '' && syllable.trim() !== '') {
+      const { term, syllable } = state;
+      if (term.trim() !== '' && syllable.trim() !== '') {
         if (!file) {
           const formData = new FormData();
-          formData.append('word', word);
+          formData.append('term', term);
           formData.append('syllable', syllable);
           formData.append('userId', userId);
 
           setErrorMsg('');
-          await axios.post('file/upload', formData, {
+          await axios.post('term/upload', formData, {
             headers: {
               'Content-Type': 'multipart/form-data'
             }
@@ -67,12 +67,12 @@ const FileUpload = (props) => {
         } else if (file) {
           const formData = new FormData();
           formData.append('file', file);
-          formData.append('word', word);
+          formData.append('term', term);
           formData.append('syllable', syllable);
           formData.append('userId', userId);
 
           setErrorMsg('');
-          await axios.post('file/upload', formData, {
+          await axios.post('term/upload', formData, {
             headers: {
               'Content-Type': 'multipart/form-data'
             }
@@ -93,12 +93,12 @@ const FileUpload = (props) => {
         {errorMsg && <p className="errorMsg">{errorMsg}</p>}
         <Row>
           <Col>
-            <Form.Group controlId="word">
+            <Form.Group controlId="term">
               <Form.Control
                 type="text"
-                name="word"
-                value={state.word || ''}
-                placeholder="Enter word"
+                name="term"
+                value={state.term || ''}
+                placeholder="Enter term"
                 onChange={handleInputChange}
               />
             </Form.Group>
@@ -167,4 +167,4 @@ const FileUpload = (props) => {
   );
 };
 
-export default FileUpload;
+export default TermEntrySave;

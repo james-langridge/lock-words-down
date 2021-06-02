@@ -6,12 +6,12 @@ import axios from 'axios';
 import { useLocation } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 
-const WordEdit = (props) => {
+const TermEntryEdit = (props) => {
   const [file, setFile] = useState(null);
   const [previewSrc, setPreviewSrc] = useState('');
   const [image, setImage] = useState(null);
   const [state, setState] = useState({
-    word: '',
+    term: '',
     syllable: ''
   });
   const [errorMsg, setErrorMsg] = useState('');
@@ -21,13 +21,13 @@ const WordEdit = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const getFile = async () => {
+    const getTermEntry = async () => {
       try {
-        const { data } = await axios.get('file/getFile/' + query.get('id'));
+        const { data } = await axios.get('term/getTerm/' + query.get('id'));
         setErrorMsg('');
         setState({
           ...state,
-          word: data.word,
+          term: data.term,
           syllable: data.syllable
         });
         setPreviewSrc(data.image_url);
@@ -36,7 +36,7 @@ const WordEdit = (props) => {
       }
     };
 
-    getFile();
+    getTermEntry();
   }, []);
 
   function useQuery() {
@@ -75,15 +75,15 @@ const WordEdit = (props) => {
     event.preventDefault();
 
     try {
-      const { word, syllable } = state;
-      if (word.trim() !== '' && syllable.trim() !== '') {
+      const { term, syllable } = state;
+      if (term.trim() !== '' && syllable.trim() !== '') {
         if (!file) {
           const formData = new FormData();
-          formData.append('word', word);
+          formData.append('term', term);
           formData.append('syllable', syllable);
 
           setErrorMsg('');
-          await axios.post('file/update/' + query.get('id'), formData, {
+          await axios.post('term/update/' + query.get('id'), formData, {
             headers: {
               'Content-Type': 'multipart/form-data'
             }
@@ -92,11 +92,11 @@ const WordEdit = (props) => {
         } else if (file) {
           const formData = new FormData();
           formData.append('file', file);
-          formData.append('word', word);
+          formData.append('term', term);
           formData.append('syllable', syllable);
 
           setErrorMsg('');
-          await axios.post('file/update/' + query.get('id'), formData, {
+          await axios.post('term/update/' + query.get('id'), formData, {
             headers: {
               'Content-Type': 'multipart/form-data'
             }
@@ -117,13 +117,13 @@ const WordEdit = (props) => {
         {errorMsg && <p className="errorMsg">{errorMsg}</p>}
         <Row>
           <Col>
-            <Form.Group controlId="word">
-              <Form.Label>Word</Form.Label>
+            <Form.Group controlId="term">
+              <Form.Label>Term</Form.Label>
               <Form.Control
                 type="text"
-                name="word"
-                value={state.word || ''}
-                placeholder="Enter word"
+                name="term"
+                value={state.term || ''}
+                placeholder="Enter term"
                 onChange={handleInputChange}
               />
             </Form.Group>
@@ -182,4 +182,4 @@ const WordEdit = (props) => {
   );
 };
 
-export default WordEdit;
+export default TermEntryEdit;

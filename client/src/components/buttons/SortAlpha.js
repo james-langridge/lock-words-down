@@ -10,14 +10,14 @@ const SortAlpha = () => {
   const dispatch = useDispatch();
 
   const compare = (a,b) => {
-    if ( a.word < b.word ) {
+    if ( a.term < b.term ) {
       if (sortDirection === 'za') {
         return -1;
       } else {
         return 1;
       }
     }
-    if ( a.word > b.word ) {
+    if ( a.term > b.term ) {
       if (sortDirection === 'za') {
         return 1;
       } else {

@@ -5,8 +5,9 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 const path = require('path');
 
+const termEntryRoute = require('./routes/termEntries');
+const selectionRoute = require('./routes/selections');
 const userRoute = require("./routes/users");
-const fileRoute = require('./routes/files');
 
 const app = express();
 
@@ -33,8 +34,9 @@ app.use(passport.initialize());
 
 require("./config/passport")(passport);
 
+app.use("/term", termEntryRoute);
+app.use("/selection", selectionRoute);
 app.use("/user", userRoute);
-app.use("/file", fileRoute);
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'))

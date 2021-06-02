@@ -137,7 +137,7 @@ const Header = () => {
                   onClick={() => selectSelection(selection)}
                   key={selection._id}
                 >
-                    {selection.title || selection.selectionTitle}
+                    {selection.selectionTitle}
                 </Dropdown.Item>
               )}
             </DropdownButton>

@@ -16,7 +16,7 @@ import {
 import styled from 'styled-components';
 import SortAlpha from '../buttons/SortAlpha';
 import SortModified from '../buttons/SortModified';
-import WordCard from './WordCard';
+import TermEntry from './TermEntry';
 
 const ImageContainer = styled.div`
   height: 220px;
@@ -30,18 +30,18 @@ const Image = styled.img`
   max-height: 100%;
 `;
 
-const FilesList = () => {
+const TermEntryList = () => {
   const userId = useSelector(state => state.auth.user.id);
   const gameTitle = useSelector(state => state.game.gameTitle);
   const selectedWords = useSelector(state => state.words.selectedWords);
-  const wordList = useSelector(state => state.words.wordList);
+  const termEntries = useSelector(state => state.words.wordList);
   const selectedSelection = useSelector(state => state.selections.selectedSelection);
   const [errorMsg, setErrorMsg] = useState('');
   const dispatch = useDispatch();
 
-  const getWordList = async () => {
+  const getTermEntries = async () => {
     try {
-      const { data } = await axios.get(`file/getAllFiles/${userId}`);
+      const { data } = await axios.get(`term/getAllTerms/${userId}`);
       setErrorMsg('');
       dispatch({ type: 'words/setWordList', payload: data })
     } catch (error) {
@@ -49,9 +49,9 @@ const FilesList = () => {
     }
   };
 
-  const getSelectionList = async () => {
+  const getSelections = async () => {
     try {
-      const { data } = await axios.get(`file/getAllSelections/${userId}`);
+      const { data } = await axios.get(`selection/getAllSelections/${userId}`);
       setErrorMsg('');
       dispatch({ type: 'selections/setSelectionList', payload: data });
     } catch (error) {
@@ -60,33 +60,33 @@ const FilesList = () => {
   };
 
   useEffect(() => {
-    getWordList();
-    getSelectionList();
+    getTermEntries();
+    getSelections();
   }, []);
 
-  const deleteWord = async (word) => {
-    const result = window.confirm(`Delete word: ${word.word}? You cannot undo this!`)
+  const deleteTermEntry = async (termEntry) => {
+    const result = window.confirm(`Delete word: ${termEntry.term}? You cannot undo this!`)
     if (result) {
       try {
-        await axios.delete(`file/delete/${word._id}`);
+        await axios.delete(`term/delete/${termEntry._id}`);
         setErrorMsg('');
       } catch (error) {
         if (error.response && error.response.status === 400) {
-          setErrorMsg('Error while deleting file.  Try again later.');
+          setErrorMsg('Error while deleting term.  Try again later.');
         }
       }
-      if (selectedWords.find(e => e.word === word.word)) {
-        dispatch({ type: 'words/unselectWord', payload: word })
+      if (selectedWords.find(e => e.word === termEntry.term)) {
+        dispatch({ type: 'words/unselectWord', payload: termEntry })
       }
-      getWordList();
+      getTermEntries();
     }
   };
 
   const deleteSelection = async (selectedSelection) => {
-    const result = window.confirm(`Delete selection: ${selectedSelection.title || selectedSelection.selectionTitle}? You cannot undo this!`)
+    const result = window.confirm(`Delete selection: ${selectedSelection.selectionTitle}? You cannot undo this!`)
     if (result) {
       try {
-        await axios.delete(`file/deleteSelection/${selectedSelection._id}`);
+        await axios.delete(`selection/deleteSelection/${selectedSelection._id}`);
         setErrorMsg('');
       } catch (error) {
         if (error.response && error.response.status === 400) {
@@ -95,7 +95,7 @@ const FilesList = () => {
       }
       dispatch({ type: 'selections/selectSelection', payload: '' });
       dispatch({ type: 'game/setGameTitle', payload: '' });
-      getSelectionList();
+      getSelections();
     }
   };
 
@@ -129,7 +129,7 @@ const FilesList = () => {
       </InputGroup>
       {selectedSelection &&
         <h1>
-          {selectedSelection.selectionTitle || selectedSelection.title}
+          {selectedSelection.selectionTitle}
         </h1>
       }
       <ButtonGroup size="sm" className="mb-3">
@@ -145,19 +145,19 @@ const FilesList = () => {
         }
       </ButtonGroup>
       <Row>
-          {wordList.length > 0 ?
-            wordList.map((word) =>
-            <WordCard
-              word={word}
-              functions={[handleClick, deleteWord]}
-              key={word._id}
+          {termEntries.length > 0 ?
+            termEntries.map((termEntry) =>
+            <TermEntry
+              termEntry={termEntry}
+              functions={[handleClick, deleteTermEntry]}
+              key={termEntry._id}
             />) :
             <Alert variant="primary">
               <Alert.Link
                 as={Link}
                 to="/upload"
               >
-                Add some words!
+                Add some terms!
               </Alert.Link>
             </Alert>
         }
@@ -166,4 +166,4 @@ const FilesList = () => {
   );
 };
 
-export default FilesList;
+export default TermEntryList;

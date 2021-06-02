@@ -11,9 +11,9 @@ import Header from "./components/layout/Header";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import PrivateRoute from "./components/private-route/PrivateRoute";
-import FilesList from './components/files-list/FilesList';
-import FileUpload from './components/file-upload/FileUpload';
-import WordEdit from './components/word-edit/WordEdit';
+import TermEntryList from './components/termEntries/TermEntryList';
+import TermEntrySave from './components/termEntries/TermEntrySave';
+import TermEntryEdit from './components/termEntries/TermEntryEdit';
 import Game from './components/game/Game';
 import SelectionSave from './components/selection/SelectionSave';
 import AlphaSort from './components/game/AlphaSort';
@@ -57,9 +57,9 @@ const App = () => {
         <>
           <Header />
           <PrivateRoute exact path="/selection" component={SelectionSave} />
-          <PrivateRoute exact path="/list" component={FilesList} />
-          <PrivateRoute exact path="/upload" component={FileUpload} />
-          <PrivateRoute exact path="/edit" component={WordEdit} />
+          <PrivateRoute exact path="/list" component={TermEntryList} />
+          <PrivateRoute exact path="/upload" component={TermEntrySave} />
+          <PrivateRoute exact path="/edit" component={TermEntryEdit} />
         </>
       </Switch>
     </div>

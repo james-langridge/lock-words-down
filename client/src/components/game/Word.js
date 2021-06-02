@@ -8,7 +8,6 @@ const Container = styled.div`
   padding: 8px;
   margin-bottom: 8px;
   background-color: ${props => (props.isDragging ? 'lightgreen' : '#F6FCE6')};
-  /* display: inline-block; */
 `;
 
 const Word = (props) => {

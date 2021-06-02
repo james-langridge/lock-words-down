@@ -14,18 +14,17 @@ const SelectionSave = () => {
     selectionTitle: '',
     gameTitle: '',
   });
-  const selection = selectedWords.map(word => {
+  const selection = selectedWords.map(termEntry => {
     const obj = {};
-    obj.word = word.word;
-    obj.syllable = word.syllable;
-    obj.image_url = word.image_url;
-    obj.id = word._id;
+    obj.term = termEntry.term;
+    obj.syllable = termEntry.syllable;
+    obj.image_url = termEntry.image_url;
+    obj.id = termEntry._id;
 
     return obj;
   });
 
   const handleInputChange = (event) => {
-    // setTitle(event.target.value);
     setTitles({
       ...titles,
       [event.target.name]: event.target.value,
@@ -45,7 +44,7 @@ const SelectionSave = () => {
         }
         setErrorMsg('');
 
-        await axios.post('file/selection', data);
+        await axios.post('selection/selection', data);
         history.push('/list');
       } else {
         setErrorMsg('Please enter all the field values.');
@@ -89,15 +88,15 @@ const SelectionSave = () => {
             <Table striped bordered hover>
               <thead>
                 <tr>
-                  <th>Word</th>
+                  <th>Term</th>
                   <th>Syllable</th>
                 </tr>
               </thead>
               <tbody>
-              {selectedWords.map((word) =>
-                <tr key={word._id}>
-                  <td>{word.word}</td>
-                  <td>{word.syllable}</td>
+              {selectedWords.map((termEntry) =>
+                <tr key={termEntry._id}>
+                  <td>{termEntry.term}</td>
+                  <td>{termEntry.syllable}</td>
                 </tr>
                 )}
               </tbody>
