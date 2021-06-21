@@ -43,7 +43,7 @@ const Column = (props) => {
   return (
       <Container className="box-shadow">
         {props.column.id === 'column-1' && <Title>{title}</Title>}
-        {(props.column.id !== 'column-1' && !props.src) && <Title>{props.word}</Title>}
+        {(props.column.id !== 'column-1' && !props.src) && <Title>{props.term}</Title>}
         {(props.column.id !== 'column-1' && props.src) &&
           <ImageContainer>
             <Image src={props.src} />

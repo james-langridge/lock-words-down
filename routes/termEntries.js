@@ -8,13 +8,6 @@ const Selection = require('../models/selection');
 const Router = express.Router();
 require("dotenv").config();
 
-AWS.config.getCredentials(function(err) {
-  if (err) console.log(err.stack);
-  else {
-    console.log("Access key:", AWS.config.credentials.accessKeyId);
-  }
-});
-
 AWS.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
@@ -106,37 +99,6 @@ Router.post(
   }
 );
 
-// @route GET term/search
-// @desc Search for terms
-// @access Public
-// Router.get('/search/:id', async (req, res) => {
-//   try {
-//     let result = await TermEntry.aggregate().
-//       search({
-//        text: {
-//          query: `${req.body.searchTerm}`,
-//          path: 'term'
-//        },
-//        "compound": {
-//
-//         "must": [{
-//
-//           "text": {
-//
-//             "query": "varieties",
-//
-//             "path": "description"
-//
-//           }
-//
-//         }],
-//      });
-//     response.send(result);
-//   } catch (e) {
-//       response.status(500).send({ message: e.message });
-//     }
-// });
-
 // @route GET term/getTerm/:id
 // @desc Get one term entry
 // @access Public
@@ -163,21 +125,6 @@ Router.get('/getAllTerms/:id', async (req, res) => {
     res.status(500).send('Error while getting list of term entries. Try again later.');
   }
 });
-
-// @route GET term/download/:id
-// @desc Download single file
-// @access Public
-// Router.get('/download/:id', async (req, res) => {
-//   try {
-//     const file = await File.findById(req.params.id);
-//     res.set({
-//       'Content-Type': file.file_mimetype
-//     });
-//     res.sendFile(path.join(__dirname, '..', file.file_path));
-//   } catch (error) {
-//     res.status(500).send('Error while downloading file. Try again later.');
-//   }
-// });
 
 // @route DELETE term/delete/:id
 // @desc Delete single term entry

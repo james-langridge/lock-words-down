@@ -19,6 +19,7 @@ import SelectionSave from './components/selection/SelectionSave';
 import AlphaSort from './components/game/AlphaSort';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-bootstrap-typeahead/css/Typeahead.css';
 
 if (localStorage.jwtToken) {
   const token = localStorage.jwtToken;

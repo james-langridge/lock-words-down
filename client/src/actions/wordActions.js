@@ -19,7 +19,7 @@ export const selectAllWords = ids => {
   }
 }
 
-export const unselectAllWords = ids => {
+export const unselectAllWords = () => {
   return {
     type: 'words/unselectAllWords'
   }

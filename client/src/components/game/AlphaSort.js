@@ -13,10 +13,10 @@ const AlphaSort = () => {
       .map((...args) => Math.floor(Math.random() * (args[1] + 1)))
       .reduce( (a, rv, i) => ([a[i], a[rv]] = [a[rv], a[i]]) && a, array);
   const selectedWords = useSelector(state => state.words.selectedWords);
-  const words = shuffle(selectedWords.map(word => word.word));
+  const words = shuffle(selectedWords.map(word => word.term));
   const columnData = selectedWords.map(word => {
     const data = {};
-    data.word = word.word;
+    data.term = word.term;
 
     return data;
   });

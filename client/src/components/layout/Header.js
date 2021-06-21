@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { logoutUser } from "../../actions/authActions";
@@ -8,11 +8,13 @@ import {
   Dropdown,
   DropdownButton,
   Form,
+  InputGroup,
   Nav,
   Navbar,
   NavDropdown
 } from 'react-bootstrap';
 import axios from 'axios';
+import { Typeahead } from 'react-bootstrap-typeahead';
 
 const Header = () => {
   const selectedWords = useSelector(state => state.words.selectedWords);
@@ -21,6 +23,36 @@ const Header = () => {
   const selectedSelection = useSelector(state => state.selections.selectedSelection);
   const dispatch = useDispatch();
   const location = useLocation();
+  const [options, setOptions] = useState([]);
+  const [singleSelections, setSingleSelections] = useState([]);
+  const [errorMsg, setErrorMsg] = useState('');
+
+  const compare = (a, b) => {
+    if (a.label < b.label) {
+      return -1;
+    }
+
+    if (a.label > b.label) {
+      return 1;
+    }
+
+    return 0;
+  }
+
+  const updateOptions = () => {
+    const options = wordList.map(termEntry => (
+      {
+        id: termEntry._id,
+        label: termEntry.term
+      }
+    ));
+    options.sort(compare);
+    setOptions(options);
+  }
+
+  useEffect(() => {
+    updateOptions();
+  }, [wordList]);
 
   const logOut = () => {
     dispatch(logoutUser());
@@ -60,7 +92,7 @@ const Header = () => {
       el.classList.add('bg-success')
     });
     wordList.forEach(word => {
-      if (!selectedWords.some(e => e.word === word.word)) {
+      if (!selectedWords.some(e => e.term === word.term)) {
         dispatch({ type: 'words/selectWord', payload: word });
       }
     });
@@ -74,6 +106,36 @@ const Header = () => {
     document.querySelectorAll('.card').forEach(el => {
       el.classList.remove('bg-success')
     });
+  }
+
+  const getTermEntry = async (id) => {
+    try {
+      const { data } = await axios.get('term/getTerm/' + id);
+      setErrorMsg('');
+      return data;
+    } catch (error) {
+      error.response && setErrorMsg(error.response.data);
+    }
+  };
+
+  const handleClick = async () => {
+    const selectedWord = await getTermEntry(singleSelections[0].id);
+    if (selectedSelection) {
+      dispatch({ type: 'selections/selectSelection', payload: '' });
+    }
+    document.getElementById(selectedWord._id).classList.toggle('bg-success');
+    const sortedWordList = wordList.reduce((acc, word) => {
+      if (selectedWord._id === word._id) {
+        return [word, ...acc];
+      }
+      return [...acc, word];
+    }, []);
+    dispatch({ type: 'words/setWordList', payload: sortedWordList })
+    if (!selectedWords.find(e => e.term === selectedWord.term)) {
+      dispatch({ type: 'words/selectWord', payload: selectedWord })
+    } else {
+      dispatch({ type: 'words/unselectWord', payload: selectedWord })
+    }
   }
 
   return (
@@ -141,15 +203,25 @@ const Header = () => {
                 </Dropdown.Item>
               )}
             </DropdownButton>
-            <Form className="d-flex">
-              <Form.Control
-                type="search"
-                placeholder="Search"
-                className="mr-2"
-                aria-label="Search"
-              />
-              <Button variant="outline-success">Search</Button>
-            </Form>
+            <Form.Group style={{ marginBottom: 'unset' }}>
+              <InputGroup>
+                <Typeahead
+                  id="basic-typeahead-single"
+                  onChange={setSingleSelections}
+                  options={options}
+                  placeholder="Choose a term..."
+                  selected={singleSelections}
+                />
+                <InputGroup.Append>
+                  <Button
+                    onClick={handleClick}
+                    variant="outline-secondary"
+                  >
+                    Select
+                  </Button>
+                </InputGroup.Append>
+              </InputGroup>
+            </Form.Group>
           </Nav>
           <Nav>
             <Button variant="danger" onClick={() => logOut()}>Log out</Button>

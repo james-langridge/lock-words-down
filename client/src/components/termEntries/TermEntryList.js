@@ -75,7 +75,7 @@ const TermEntryList = () => {
           setErrorMsg('Error while deleting term.  Try again later.');
         }
       }
-      if (selectedWords.find(e => e.word === termEntry.term)) {
+      if (selectedWords.find(e => e.term === termEntry.term)) {
         dispatch({ type: 'words/unselectWord', payload: termEntry })
       }
       getTermEntries();
@@ -104,7 +104,7 @@ const TermEntryList = () => {
       dispatch({ type: 'selections/selectSelection', payload: '' });
     }
     document.getElementById(word._id).classList.toggle('bg-success');
-    if (!selectedWords.find(e => e.word === word.word)) {
+    if (!selectedWords.find(e => e.term === word.term)) {
       dispatch({ type: 'words/selectWord', payload: word })
     } else {
       dispatch({ type: 'words/unselectWord', payload: word })
