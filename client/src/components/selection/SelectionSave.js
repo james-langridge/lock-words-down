@@ -35,7 +35,7 @@ const SelectionSave = () => {
   const handleOnSubmit = async (event) => {
     event.preventDefault();
     try {
-      if (titles.selectionTitle.trim() !== '' && titles.gameTitle.trim() !== '') {
+      if (titles.selectionTitle.trim() !== '') {
         const data = {
           selectionTitle: titles.selectionTitle,
           gameTitle: titles.gameTitle,
