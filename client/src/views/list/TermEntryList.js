@@ -1,21 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from "react-router-dom";
 import axios from 'axios';
-import {
-  Alert,
-  Button,
-  ButtonGroup,
-  Card,
-  Col,
-  Container,
-  Form,
-  InputGroup,
-  Row
-} from 'react-bootstrap';
+import { Container, Row } from 'react-bootstrap';
 import styled from 'styled-components';
-import SortAlpha from '../../components/buttons/SortAlpha';
-import SortModified from '../../components/buttons/SortModified';
+import EmptyTableAlert from './EmptyTableAlert';
+import GameTitleInput from './GameTitleInput';
+import SelectionHeading from './SelectionHeading';
+import TableButtons from './TableButtons';
 import TermEntry from './TermEntry';
 
 const ImageContainer = styled.div`
@@ -117,49 +108,24 @@ const TermEntryList = () => {
 
   return (
     <Container>
-      <InputGroup className="mb-3">
-        <InputGroup.Prepend>
-          <InputGroup.Text>Game title:</InputGroup.Text>
-        </InputGroup.Prepend>
-        <Form.Control
-          placeholder="e.g. Syllables..."
-          onChange={changeGameTitle}
-          value={gameTitle || ''}
-        />
-      </InputGroup>
-      {selectedSelection &&
-        <h1>
-          {selectedSelection.selectionTitle}
-        </h1>
-      }
-      <ButtonGroup size="sm" className="mb-3">
-        <SortAlpha/>
-        <SortModified/>
-        {Object.keys(selectedSelection).length !== 0 &&
-          <Button
-            variant="outline-danger"
-            onClick={() => deleteSelection(selectedSelection)}
-          >
-            Delete selection
-          </Button>
-        }
-      </ButtonGroup>
+      <GameTitleInput
+        changeGameTitle={changeGameTitle}
+        gameTitle={gameTitle}
+      />
+      <SelectionHeading selectedSelection={selectedSelection} />
+      <TableButtons
+        selectedSelection={selectedSelection}
+        deleteSelection={deleteSelection}
+      />
       <Row>
-          {termEntries.length > 0 ?
-            termEntries.map((termEntry) =>
-            <TermEntry
-              termEntry={termEntry}
-              functions={[handleClick, deleteTermEntry]}
-              key={termEntry._id}
-            />) :
-            <Alert variant="primary">
-              <Alert.Link
-                as={Link}
-                to="/upload"
-              >
-                Add some terms!
-              </Alert.Link>
-            </Alert>
+        {termEntries.length > 0 ?
+          termEntries.map((termEntry) =>
+          <TermEntry
+            termEntry={termEntry}
+            functions={[handleClick, deleteTermEntry]}
+            key={termEntry._id}
+          />) :
+          <EmptyTableAlert />
         }
       </Row>
     </Container>
