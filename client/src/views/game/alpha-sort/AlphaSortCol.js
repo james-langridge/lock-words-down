@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Droppable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
-import Word from './Word';
+import Word from '../Word';
 
 const Container = styled.div`
   width: 222px;

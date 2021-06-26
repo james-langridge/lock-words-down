@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { logoutUser } from "../../actions/authActions";
+import { logoutUser } from "../../store/authentication/authActions";
 import {
   Button,
   Container,
@@ -158,7 +158,7 @@ const Header = () => {
               <Dropdown.Item as={Link} to="/game">
                 Match
               </Dropdown.Item>
-              <Dropdown.Item as={Link} to="/alpha-sort">
+              <Dropdown.Item as={Link} to="/game/alpha-sort">
                 Sort
               </Dropdown.Item>
             </DropdownButton>

@@ -3,20 +3,20 @@ import { BrowserRouter as Router, Route, Switch, useLocation } from "react-route
 import { useDispatch } from 'react-redux';
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
-import { setCurrentUser, logoutUser } from "./actions/authActions";
+import { setCurrentUser, logoutUser } from "./store/authentication/authActions";
 
 import store from "./store";
 
 import Header from "./components/layout/Header";
-import Register from "./components/auth/Register";
-import Login from "./components/auth/Login";
-import PrivateRoute from "./components/private-route/PrivateRoute";
-import TermEntryList from './components/termEntries/TermEntryList';
-import TermEntrySave from './components/termEntries/TermEntrySave';
-import TermEntryEdit from './components/termEntries/TermEntryEdit';
-import Game from './components/game/Game';
-import SelectionSave from './components/selection/SelectionSave';
-import AlphaSort from './components/game/AlphaSort';
+import Register from "./views/register/Register";
+import Login from "./views/login/Login";
+import PrivateRoute from "./components/routing/PrivateRoute";
+import TermEntryList from './views/list/TermEntryList';
+import TermEntrySave from './views/upload/TermEntrySave';
+import TermEntryEdit from './views/edit/TermEntryEdit';
+import Game from './views/game/Game';
+import SelectionSave from './views/selection/SelectionSave';
+import AlphaSort from './views/game/alpha-sort/AlphaSort';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
@@ -54,7 +54,7 @@ const App = () => {
         <Route exact path="/register" component={Register} />
         <Route exact path="/login" component={Login} />
         <PrivateRoute exact path="/game" component={Game} />
-        <PrivateRoute exact path="/alpha-sort" component={AlphaSort} />
+        <PrivateRoute exact path="/game/alpha-sort" component={AlphaSort} />
         <>
           <Header />
           <PrivateRoute exact path="/selection" component={SelectionSave} />

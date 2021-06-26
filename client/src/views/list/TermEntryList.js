@@ -14,8 +14,8 @@ import {
   Row
 } from 'react-bootstrap';
 import styled from 'styled-components';
-import SortAlpha from '../buttons/SortAlpha';
-import SortModified from '../buttons/SortModified';
+import SortAlpha from '../../components/buttons/SortAlpha';
+import SortModified from '../../components/buttons/SortModified';
 import TermEntry from './TermEntry';
 
 const ImageContainer = styled.div`
