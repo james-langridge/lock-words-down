@@ -23,7 +23,7 @@ const TermEntryEdit = (props) => {
   useEffect(() => {
     const getTermEntry = async () => {
       try {
-        const { data } = await axios.get('term/getTerm/' + query.get('id'));
+        const { data } = await axios.get('term/' + query.get('id'));
         setErrorMsg('');
         setState({
           ...state,
@@ -83,7 +83,7 @@ const TermEntryEdit = (props) => {
           formData.append('syllable', syllable);
 
           setErrorMsg('');
-          await axios.post('term/update/' + query.get('id'), formData, {
+          await axios.post('term/' + query.get('id'), formData, {
             headers: {
               'Content-Type': 'multipart/form-data'
             }
@@ -96,7 +96,7 @@ const TermEntryEdit = (props) => {
           formData.append('syllable', syllable);
 
           setErrorMsg('');
-          await axios.post('term/update/' + query.get('id'), formData, {
+          await axios.post('term/' + query.get('id'), formData, {
             headers: {
               'Content-Type': 'multipart/form-data'
             }

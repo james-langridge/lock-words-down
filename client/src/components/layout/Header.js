@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { logoutUser } from "../../store/authentication/authActions";
+import { logoutUser } from "../../store/authentication/authentication.actions";
 import {
   Button,
   Container,
@@ -110,7 +110,7 @@ const Header = () => {
 
   const getTermEntry = async (id) => {
     try {
-      const { data } = await axios.get('term/getTerm/' + id);
+      const { data } = await axios.get('term/' + id);
       setErrorMsg('');
       return data;
     } catch (error) {

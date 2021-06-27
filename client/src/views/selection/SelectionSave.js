@@ -44,7 +44,7 @@ const SelectionSave = () => {
         }
         setErrorMsg('');
 
-        await axios.post('selection/selection', data);
+        await axios.post('selection', data);
         history.push('/list');
       } else {
         setErrorMsg('Please enter all the field values.');

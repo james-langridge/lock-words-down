@@ -1,14 +1,12 @@
 import { combineReducers } from "redux";
-import authReducer from "./authentication/authReducers";
-import errorReducer from "./error/errorReducers";
-import wordReducer from "./word/wordReducers";
-import selectionReducer from "./selection/selectionReducers";
-import gameReducer from "./game/gameReducers";
+import authReducer from "./authentication/authentication.reducers";
+import gameReducer from "./game/game.reducers";
+import selectionReducer from "./selection/selection.reducers";
+import wordReducer from "./word/word.reducers";
 
 export default combineReducers({
   auth: authReducer,
-  errors: errorReducer,
-  words: wordReducer,
-  selections: selectionReducer,
   game: gameReducer,
+  selections: selectionReducer,
+  words: wordReducer,
 });

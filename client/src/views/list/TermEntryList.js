@@ -32,7 +32,7 @@ const TermEntryList = () => {
 
   const getTermEntries = async () => {
     try {
-      const { data } = await axios.get(`term/getAllTerms/${userId}`);
+      const { data } = await axios.get(`term/all/${userId}`);
       setErrorMsg('');
       dispatch({ type: 'words/setWordList', payload: data })
     } catch (error) {
@@ -42,7 +42,7 @@ const TermEntryList = () => {
 
   const getSelections = async () => {
     try {
-      const { data } = await axios.get(`selection/getAllSelections/${userId}`);
+      const { data } = await axios.get(`selection/${userId}`);
       setErrorMsg('');
       dispatch({ type: 'selections/setSelectionList', payload: data });
     } catch (error) {
@@ -59,7 +59,7 @@ const TermEntryList = () => {
     const result = window.confirm(`Delete word: ${termEntry.term}? You cannot undo this!`)
     if (result) {
       try {
-        await axios.delete(`term/delete/${termEntry._id}`);
+        await axios.delete(`term/${termEntry._id}`);
         setErrorMsg('');
       } catch (error) {
         if (error.response && error.response.status === 400) {
@@ -77,7 +77,7 @@ const TermEntryList = () => {
     const result = window.confirm(`Delete selection: ${selectedSelection.selectionTitle}? You cannot undo this!`)
     if (result) {
       try {
-        await axios.delete(`selection/deleteSelection/${selectedSelection._id}`);
+        await axios.delete(`selection/${selectedSelection._id}`);
         setErrorMsg('');
       } catch (error) {
         if (error.response && error.response.status === 400) {

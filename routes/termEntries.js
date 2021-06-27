@@ -39,11 +39,11 @@ const upload = multer({
   }
 });
 
-// @route POST term/upload
+// @route POST term
 // @desc Save term entry
 // @access Public
 Router.post(
-  '/upload',
+  '/',
   upload.single('file'),
   async (req, res) => {
     try {
@@ -70,11 +70,11 @@ Router.post(
   }
 );
 
-// @route POST term/update
+// @route POST term
 // @desc Update term entry
 // @access Public
 Router.post(
-  '/update/:id',
+  '/:id',
   upload.single('file'),
   async (req, res) => {
     try {
@@ -99,10 +99,10 @@ Router.post(
   }
 );
 
-// @route GET term/getTerm/:id
+// @route GET term/:id
 // @desc Get one term entry
 // @access Public
-Router.get('/getTerm/:id', async (req, res) => {
+Router.get('/:id', async (req, res) => {
   try {
     const termEntry = await TermEntry.findById(req.params.id);
     res.send(termEntry);
@@ -111,10 +111,10 @@ Router.get('/getTerm/:id', async (req, res) => {
   }
 });
 
-// @route GET term/getAllTerms
+// @route GET term/all/:id
 // @desc Get all term entries
 // @access Public
-Router.get('/getAllTerms/:id', async (req, res) => {
+Router.get('/all/:id', async (req, res) => {
   try {
     const termEntries = await TermEntry.find({ created_by: req.params.id });
     const sortedByCreationDate = termEntries.sort(
@@ -126,10 +126,10 @@ Router.get('/getAllTerms/:id', async (req, res) => {
   }
 });
 
-// @route DELETE term/delete/:id
+// @route DELETE term/:id
 // @desc Delete single term entry
 // @access Public
-Router.delete('/delete/:id', async (req, res) => {
+Router.delete('/:id', async (req, res) => {
   try {
     await TermEntry.findByIdAndDelete(req.params.id);
     res.send('Term entry deleted successfully.');

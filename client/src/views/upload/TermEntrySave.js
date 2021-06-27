@@ -58,7 +58,7 @@ const TermEntrySave = (props) => {
           formData.append('userId', userId);
 
           setErrorMsg('');
-          await axios.post('term/upload', formData, {
+          await axios.post('term', formData, {
             headers: {
               'Content-Type': 'multipart/form-data'
             }
@@ -72,7 +72,7 @@ const TermEntrySave = (props) => {
           formData.append('userId', userId);
 
           setErrorMsg('');
-          await axios.post('term/upload', formData, {
+          await axios.post('term', formData, {
             headers: {
               'Content-Type': 'multipart/form-data'
             }

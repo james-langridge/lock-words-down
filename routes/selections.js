@@ -3,10 +3,10 @@ const Selection = require('../models/selection');
 const Router = express.Router();
 require("dotenv").config();
 
-// @route POST selection/save
+// @route POST selection
 // @desc Save selection
 // @access Public
-Router.post('/selection', async (req, res) => {
+Router.post('/', async (req, res) => {
     try {
       const { selectionTitle, gameTitle, selectedWords, userId } = req.body;
       const selection = new Selection({
@@ -30,10 +30,10 @@ Router.post('/selection', async (req, res) => {
   }
 );
 
-// @route GET selection/getAllSelections
+// @route GET selection
 // @desc Get all selections
 // @access Public
-Router.get('/getAllSelections/:id', async (req, res) => {
+Router.get('/:id', async (req, res) => {
   try {
     const selections = await Selection.find({ created_by: req.params.id });
     const sortedByCreationDate = selections.sort(
@@ -45,10 +45,10 @@ Router.get('/getAllSelections/:id', async (req, res) => {
   }
 });
 
-// @route DELETE selection/deleteSelection/:id
+// @route DELETE selection/:id
 // @desc Delete selection
 // @access Public
-Router.delete('/deleteSelection/:id', async (req, res) => {
+Router.delete('/:id', async (req, res) => {
   try {
     await Selection.findByIdAndDelete(req.params.id);
     res.send('selection deleted successfully.');
