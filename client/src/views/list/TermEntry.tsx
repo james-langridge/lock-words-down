@@ -10,14 +10,19 @@ const ImageContainer = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
 const Image = styled.img`
   max-width: 100%;
   max-height: 100%;
 `;
 
-const TermEntry = (props) => {
-  const [handleClick, deleteTermEntry] = props.functions;
-  const termEntry = props.termEntry;
+type TermEntryProps = {
+  termEntry: object;
+  functions: array;
+}
+
+const TermEntry = ({ termEntry, functions }: TermEntryProps) => {
+  const [handleClick, deleteTermEntry] = functions;
 
   return (
     <Col sm={6} md={4} lg={3}>

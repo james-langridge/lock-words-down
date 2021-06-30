@@ -6,7 +6,19 @@ import Cancel from '../buttons/Cancel';
 import Upload from './Upload';
 
 const TermEntryForm = (props) => {
-  const [handleOnSubmit, state, setState, file, setFile, errorMsg, setErrorMsg, previewSrc, setPreviewSrc, isPreviewAvailable, setIsPreviewAvailable] = props.functions;
+  const [
+    handleOnSubmit,
+    state,
+    setState,
+    file,
+    setFile,
+    errorMsg,
+    setErrorMsg,
+    previewSrc,
+    setPreviewSrc,
+    isPreviewAvailable,
+    setIsPreviewAvailable
+  ] = props.functions;
 
   const handleInputChange = (event) => {
     setState({
