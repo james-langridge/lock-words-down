@@ -2,24 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { Container, Row } from 'react-bootstrap';
-import styled from 'styled-components';
 import EmptyTableAlert from './EmptyTableAlert';
 import GameTitleInput from './GameTitleInput';
 import SelectionHeading from './SelectionHeading';
 import TableButtons from './TableButtons';
 import TermEntry from './TermEntry';
-
-const ImageContainer = styled.div`
-  height: 220px;
-  width: 220px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-const Image = styled.img`
-  max-width: 100%;
-  max-height: 100%;
-`;
 
 const TermEntryList = () => {
   const userId = useSelector(state => state.auth.user.id);
