@@ -1,21 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, {useState, useEffect, ChangeEvent} from 'react';
 import axios from 'axios';
 import { Container, Row } from 'react-bootstrap';
 import EmptyTableAlert from './EmptyTableAlert';
 import GameTitleInput from './GameTitleInput';
 import SelectionHeading from './SelectionHeading';
 import TableButtons from './TableButtons';
-import TermEntry from './TermEntry';
+import TermEntryCard from './TermEntryCard';
+import { TermEntry, Selection } from '../../types/terms.types';
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
-const TermEntryList = () => {
-  const userId = useSelector(state => state.auth.user.id);
-  const gameTitle = useSelector(state => state.game.gameTitle);
-  const selectedWords = useSelector(state => state.words.selectedWords);
-  const termEntries = useSelector(state => state.words.wordList);
-  const selectedSelection = useSelector(state => state.selections.selectedSelection);
-  const [errorMsg, setErrorMsg] = useState('');
-  const dispatch = useDispatch();
+const TermEntryList: React.FC = () => {
+  const userId = useAppSelector((state) => state.auth.user.id);
+  const gameTitle = useAppSelector((state) => state.game.gameTitle);
+  const selectedWords = useAppSelector((state) => state.words.selectedWords);
+  const termEntries = useAppSelector((state) => state.words.wordList);
+  const selectedSelection = useAppSelector((state) => state.selections.selectedSelection);
+  const [errorMsg, setErrorMsg] = useState<string>('');
+  const dispatch = useAppDispatch();
 
   const getTermEntries = async () => {
     try {
@@ -42,7 +43,7 @@ const TermEntryList = () => {
     getSelections();
   }, []);
 
-  const deleteTermEntry = async (termEntry) => {
+  const deleteTermEntry = async (termEntry: TermEntry) => {
     const result = window.confirm(`Delete word: ${termEntry.term}? You cannot undo this!`)
     if (result) {
       try {
@@ -53,14 +54,14 @@ const TermEntryList = () => {
           setErrorMsg('Error while deleting term.  Try again later.');
         }
       }
-      if (selectedWords.find(e => e.term === termEntry.term)) {
+      if (selectedWords.find((e: TermEntry) => e.term === termEntry.term)) {
         dispatch({ type: 'words/unselectWord', payload: termEntry })
       }
       getTermEntries();
     }
   };
 
-  const deleteSelection = async (selectedSelection) => {
+  const deleteSelection = async (selectedSelection: Selection) => {
     const result = window.confirm(`Delete selection: ${selectedSelection.selectionTitle}? You cannot undo this!`)
     if (result) {
       try {
@@ -77,24 +78,25 @@ const TermEntryList = () => {
     }
   };
 
-  const handleClick = (word) => {
+  const handleClick = (word: TermEntry) => {
     if (selectedSelection) {
       dispatch({ type: 'selections/selectSelection', payload: '' });
     }
-    document.getElementById(word._id).classList.toggle('bg-success');
-    if (!selectedWords.find(e => e.term === word.term)) {
+    document.getElementById(word._id)!.classList.toggle('bg-success');
+    if (!selectedWords.find((e: TermEntry) => e.term === word.term)) {
       dispatch({ type: 'words/selectWord', payload: word })
     } else {
       dispatch({ type: 'words/unselectWord', payload: word })
     }
   }
 
-  const changeGameTitle = e => {
+  const changeGameTitle = (e:ChangeEvent<HTMLInputElement>) => {
     dispatch({ type: 'game/setGameTitle', payload: e.target.value });
   };
 
   return (
     <Container>
+      {errorMsg && <p className="errorMsg">{errorMsg}</p>}
       <GameTitleInput
         changeGameTitle={changeGameTitle}
         gameTitle={gameTitle}
@@ -106,8 +108,8 @@ const TermEntryList = () => {
       />
       <Row>
         {termEntries.length > 0 ?
-          termEntries.map((termEntry) =>
-          <TermEntry
+          termEntries.map((termEntry: TermEntry) =>
+          <TermEntryCard
             termEntry={termEntry}
             functions={[handleClick, deleteTermEntry]}
             key={termEntry._id}

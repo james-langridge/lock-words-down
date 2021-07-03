@@ -1,7 +1,8 @@
 import React from 'react';
 import { Button, ButtonGroup, Card, Col } from 'react-bootstrap';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { TermEntry } from '../../types/terms.types';
 
 const ImageContainer = styled.div`
   height: 220px;
@@ -17,11 +18,11 @@ const Image = styled.img`
 `;
 
 type TermEntryProps = {
-  termEntry: object;
-  functions: array;
+  termEntry: TermEntry;
+  functions: ((termEntry: TermEntry) => void)[];
 }
 
-const TermEntry = ({ termEntry, functions }: TermEntryProps) => {
+const TermEntryCard: React.FC<TermEntryProps> = ({ termEntry, functions }) => {
   const [handleClick, deleteTermEntry] = functions;
 
   return (
@@ -47,4 +48,4 @@ const TermEntry = ({ termEntry, functions }: TermEntryProps) => {
   );
 };
 
-export default TermEntry;
+export default TermEntryCard;

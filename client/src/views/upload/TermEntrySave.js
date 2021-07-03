@@ -57,7 +57,20 @@ const TermEntrySave = (props) => {
   };
 
   return (
-    <TermEntryForm functions={[handleOnSubmit, state, setState, file, setFile, errorMsg, setErrorMsg, previewSrc, setPreviewSrc, isPreviewAvailable, setIsPreviewAvailable]} />
+    <TermEntryForm functions={[
+        handleOnSubmit,
+        state,
+        setState,
+        file,
+        setFile,
+        errorMsg,
+        setErrorMsg,
+        previewSrc,
+        setPreviewSrc,
+        isPreviewAvailable,
+        setIsPreviewAvailable
+      ]}
+    />
   );
 };
 

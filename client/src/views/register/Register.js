@@ -3,20 +3,17 @@ import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { registerUser } from "../../store/authentication/authentication.actions";
-import classnames from "classnames";
 import styled from 'styled-components';
 import { Form, Button } from 'react-bootstrap';
 
 const Container = styled.div`
   width: 100%;
   max-width: 330px;
-  padding: 15px;
+  padding: 40px 15px 40px;
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 40px;
-  padding-bottom: 40px;
 `;
 
 class Register extends Component {
@@ -32,7 +29,6 @@ class Register extends Component {
   }
 
   componentDidMount() {
-    // If logged in and user navigates to Register page, should redirect them to dashboard
     if (this.props.auth.isAuthenticated) {
       this.props.history.push("/list");
     }

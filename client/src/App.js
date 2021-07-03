@@ -1,11 +1,11 @@
-import React, { Component, useEffect } from "react";
-import { BrowserRouter as Router, Route, Switch, useLocation } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Route, Switch, useLocation } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser, logoutUser } from "./store/authentication/authentication.actions";
 
-import store from "./store";
+import store from "./store/store";
 
 import Header from "./components/layout/Header";
 import Register from "./views/register/Register";

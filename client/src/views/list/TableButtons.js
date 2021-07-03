@@ -3,9 +3,7 @@ import { Button, ButtonGroup } from 'react-bootstrap';
 import SortAlpha from '../../components/buttons/SortAlpha';
 import SortModified from '../../components/buttons/SortModified';
 
-const TableButtons = (props) => {
-
-  return (
+const TableButtons = (props) =>
     <ButtonGroup size="sm" className="mb-3">
       <SortAlpha/>
       <SortModified/>
@@ -17,8 +15,6 @@ const TableButtons = (props) => {
           Delete selection
         </Button>
       }
-    </ButtonGroup>
-  );
-};
+    </ButtonGroup>;
 
 export default TableButtons;

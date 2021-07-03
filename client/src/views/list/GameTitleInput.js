@@ -1,9 +1,7 @@
 import React from 'react';
 import { Form, InputGroup } from 'react-bootstrap';
 
-const GameTitleInput = (props) => {
-
-  return (
+const GameTitleInput = (props) =>
     <InputGroup className="mb-3">
       <InputGroup.Prepend>
         <InputGroup.Text>Game title:</InputGroup.Text>
@@ -13,8 +11,6 @@ const GameTitleInput = (props) => {
         onChange={props.changeGameTitle}
         value={props.gameTitle || ''}
       />
-    </InputGroup>
-  );
-};
+    </InputGroup>;
 
 export default GameTitleInput;

@@ -2,9 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import { Alert } from 'react-bootstrap';
 
-const EmptyTableAlert = () => {
-
-  return (
+const EmptyTableAlert = () =>
     <Alert variant="primary">
       <Alert.Link
         as={Link}
@@ -12,8 +10,6 @@ const EmptyTableAlert = () => {
       >
         Add some terms!
       </Alert.Link>
-    </Alert>
-  );
-};
+    </Alert>;
 
 export default EmptyTableAlert;

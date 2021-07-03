@@ -1,9 +1,17 @@
-const initialState = {
+import { TermEntry } from '../../types/terms.types';
+import { AnyAction } from "redux";
+
+export interface WordsState {
+  selectedWords: TermEntry[],
+  wordList: TermEntry[]
+}
+
+const initialState: WordsState = {
   selectedWords: [],
   wordList: [],
 }
 
-export default function(state = initialState, action) {
+export default function(state: WordsState = initialState, action: AnyAction) {
   switch (action.type) {
     case 'words/selectWord':
       return {

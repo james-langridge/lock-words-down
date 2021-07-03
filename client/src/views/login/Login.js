@@ -3,20 +3,17 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loginUser } from "../../store/authentication/authentication.actions";
-import classnames from "classnames";
 import styled from 'styled-components';
 import { Form, Button } from 'react-bootstrap';
 
 const Container = styled.div`
   width: 100%;
   max-width: 330px;
-  padding: 15px;
+  padding: 40px 15px 40px;
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 40px;
-  padding-bottom: 40px;
 `;
 
 class Login extends Component {
