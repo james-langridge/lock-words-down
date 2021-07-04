@@ -22,7 +22,7 @@ const TermEntryList: React.FC = () => {
     try {
       const { data } = await axios.get(`term/all/${userId}`);
       setErrorMsg('');
-      dispatch({ type: 'words/setWordList', payload: data })
+      dispatch({ type: 'setWordList', payload: data })
     } catch (error) {
       error.response && setErrorMsg(error.response.data);
     }
@@ -55,7 +55,7 @@ const TermEntryList: React.FC = () => {
         }
       }
       if (selectedWords.find((e: TermEntry) => e.term === termEntry.term)) {
-        dispatch({ type: 'words/unselectWord', payload: termEntry })
+        dispatch({ type: 'unselectWord', payload: termEntry })
       }
       getTermEntries();
     }
@@ -84,9 +84,9 @@ const TermEntryList: React.FC = () => {
     }
     document.getElementById(word._id)!.classList.toggle('bg-success');
     if (!selectedWords.find((e: TermEntry) => e.term === word.term)) {
-      dispatch({ type: 'words/selectWord', payload: word })
+      dispatch({ type: 'selectWord', payload: word })
     } else {
-      dispatch({ type: 'words/unselectWord', payload: word })
+      dispatch({ type: 'unselectWord', payload: word })
     }
   }
 

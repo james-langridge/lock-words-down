@@ -31,7 +31,7 @@ const SortAlpha = () => {
   const handleClick = () => {
     const newWordList = [...wordList];
     newWordList.sort(compare);
-    dispatch({ type: 'words/setWordList', payload: newWordList })
+    dispatch({ type: 'setWordList', payload: newWordList })
     if (sortDirection === 'az') {
       setsortDirection('za');
     } else {

@@ -2,9 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import { Button } from 'react-bootstrap';
 
-const Cancel = () => {
-
-  return (
+const Cancel = () =>
     <Button
       className="mx-2"
       variant="secondary"
@@ -12,8 +10,6 @@ const Cancel = () => {
       to="/list"
     >
       Cancel
-    </Button>
-  );
-};
+    </Button>;
 
 export default Cancel;

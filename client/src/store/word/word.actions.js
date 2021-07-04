@@ -1,33 +1,35 @@
+import { types } from './word.types';
+
 export const selectWord = word => {
   return {
-    type: 'words/selectWord',
+    type: types.SELECT_WORD,
     payload: word
   }
 }
 
 export const unselectWord = word => {
   return {
-    type: 'words/unselectWord',
+    type: types.UNSELECT_WORD,
     payload: word
   }
 }
 
 export const selectAllWords = ids => {
   return {
-    type: 'words/selectAllWords',
+    type: types.SELECT_ALL_WORDS,
     payload: ids
   }
 }
 
 export const unselectAllWords = () => {
   return {
-    type: 'words/unselectAllWords'
+    type: types.UNSELECT_ALL_WORDS,
   }
 }
 
 export const setWordList = data => {
   return {
-    type: 'words/setWordList',
+    type: types.SET_WORD_LIST,
     payload: data
   }
 }

@@ -10,8 +10,7 @@ import {
   Form,
   InputGroup,
   Nav,
-  Navbar,
-  NavDropdown
+  Navbar
 } from 'react-bootstrap';
 import axios from 'axios';
 import { Typeahead } from 'react-bootstrap-typeahead';
@@ -60,14 +59,14 @@ const Header = () => {
   }
 
   const selectSelection = (selection) => {
-    dispatch({ type: 'words/unselectAllWords' });
+    dispatch({ type: 'unselectAllWords' });
     document.querySelectorAll('.card').forEach(el => {
       el.classList.remove('bg-success')
     });
 
     const selectedWordIds = [];
     selection.selection.forEach(word => {
-      dispatch({ type: 'words/selectWord', payload: word });
+      dispatch({ type: 'selectWord', payload: word });
       document.getElementById(word._id).classList.add('bg-success');
       selectedWordIds.push(word._id);
     });
@@ -79,7 +78,7 @@ const Header = () => {
       return [...acc, word];
     }, []);
 
-    dispatch({ type: 'words/setWordList', payload: sortedWordList })
+    dispatch({ type: 'setWordList', payload: sortedWordList })
     dispatch({ type: 'selections/selectSelection', payload: selection });
     dispatch({ type: 'game/setGameTitle', payload: selection.gameTitle });
   }
@@ -93,7 +92,7 @@ const Header = () => {
     });
     wordList.forEach(word => {
       if (!selectedWords.some(e => e.term === word.term)) {
-        dispatch({ type: 'words/selectWord', payload: word });
+        dispatch({ type: 'selectWord', payload: word });
       }
     });
   }
@@ -102,7 +101,7 @@ const Header = () => {
     if (selectedSelection) {
       dispatch({ type: 'selections/selectSelection', payload: '' });
     }
-    dispatch({ type: 'words/unselectAllWords' });
+    dispatch({ type: 'unselectAllWords' });
     document.querySelectorAll('.card').forEach(el => {
       el.classList.remove('bg-success')
     });
@@ -130,29 +129,25 @@ const Header = () => {
       }
       return [...acc, word];
     }, []);
-    dispatch({ type: 'words/setWordList', payload: sortedWordList })
+    dispatch({ type: 'setWordList', payload: sortedWordList })
     if (!selectedWords.find(e => e.term === selectedWord.term)) {
-      dispatch({ type: 'words/selectWord', payload: selectedWord })
+      dispatch({ type: 'selectWord', payload: selectedWord })
     } else {
-      dispatch({ type: 'words/unselectWord', payload: selectedWord })
+      dispatch({ type: 'unselectWord', payload: selectedWord })
     }
   }
 
   return (
-    <Navbar variant="dark" fixed="top" bg="dark" expand="lg">
+    <Navbar className="headerComponent" variant="dark" fixed="top" bg="dark" expand="lg">
       <Container fluid>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Navbar.Brand as={Link} to="/list">Lock Words Down</Navbar.Brand>
           <Nav className="me-auto mb-2 mb-md-0 mr-auto">
             <DropdownButton
-              id="dropdown-basic-button"
               variant="success"
               title="Play"
-              disabled={
-                selectedWords.length && location.pathname === '/list' ?
-                false : true
-              }
+              disabled={!(selectedWords.length > 1 && location.pathname === '/list')}
               className="mr-2"
             >
               <Dropdown.Item as={Link} to="/game">
@@ -179,12 +174,8 @@ const Header = () => {
               Save selection
             </Button>
             <DropdownButton
-              id="dropdown-basic-button"
               title="Select"
-              disabled={
-                selectionList.length && location.pathname === '/list' ?
-                false : true
-              }
+              disabled={!(selectionList.length && location.pathname === '/list')}
               className="mr-2"
             >
               <Dropdown.Item onClick={() => selectAll()}>

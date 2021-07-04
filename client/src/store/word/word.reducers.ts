@@ -1,3 +1,4 @@
+import { types } from './word.types';
 import { TermEntry } from '../../types/terms.types';
 import { AnyAction } from "redux";
 
@@ -6,19 +7,19 @@ export interface WordsState {
   wordList: TermEntry[]
 }
 
-const initialState: WordsState = {
+export const initialState: WordsState = {
   selectedWords: [],
   wordList: [],
 }
 
 export default function(state: WordsState = initialState, action: AnyAction) {
   switch (action.type) {
-    case 'words/selectWord':
+    case types.SELECT_WORD:
       return {
         ...state,
         selectedWords: [...state.selectedWords, action.payload]
       };
-    case 'words/unselectWord':
+    case types.UNSELECT_WORD:
       const index = state.selectedWords.findIndex(item => item._id === action.payload._id);
       if (index !== -1) {
         return {
@@ -30,17 +31,17 @@ export default function(state: WordsState = initialState, action: AnyAction) {
         };
       }
       return state;
-    case 'words/selectAllWords':
+    case types.SELECT_ALL_WORDS:
       return {
         ...state,
         selectedWords: action.payload
       };
-    case 'words/unselectAllWords':
+    case types.UNSELECT_ALL_WORDS:
       return {
         ...state,
         selectedWords: []
       };
-    case 'words/setWordList':
+    case types.SET_WORD_LIST:
       return {
         ...state,
         wordList: action.payload
