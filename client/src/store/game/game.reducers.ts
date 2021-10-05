@@ -1,8 +1,14 @@
-const initialState = {
+import { AnyAction } from 'redux';
+
+type GameState = {
+  gameTitle: string
+}
+
+const initialState: GameState = {
   gameTitle: '',
 }
 
-export default function(state = initialState, action) {
+export default function(state = initialState, action: AnyAction) {
   switch (action.type) {
     case 'game/setGameTitle':
       return {

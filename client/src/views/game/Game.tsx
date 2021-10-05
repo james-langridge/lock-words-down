@@ -1,37 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from 'react-redux';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { Link } from "react-router-dom";
 import { Button, Nav, Navbar } from 'react-bootstrap';
-import styled from 'styled-components';
-import Column from './Column';
-
-const RbdContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1rem;
-  max-width: 1000px;
-  margin: 0 auto;
-  background-color: #F6FCE6;
-  color: #5A70D9;
-`;
+import ColumnCard from './ColumnCard';
+import { TermEntry } from '../../types/terms.types';
+import { Syllable, Column, GivenAnswer, CorrectAnswer } from '../../types/game.types';
+import { useAppSelector } from "../../store/hooks";
+import { shuffle } from '../../utils/helpers';
+import { RbdContainer } from '../../styles/styles';
 
 const Game = () => {
-  const shuffle = array =>
-    [...Array(array.length)]
-      .map((...args) => Math.floor(Math.random() * (args[1] + 1)))
-      .reduce( (a, rv, i) => ([a[i], a[rv]] = [a[rv], a[i]]) && a, array);
-  const selectedWords = useSelector(state => state.words.selectedWords);
-  const syllables = shuffle(selectedWords.map(termEntry => termEntry.syllable));
-  const columnsData = selectedWords.map(termEntry => {
-    const data = {};
-    data.term = termEntry.term;
-    data.image_url = termEntry.image_url;
+  const selectedWords = useAppSelector(state => state.words.selectedWords);
 
-    return data;
-  });
-  const shuffledColumnsData = shuffle([...columnsData]);
-  const initialData = {
+  type InitialData = {
+    syllables: {
+      [key: string]: Syllable
+    },
+    columns: {
+      [key: string]: Column
+    },
+    columnOrder: string[]
+  }
+
+  // create initial column state data for drag and drop logic
+  const initialData: InitialData = {
     syllables: {},
     columns: {
       'column-1': {
@@ -44,14 +36,34 @@ const Game = () => {
     columnOrder: ['column-1'],
   };
 
+  // create array of syllables, randomise its order
+  const syllables = shuffle(selectedWords.map((termEntry: TermEntry) => termEntry.syllable));
+
+  // add the syllables to the initial data
   syllables.forEach((syllable, i) => {
     initialData.syllables[`syllable-${i+1}`] = {
         id: `syllable-${i+1}`,
         content: syllable
       }
-      initialData.columns.['column-1'].syllableIds.push(`syllable-${i+1}`);
+    initialData.columns['column-1'].syllableIds.push(`syllable-${i+1}`);
   });
 
+  // create array of objects containing word and optional image url for each column
+  const columnsData = selectedWords.map((termEntry: TermEntry) => {
+    const data = {
+      term: '',
+      image_url: ''
+    };
+    data.term = termEntry.term;
+    data.image_url = termEntry.image_url ?? '';
+
+    return data;
+  });
+
+  // randomise order of columns data
+  const shuffledColumnsData = shuffle([...columnsData]);
+
+  // add the columns to the initial data
   shuffledColumnsData.forEach((termEntry, i) => {
     const columnId = `column-${i+2}`;
     initialData.columns[columnId] = {
@@ -63,9 +75,11 @@ const Game = () => {
     initialData.columnOrder.push(columnId);
   });
 
+  // put all the data into state
   const [state, setState] = useState(initialData);
 
-  const onDragEnd = result => {
+  // drag and drop logic
+  const onDragEnd = (result: any) => {
     const { destination, source, draggableId } = result;
 
     if (!destination) {
@@ -130,8 +144,12 @@ const Game = () => {
     setState(newState);
   };
 
-  const correctAnswers = selectedWords.map(termEntry => {
-    const data = {};
+  // create array of correct answers for the checkAnswers function
+  const correctAnswers = selectedWords.map((termEntry: TermEntry) => {
+    const data = {
+      term: '',
+      syllable: ''
+    };
     data.term = termEntry.term;
     data.syllable = termEntry.syllable;
 
@@ -139,36 +157,44 @@ const Game = () => {
   });
 
   const checkAnswers = () => {
-    const answers = [];
+    const givenAnswers: GivenAnswer[] = [];
+
     for (const column in state.columns) {
-      const foobar = state.columns[column];
-      const obj = {};
-      obj.columnId = foobar.id;
-      obj.term = foobar.title;
-      if (foobar.syllableIds.length === 1) {
-        obj.syllable = state.syllables[foobar.syllableIds[0]].content;
+      const columnObj = state.columns[column];
+      const obj: GivenAnswer = {
+        columnId: '',
+        term: '',
+        syllable: ''
+      };
+      obj.columnId = columnObj.id;
+      obj.term = columnObj.title;
+      if (columnObj.syllableIds.length === 1) {
+        obj.syllable = state.syllables[columnObj.syllableIds[0]].content;
       } else {
-        obj.syllable = foobar.syllableIds.map(syllableId => state.syllables[syllableId].content);
+        obj.syllable = columnObj.syllableIds.map(syllableId => state.syllables[syllableId].content);
       }
 
-      answers.push(obj);
+      givenAnswers.push(obj);
     }
-    answers.splice(0,1);
 
-    correctAnswers.forEach((termEntry) => {
-      const answer = answers.find( e => e.term === termEntry.term );
-      const element = document.getElementById(answer.columnId);
-      if (answer.syllable === termEntry.syllable) {
-        element.classList.add('bg-success');
-        setTimeout(() => { element.classList.remove('bg-success'); }, 2000);
+    // remove first "answer" because it's the column that initially holds the syllables
+    givenAnswers.splice(0,1);
+
+    correctAnswers.forEach((correctAnswer: CorrectAnswer) => {
+      const givenAnswer = givenAnswers.find( e => e.term === correctAnswer.term );
+      const element = document.getElementById(givenAnswer!.columnId);
+      if (givenAnswer!.syllable === correctAnswer.syllable) {
+        element!.classList.add('bg-success');
+        setTimeout(() => { element!.classList.remove('bg-success'); }, 2000);
       } else {
-        element.classList.add('bg-danger');
-        setTimeout(() => { element.classList.remove('bg-danger'); }, 2000);
+        element!.classList.add('bg-danger');
+        setTimeout(() => { element!.classList.remove('bg-danger'); }, 2000);
       }
     });
   }
 
   useEffect(() => {
+    // this background colour is best for reading with dyslexia
     document.body.style.backgroundColor = "#F6FCE6";
     document.body.style.overflow = "hidden";
 
@@ -201,7 +227,7 @@ const Game = () => {
             const imageSrc = column.src;
             const term = column.title;
 
-            return <Column
+            return <ColumnCard
                       key={column.id}
                       column={column}
                       syllables={syllables}

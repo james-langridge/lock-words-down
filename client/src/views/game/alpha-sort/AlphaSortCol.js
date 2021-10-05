@@ -2,7 +2,8 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Droppable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
-import Word from '../Word';
+import Word from './Word';
+import { WordList, Title } from '../../../styles/styles';
 
 const Container = styled.div`
   width: 222px;
@@ -12,18 +13,6 @@ const Container = styled.div`
   border: 1px solid lightgrey;
   border-radius: 2px;
   place-self: center;
-`;
-const WordList = styled.div`
-  padding: 8px;
-  transition: background-color 0.2s ease;
-  background-color: ${props => (props.isDraggingOver ? '#485DF0' : '#F6FCE6')};
-  flex-grow: 1;
-  min-height: 50px;
-  text-align: center;
-`;
-const Title = styled.h3`
-  padding: 8px;
-  text-align: center;
 `;
 
 const AlphaSortCol = (props) => {

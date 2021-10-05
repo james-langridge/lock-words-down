@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
+import { Syllable } from '../../types/game.types';
 
 const Container = styled.div`
   border: 1px solid lightgrey;
@@ -11,7 +12,12 @@ const Container = styled.div`
   display: inline-block;
 `;
 
-const Syllable = (props) => {
+type SyllableProps = {
+  syllable: Syllable,
+  index: number
+}
+
+const SyllableIcon = (props: SyllableProps) => {
   return (
     <Draggable draggableId={props.syllable.id} index={props.index}>
     {(provided, snapshot) => (
@@ -28,4 +34,4 @@ const Syllable = (props) => {
   );
 }
 
-export default Syllable;
+export default SyllableIcon;
