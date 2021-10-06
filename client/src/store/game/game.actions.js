@@ -1,6 +1,12 @@
 export const setGameTitle = title => {
   return {
-    type: 'words/setGameTitle',
+    type: 'game/setGameTitle',
     payload: title
+  }
+}
+
+export const toggleScrolling = () => {
+  return {
+    type: 'game/toggleScrolling',
   }
 }

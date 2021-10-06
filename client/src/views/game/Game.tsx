@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
+import { useAppSelector } from "../../store/hooks";
 import { DragDropContext } from 'react-beautiful-dnd';
 import { Link } from "react-router-dom";
 import { Button, Nav, Navbar } from 'react-bootstrap';
 import ColumnCard from './ColumnCard';
 import { TermEntry } from '../../types/terms.types';
 import { Syllable, Column, GivenAnswer, CorrectAnswer } from '../../types/game.types';
-import { useAppSelector } from "../../store/hooks";
 import { shuffle } from '../../utils/helpers';
 import { RbdContainer } from '../../styles/styles';
 
 const Game = () => {
   const selectedWords = useAppSelector(state => state.words.selectedWords);
+  const enableScrolling = useAppSelector(state => state.game.enableScrolling);
 
   type InitialData = {
     syllables: {
@@ -75,7 +76,7 @@ const Game = () => {
     initialData.columnOrder.push(columnId);
   });
 
-  // put all the data into state
+  // put all the data into state for main drag and drop logic
   const [state, setState] = useState(initialData);
 
   // drag and drop logic
@@ -196,7 +197,7 @@ const Game = () => {
   useEffect(() => {
     // this background colour is best for reading with dyslexia
     document.body.style.backgroundColor = "#F6FCE6";
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow = enableScrolling === 'true' ? "auto" : "hidden";
 
     return () => {
       document.body.style.backgroundColor = "white";

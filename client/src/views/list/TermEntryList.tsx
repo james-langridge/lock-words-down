@@ -1,15 +1,16 @@
 import React, {useState, useEffect, ChangeEvent} from 'react';
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import axios from 'axios';
 import { Container, Row } from 'react-bootstrap';
 import EmptyTableAlert from './EmptyTableAlert';
 import GameTitleInput from './GameTitleInput';
+import ScrollingToggle from './ScrollingToggle';
 import SelectionHeading from './SelectionHeading';
 import TableButtons from './TableButtons';
 import TermEntryCard from './TermEntryCard';
 import { TermEntry, Selection } from '../../types/terms.types';
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
-const TermEntryList: React.FC = () => {
+const TermEntryList = () => {
   const userId = useAppSelector((state) => state.auth.user.id);
   const gameTitle = useAppSelector((state) => state.game.gameTitle);
   const selectedWords = useAppSelector((state) => state.words.selectedWords);
@@ -94,6 +95,10 @@ const TermEntryList: React.FC = () => {
     dispatch({ type: 'game/setGameTitle', payload: e.target.value });
   };
 
+  const toggleScrolling = () => {
+    dispatch({ type: 'game/toggleScrolling' });
+  };
+
   return (
     <Container>
       {errorMsg && <p className="errorMsg">{errorMsg}</p>}
@@ -101,6 +106,10 @@ const TermEntryList: React.FC = () => {
         changeGameTitle={changeGameTitle}
         gameTitle={gameTitle}
       />
+      <ScrollingToggle
+        toggleScrolling={toggleScrolling}
+      />
+      <br />
       <SelectionHeading selectedSelection={selectedSelection} />
       <TableButtons
         selectedSelection={selectedSelection}

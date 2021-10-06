@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import { Form, InputGroup } from 'react-bootstrap';
 
-const GameTitleInput = (props) =>
+type GameTitleInputProps = {
+  gameTitle: string,
+  changeGameTitle: (e: ChangeEvent<HTMLInputElement>) => void
+}
+
+const GameTitleInput = (props: GameTitleInputProps) =>
     <InputGroup className="mb-3">
       <InputGroup.Prepend>
         <InputGroup.Text>Game title:</InputGroup.Text>
