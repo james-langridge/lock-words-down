@@ -2,12 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useAppSelector } from "../../store/hooks";
 import { DragDropContext } from 'react-beautiful-dnd';
 import { Link } from "react-router-dom";
-import { Button, Nav, Navbar } from 'react-bootstrap';
+import { Row, Col, Button, Nav, Navbar } from 'react-bootstrap';
 import ColumnCard from './ColumnCard';
 import { TermEntry } from '../../types/terms.types';
 import { Syllable, Column, GivenAnswer, CorrectAnswer } from '../../types/game.types';
 import { shuffle } from '../../utils/helpers';
-import { RbdContainer } from '../../styles/styles';
 
 const Game = () => {
   const selectedWords = useAppSelector(state => state.words.selectedWords);
@@ -221,23 +220,27 @@ const Game = () => {
           </Nav>
       </Navbar>
       <DragDropContext onDragEnd={onDragEnd}>
-        <RbdContainer>
+        <Row>
           {state.columnOrder.map((columnId, index) => {
             const column = state.columns[columnId];
             const syllables = column.syllableIds.map(syllableId => state.syllables[syllableId]);
             const imageSrc = column.src;
             const term = column.title;
 
-            return <ColumnCard
-                      key={column.id}
-                      column={column}
-                      syllables={syllables}
-                      src={imageSrc}
-                      index={index}
-                      term={term}
-                    />
+            return (
+              <Col sm={6} md={4} lg={3} className="my-2">
+                <ColumnCard
+                        key={column.id}
+                        column={column}
+                        syllables={syllables}
+                        src={imageSrc}
+                        index={index}
+                        term={term}
+                      />
+              </Col>
+            )
           })}
-        </RbdContainer>
+        </Row>
       </DragDropContext>
     </>
   );

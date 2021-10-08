@@ -1,23 +1,29 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
-  width: 222px;
+export const ColumnContainer = styled.div`
+  height: 100%;
   display: flex;
   flex-direction: column;
   margin: 8px;
   border: 1px solid lightgrey;
   border-radius: 2px;
   place-self: center;
+  color: #5A70D9;
+  justify-content: center;
 `;
 
-export const RbdContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1rem;
-  max-width: 1000px;
+export const ImageContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const Image = styled.img`
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 100%;
   margin: 0 auto;
-  background-color: #F6FCE6;
-  color: #5A70D9;
 `;
 
 export const SyllableList = styled.div`
@@ -32,19 +38,6 @@ export const SyllableList = styled.div`
 export const Title = styled.h3`
   padding: 8px;
   text-align: center;
-`;
-
-export const ImageContainer = styled.div`
-  height: 220px;
-  width: 220px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const Image = styled.img`
-  max-width: 100%;
-  max-height: 100%;
 `;
 
 export const WordList = styled.div`

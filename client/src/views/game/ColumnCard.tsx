@@ -2,7 +2,7 @@ import React from 'react';
 import { Droppable } from 'react-beautiful-dnd';
 import SyllableIcon from './SyllableIcon';
 import { Syllable, Column } from '../../types/game.types';
-import { Container, SyllableList, Title, ImageContainer, Image } from '../../styles/styles';
+import { ColumnContainer, SyllableList, Title, ImageContainer, Image } from '../../styles/styles';
 import { useAppSelector } from "../../store/hooks";
 
 type ColumnCardProps = {
@@ -17,14 +17,10 @@ const ColumnCard = (props: ColumnCardProps) => {
   const title = useAppSelector(state => state.game.gameTitle);
 
   return (
-      <Container className="box-shadow">
+      <ColumnContainer className="box-shadow">
         {props.column.id === 'column-1' && <Title>{title}</Title>}
         {(props.column.id !== 'column-1' && !props.src) && <Title>{props.term}</Title>}
-        {(props.column.id !== 'column-1' && props.src) &&
-          <ImageContainer>
-            <Image src={props.src} />
-          </ImageContainer>
-        }
+        {(props.column.id !== 'column-1' && props.src) && <Image src={props.src} />}
         <Droppable droppableId={props.column.id} type="syllable">
           {(provided, snapshot) => (
             <SyllableList
@@ -40,7 +36,7 @@ const ColumnCard = (props: ColumnCardProps) => {
             </SyllableList>
           )}
         </Droppable>
-      </Container>
+      </ColumnContainer>
   );
 }
 
