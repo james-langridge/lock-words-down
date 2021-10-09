@@ -1,7 +1,7 @@
 import React, {useState, useEffect, ChangeEvent} from 'react';
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import axios from 'axios';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row } from 'react-bootstrap';
 import EmptyTableAlert from './EmptyTableAlert';
 import GameTitleInput from './GameTitleInput';
 import ScrollingToggle from './ScrollingToggle';
@@ -118,13 +118,11 @@ const TermEntryList = () => {
       <Row>
         {termEntries.length > 0 ?
           termEntries.map((termEntry: TermEntry) =>
-          <Col sm={6} md={4} lg={3}>
-            <TermEntryCard
-              termEntry={termEntry}
-              functions={[handleClick, deleteTermEntry]}
-              key={termEntry._id}
-            />
-          </Col>) :
+          <TermEntryCard
+            termEntry={termEntry}
+            functions={[handleClick, deleteTermEntry]}
+            key={termEntry._id}
+          />) :
           <EmptyTableAlert />
         }
       </Row>

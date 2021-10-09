@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useAppSelector, useAppDispatch } from "../../store/hooks";
 import { Link, useLocation } from "react-router-dom";
-import { useSelector, useDispatch } from 'react-redux';
 import { logoutUser } from "../../store/authentication/authentication.actions";
 import {
   Button,
@@ -14,19 +14,20 @@ import {
 } from 'react-bootstrap';
 import axios from 'axios';
 import { Typeahead } from 'react-bootstrap-typeahead';
+import { TermEntry, Selection } from '../../types/terms.types';
 
 const Header = () => {
-  const selectedWords = useSelector(state => state.words.selectedWords);
-  const wordList = useSelector(state => state.words.wordList);
-  const selectionList = useSelector(state => state.selections.selectionList);
-  const selectedSelection = useSelector(state => state.selections.selectedSelection);
-  const dispatch = useDispatch();
+  const selectedWords = useAppSelector(state => state.words.selectedWords);
+  const wordList = useAppSelector(state => state.words.wordList);
+  const selectionList = useAppSelector(state => state.selections.selectionList);
+  const selectedSelection = useAppSelector(state => state.selections.selectedSelection);
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const [options, setOptions] = useState([]);
   const [singleSelections, setSingleSelections] = useState([]);
   const [errorMsg, setErrorMsg] = useState('');
 
-  const compare = (a, b) => {
+  const compare = (a: { [key: string]: string }, b: { [key: string]: string }) => {
     if (a.label < b.label) {
       return -1;
     }
@@ -39,7 +40,7 @@ const Header = () => {
   }
 
   const updateOptions = () => {
-    const options = wordList.map(termEntry => (
+    const options = wordList.map((termEntry: TermEntry) => (
       {
         id: termEntry._id,
         label: termEntry.term
@@ -58,20 +59,33 @@ const Header = () => {
     window.location.href = "./login";
   }
 
-  const selectSelection = (selection) => {
+  const clearSelectedSelection = () => {
+    if (selectedSelection) {
+      dispatch({ type: 'selections/selectSelection', payload: '' });
+    }
+  }
+
+  const unselectAll = () => {
+    clearSelectedSelection();
     dispatch({ type: 'unselectAllWords' });
     document.querySelectorAll('.card').forEach(el => {
       el.classList.remove('bg-success')
     });
+  }
 
-    const selectedWordIds = [];
+  const selectSelection = (selection: Selection) => {
+    console.log(`Selecting selection... ${selection.selectionTitle}`);
+    unselectAll();
+    
+    const selectedWordIds: string[] = [];
     selection.selection.forEach(word => {
       dispatch({ type: 'selectWord', payload: word });
-      document.getElementById(word._id).classList.add('bg-success');
+      document.getElementById(word._id)!.classList.add('bg-success');
+      console.log(document.getElementById(word._id));
       selectedWordIds.push(word._id);
     });
 
-    const sortedWordList = wordList.reduce((acc, word) => {
+    const sortedWordList = wordList.reduce((acc: TermEntry[], word: TermEntry) => {
       if (selectedWordIds.includes(word._id)) {
         return [word, ...acc];
       }
@@ -81,33 +95,26 @@ const Header = () => {
     dispatch({ type: 'setWordList', payload: sortedWordList })
     dispatch({ type: 'selections/selectSelection', payload: selection });
     dispatch({ type: 'game/setGameTitle', payload: selection.gameTitle });
+
+    console.log('Checking classlist again...')
+    selection.selection.forEach(word => {
+      console.log(document.getElementById(word._id));
+    });
   }
 
   const selectAll = () => {
-    if (selectedSelection) {
-      dispatch({ type: 'selections/selectSelection', payload: '' });
-    }
+    clearSelectedSelection();
     document.querySelectorAll('.card').forEach(el => {
       el.classList.add('bg-success')
     });
-    wordList.forEach(word => {
-      if (!selectedWords.some(e => e.term === word.term)) {
+    wordList.forEach((word: TermEntry) => {
+      if (!selectedWords.some((e: TermEntry) => e.term === word.term)) {
         dispatch({ type: 'selectWord', payload: word });
       }
     });
   }
 
-  const unselectAll = () => {
-    if (selectedSelection) {
-      dispatch({ type: 'selections/selectSelection', payload: '' });
-    }
-    dispatch({ type: 'unselectAllWords' });
-    document.querySelectorAll('.card').forEach(el => {
-      el.classList.remove('bg-success')
-    });
-  }
-
-  const getTermEntry = async (id) => {
+  const getTermEntry = async (id: string) => {  
     try {
       const { data } = await axios.get('term/' + id);
       setErrorMsg('');
@@ -119,18 +126,17 @@ const Header = () => {
 
   const handleClick = async () => {
     const selectedWord = await getTermEntry(singleSelections[0].id);
-    if (selectedSelection) {
-      dispatch({ type: 'selections/selectSelection', payload: '' });
-    }
-    document.getElementById(selectedWord._id).classList.toggle('bg-success');
-    const sortedWordList = wordList.reduce((acc, word) => {
+    
+    clearSelectedSelection();
+    document.getElementById(selectedWord._id)!.classList.toggle('bg-success');
+    const sortedWordList = wordList.reduce((acc: TermEntry[], word: TermEntry) => {
       if (selectedWord._id === word._id) {
         return [word, ...acc];
       }
       return [...acc, word];
     }, []);
     dispatch({ type: 'setWordList', payload: sortedWordList })
-    if (!selectedWords.find(e => e.term === selectedWord.term)) {
+    if (!selectedWords.find((e: TermEntry) => e.term === selectedWord.term)) {
       dispatch({ type: 'selectWord', payload: selectedWord })
     } else {
       dispatch({ type: 'unselectWord', payload: selectedWord })
@@ -185,7 +191,7 @@ const Header = () => {
                 Select none
               </Dropdown.Item>
               <Dropdown.Divider />
-              {selectionList.map(selection =>
+              {selectionList.map((selection: Selection) =>
                 <Dropdown.Item
                   onClick={() => selectSelection(selection)}
                   key={selection._id}

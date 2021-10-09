@@ -12,12 +12,6 @@ export const ColumnContainer = styled.div`
   justify-content: center;
 `;
 
-export const ImageContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 export const Image = styled.img`
   width: auto;
   max-width: 100%;
