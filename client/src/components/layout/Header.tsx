@@ -61,7 +61,7 @@ const Header = () => {
 
   const clearSelectedSelection = () => {
     if (selectedSelection) {
-      dispatch({ type: 'selections/selectSelection', payload: '' });
+      dispatch({ type: 'selections/unselectSelection' });
     }
   }
 
@@ -181,7 +181,7 @@ const Header = () => {
             </Button>
             <DropdownButton
               title="Select"
-              disabled={!(selectionList.length && location.pathname === '/list')}
+              disabled={!(selectionList && location.pathname === '/list')}
               className="mr-2"
             >
               <Dropdown.Item onClick={() => selectAll()}>
@@ -191,7 +191,7 @@ const Header = () => {
                 Select none
               </Dropdown.Item>
               <Dropdown.Divider />
-              {selectionList.map((selection: Selection) =>
+              {selectionList && selectionList.map((selection: Selection) =>
                 <Dropdown.Item
                   onClick={() => selectSelection(selection)}
                   key={selection._id}

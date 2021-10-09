@@ -9,9 +9,8 @@ type TermEntryProps = {
   functions: ((termEntry: TermEntry) => void)[];
 }
 
-const TermEntryCard = (props: TermEntryProps ) => {
-  const [handleClick, deleteTermEntry] = props.functions;
-  const termEntry = props.termEntry;
+const TermEntryCard = ({ termEntry, functions }: TermEntryProps ) => {
+  const [handleClick, deleteTermEntry] = functions;
 
   return (
     <Col sm={6} md={4} lg={3}>

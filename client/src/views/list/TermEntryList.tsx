@@ -33,7 +33,9 @@ const TermEntryList = () => {
     try {
       const { data } = await axios.get(`selection/${userId}`);
       setErrorMsg('');
-      dispatch({ type: 'selections/setSelectionList', payload: data });
+      if (data) {
+        dispatch({ type: 'selections/setSelectionList', payload: data });
+      }
     } catch (error) {
       error.response && setErrorMsg(error.response.data);
     }
@@ -73,7 +75,7 @@ const TermEntryList = () => {
           setErrorMsg('Error while deleting selection.  Try again later.');
         }
       }
-      dispatch({ type: 'selections/selectSelection', payload: '' });
+      dispatch({ type: 'selections/unselectSelection' });
       dispatch({ type: 'game/setGameTitle', payload: '' });
       getSelections();
     }
@@ -81,7 +83,7 @@ const TermEntryList = () => {
 
   const handleClick = (word: TermEntry) => {
     if (selectedSelection) {
-      dispatch({ type: 'selections/selectSelection', payload: '' });
+      dispatch({ type: 'selections/unselectSelection' });
     }
     document.getElementById(word._id)!.classList.toggle('bg-success');
     if (!selectedWords.find((e: TermEntry) => e.term === word.term)) {

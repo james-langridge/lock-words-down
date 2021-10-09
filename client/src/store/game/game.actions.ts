@@ -1,4 +1,4 @@
-export const setGameTitle = title => {
+export const setGameTitle = (title: string) => {
   return {
     type: 'game/setGameTitle',
     payload: title

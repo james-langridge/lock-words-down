@@ -1,5 +1,3 @@
-import { AnyAction } from 'redux';
-
 type GameState = {
   gameTitle: string
   enableScrolling: string
@@ -10,7 +8,18 @@ const initialState: GameState = {
   enableScrolling: 'false'
 }
 
-export default function(state = initialState, action: AnyAction) {
+type SetTitleAction = {
+  type: 'game/setGameTitle',
+  payload: string
+}
+
+type ToggleScrollingAction = {
+  type: 'game/toggleScrolling'
+}
+
+type Actions = SetTitleAction | ToggleScrollingAction;
+
+export default function(state = initialState, action: Actions) {
   switch (action.type) {
     case 'game/setGameTitle':
       return {

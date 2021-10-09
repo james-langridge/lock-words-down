@@ -1,8 +1,6 @@
-import { types } from './word.types';
 import { TermEntry } from '../../types/terms.types';
-import { AnyAction } from "redux";
 
-export interface WordsState {
+type WordsState = {
   selectedWords: TermEntry[],
   wordList: TermEntry[]
 }
@@ -12,14 +10,31 @@ export const initialState: WordsState = {
   wordList: [],
 }
 
-export default function(state: WordsState = initialState, action: AnyAction) {
+type SelectWordActions = {
+  type: "selectWord" | "unselectWord";
+  payload: TermEntry
+};
+
+type SetWordListAction = {
+  type: "setWordList",
+  payload: TermEntry[]
+}
+
+type UnselectAllWordsAction = {
+  type: "unselectAllWords"
+}
+
+type Actions = SelectWordActions | SetWordListAction | UnselectAllWordsAction;
+
+
+export default function(state: WordsState = initialState, action: Actions) {
   switch (action.type) {
-    case types.SELECT_WORD:
+    case "selectWord":
       return {
         ...state,
         selectedWords: [...state.selectedWords, action.payload]
       };
-    case types.UNSELECT_WORD:
+    case "unselectWord":
       const index = state.selectedWords.findIndex(item => item._id === action.payload._id);
       if (index !== -1) {
         return {
@@ -31,17 +46,12 @@ export default function(state: WordsState = initialState, action: AnyAction) {
         };
       }
       return state;
-    case types.SELECT_ALL_WORDS:
-      return {
-        ...state,
-        selectedWords: action.payload
-      };
-    case types.UNSELECT_ALL_WORDS:
+    case "unselectAllWords":
       return {
         ...state,
         selectedWords: []
       };
-    case types.SET_WORD_LIST:
+    case "setWordList":
       return {
         ...state,
         wordList: action.payload

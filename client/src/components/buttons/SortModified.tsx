@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState } from 'react';
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import Button from 'react-bootstrap/Button';
 import ArrowDown from '../icons/ArrowDown';
 import ArrowUp from '../icons/ArrowUp';
+import { TermEntry } from '../../types/terms.types';
 
 const SortModified = () => {
   const [sortDirection, setsortDirection] = useState('za');
-  const wordList = useSelector(state => state.words.wordList);
-  const dispatch = useDispatch();
+  const wordList = useAppSelector(state => state.words.wordList);
+  const dispatch = useAppDispatch();
 
-  const compare = (a,b) => {
+  const compare = (a: TermEntry, b: TermEntry) => {
     if ( a.updatedAt < b.updatedAt ) {
       if (sortDirection === 'za') {
         return -1;

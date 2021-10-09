@@ -2,15 +2,21 @@ import React from 'react';
 import { Button, ButtonGroup } from 'react-bootstrap';
 import SortAlpha from '../../components/buttons/SortAlpha';
 import SortModified from '../../components/buttons/SortModified';
+import { Selection } from '../../types/terms.types';
 
-const TableButtons = (props) =>
+type TableButtonsProps = {
+  selectedSelection: Selection,
+  deleteSelection: (selectedSelection: Selection) => void
+}
+
+const TableButtons = ({ selectedSelection, deleteSelection }: TableButtonsProps) =>
     <ButtonGroup size="sm" className="mb-3">
       <SortAlpha/>
       <SortModified/>
-      {Object.keys(props.selectedSelection).length !== 0 &&
+      {selectedSelection && Object.keys(selectedSelection).length !== 0 &&
         <Button
           variant="outline-danger"
-          onClick={() => props.deleteSelection(props.selectedSelection)}
+          onClick={() => deleteSelection(selectedSelection)}
         >
           Delete selection
         </Button>
