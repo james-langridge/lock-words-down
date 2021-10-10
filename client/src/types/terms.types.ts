@@ -16,4 +16,4 @@ export type Selection = {
     gameTitle: string,
     created_by: string,
     __V: number
-}
+} | null

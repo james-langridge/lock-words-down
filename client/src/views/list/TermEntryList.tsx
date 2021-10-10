@@ -112,7 +112,7 @@ const TermEntryList = () => {
         toggleScrolling={toggleScrolling}
       />
       <br />
-      <SelectionHeading selectedSelection={selectedSelection} />
+     {selectedSelection && <h1>{selectedSelection.selectionTitle}</h1>}
       <TableButtons
         selectedSelection={selectedSelection}
         deleteSelection={deleteSelection}

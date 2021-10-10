@@ -1,7 +1,7 @@
 import { Selection } from '../../types/terms.types';
 
 type SelectionState = {
-  selectedSelection: Selection | null,
+  selectedSelection: Selection,
   selectionList: Selection[] | null
 }
 
