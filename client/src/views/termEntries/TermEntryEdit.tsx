@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useLocation } from "react-router-dom";
 import TermEntryForm from '../../components/forms/TermEntryForm';
+import { TermEntry } from '../../types/terms.types';
 
-const TermEntryEdit = (props) => {
+const TermEntryEdit = (props: { history: string[]; }) => {
   const query = useQuery();
   const [errorMsg, setErrorMsg] = useState('');
   const [file, setFile] = useState(null);
@@ -21,7 +22,7 @@ const TermEntryEdit = (props) => {
   useEffect(() => {
     const getTermEntry = async () => {
       try {
-        const { data } = await axios.get('term/' + query.get('id'));
+        const { data } = await axios.get<TermEntry>('term/' + query.get('id'));
         setErrorMsg('');
         setState({
           ...state,
@@ -32,7 +33,7 @@ const TermEntryEdit = (props) => {
           setPreviewSrc(data.image_url);
           setIsPreviewAvailable(true);
         }
-      } catch (error) {
+      } catch (error: any) {
         error.response && setErrorMsg(error.response.data);
       }
     };
@@ -40,7 +41,7 @@ const TermEntryEdit = (props) => {
     getTermEntry();
   }, []);
 
-  const handleOnSubmit = async (event) => {
+  const handleOnSubmit = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
 
     try {
@@ -75,13 +76,22 @@ const TermEntryEdit = (props) => {
         setErrorMsg('Please enter all the field values.');
       }
     }
-  } catch (error) {
+  } catch (error: any) {
       error.response && setErrorMsg(error.response.data);
     }
   };
 
   return (
-    <TermEntryForm functions={[handleOnSubmit, state, setState, file, setFile, errorMsg, setErrorMsg, previewSrc, setPreviewSrc, isPreviewAvailable, setIsPreviewAvailable]} />
+    <TermEntryForm
+      functions={[
+        handleOnSubmit, 
+        state, setState, 
+        file, setFile, 
+        errorMsg, setErrorMsg, 
+        previewSrc, setPreviewSrc, 
+        isPreviewAvailable, setIsPreviewAvailable
+      ]} 
+    />
   );
 };
 

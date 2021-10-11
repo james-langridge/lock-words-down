@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useAppSelector } from "../../store/hooks";
 import { DragDropContext } from 'react-beautiful-dnd';
 import { Link } from "react-router-dom";

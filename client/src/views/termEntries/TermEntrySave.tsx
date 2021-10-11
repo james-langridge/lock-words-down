@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useAppSelector } from "../../store/hooks";
 import axios from 'axios';
-import { useSelector } from 'react-redux';
 import TermEntryForm from '../../components/forms/TermEntryForm';
 
-const TermEntrySave = (props) => {
-  const userId = useSelector(state => state.auth.user.id);
+const TermEntrySave = (props: { history: string[]; }) => {
+  const userId = useAppSelector(state => state.auth.user.id);
   const [errorMsg, setErrorMsg] = useState('');
   const [file, setFile] = useState(null);
   const [previewSrc, setPreviewSrc] = useState('');
@@ -14,7 +14,7 @@ const TermEntrySave = (props) => {
     syllable: ''
   });
 
-  const handleOnSubmit = async (event) => {
+  const handleOnSubmit = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
 
     try {
@@ -51,7 +51,7 @@ const TermEntrySave = (props) => {
         setErrorMsg('Please enter all the field values.');
       }
       }
-    } catch (error) {
+    } catch (error: any) {
       error.response && setErrorMsg(error.response.data);
     }
   };
@@ -59,16 +59,11 @@ const TermEntrySave = (props) => {
   return (
     <TermEntryForm functions={[
         handleOnSubmit,
-        state,
-        setState,
-        file,
-        setFile,
+        state, setState,
+        file, setFile,
         errorMsg,
-        setErrorMsg,
-        previewSrc,
-        setPreviewSrc,
-        isPreviewAvailable,
-        setIsPreviewAvailable
+        previewSrc, setPreviewSrc,
+        isPreviewAvailable, setIsPreviewAvailable
       ]}
     />
   );

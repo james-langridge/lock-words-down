@@ -1,10 +1,8 @@
-const path = require('path');
 const AWS = require('aws-sdk');
 const express = require('express');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
 const TermEntry = require('../models/termEntry');
-const Selection = require('../models/selection');
 const Router = express.Router();
 require("dotenv").config();
 
@@ -70,7 +68,7 @@ Router.post(
   }
 );
 
-// @route POST term
+// @route POST term/:termId
 // @desc Update term entry
 // @access Public
 Router.post(

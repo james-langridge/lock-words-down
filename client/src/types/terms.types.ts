@@ -16,4 +16,9 @@ export type Selection = {
     gameTitle: string,
     created_by: string,
     __V: number
-} | null
+}
+
+export type Option = {
+    id: string,
+    label: string
+}

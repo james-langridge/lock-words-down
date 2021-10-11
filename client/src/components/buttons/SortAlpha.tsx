@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import Button from 'react-bootstrap/Button';
 import ArrowDown from '../icons/ArrowDown';

@@ -30,7 +30,7 @@ Router.post('/', async (req, res) => {
   }
 );
 
-// @route GET selection
+// @route GET selection/:id
 // @desc Get all selections
 // @access Public
 Router.get('/:id', async (req, res) => {

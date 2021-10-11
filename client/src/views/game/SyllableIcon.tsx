@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
 import { Syllable } from '../../types/game.types';
@@ -8,9 +7,10 @@ const Container = styled.div`
   border-radius: 25px;
   padding: 8px;
   margin: 8px;
-  background-color: ${props => (props.isDragging ? 'lightgreen' : '#F6FCE6')};
+  background-color: #F6FCE6;
   display: inline-block;
 `;
+// background-color: ${props => (props.isDragging ? 'lightgreen' : '#F6FCE6')};
 
 type SyllableProps = {
   syllable: Syllable,
@@ -25,7 +25,7 @@ const SyllableIcon = (props: SyllableProps) => {
         ref={provided.innerRef}
         {...provided.draggableProps}
         {...provided.dragHandleProps}
-        isDragging={snapshot.isDragging}
+        data-isDragging={snapshot.isDragging}
       >
         {props.syllable.content}
       </Container>

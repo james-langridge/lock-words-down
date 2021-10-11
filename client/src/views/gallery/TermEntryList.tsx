@@ -1,13 +1,12 @@
-import React, {useState, useEffect, ChangeEvent} from 'react';
+import {useState, useEffect, ChangeEvent} from 'react';
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import axios from 'axios';
 import { Container, Row } from 'react-bootstrap';
 import EmptyTableAlert from './EmptyTableAlert';
 import GameTitleInput from './GameTitleInput';
 import ScrollingToggle from './ScrollingToggle';
-import SelectionHeading from './SelectionHeading';
 import TableButtons from './TableButtons';
-import TermEntryCard from './TermEntryCard';
+import TermEntryCard from '../termEntries/TermEntryCard';
 import { TermEntry, Selection } from '../../types/terms.types';
 
 const TermEntryList = () => {
@@ -21,22 +20,22 @@ const TermEntryList = () => {
 
   const getTermEntries = async () => {
     try {
-      const { data } = await axios.get(`term/all/${userId}`);
+      const { data } = await axios.get<TermEntry[]>(`term/all/${userId}`);
       setErrorMsg('');
       dispatch({ type: 'setWordList', payload: data })
-    } catch (error) {
+    } catch (error: any) {
       error.response && setErrorMsg(error.response.data);
     }
   };
 
   const getSelections = async () => {
     try {
-      const { data } = await axios.get(`selection/${userId}`);
+      const { data } = await axios.get<Selection[]>(`selection/${userId}`);
       setErrorMsg('');
       if (data) {
         dispatch({ type: 'selections/setSelectionList', payload: data });
       }
-    } catch (error) {
+    } catch (error: any) {
       error.response && setErrorMsg(error.response.data);
     }
   };
@@ -50,9 +49,9 @@ const TermEntryList = () => {
     const result = window.confirm(`Delete word: ${termEntry.term}? You cannot undo this!`)
     if (result) {
       try {
-        await axios.delete(`term/${termEntry._id}`);
+        await axios.delete<TermEntry>(`term/${termEntry._id}`);
         setErrorMsg('');
-      } catch (error) {
+      } catch (error: any) {
         if (error.response && error.response.status === 400) {
           setErrorMsg('Error while deleting term.  Try again later.');
         }
@@ -68,9 +67,9 @@ const TermEntryList = () => {
     const result = window.confirm(`Delete selection: ${selectedSelection.selectionTitle}? You cannot undo this!`)
     if (result) {
       try {
-        await axios.delete(`selection/${selectedSelection._id}`);
+        await axios.delete<Selection>(`selection/${selectedSelection._id}`);
         setErrorMsg('');
-      } catch (error) {
+      } catch (error: any) {
         if (error.response && error.response.status === 400) {
           setErrorMsg('Error while deleting selection.  Try again later.');
         }

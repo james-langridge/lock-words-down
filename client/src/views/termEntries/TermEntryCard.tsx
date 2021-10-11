@@ -1,4 +1,3 @@
-import React from 'react';
 import { Col, Button, ButtonGroup, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { TermEntry } from '../../types/terms.types';

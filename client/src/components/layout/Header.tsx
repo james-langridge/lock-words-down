@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
 import { Link, useLocation } from "react-router-dom";
 import { logoutUser } from "../../store/authentication/authentication.actions";
@@ -14,7 +14,7 @@ import {
 } from 'react-bootstrap';
 import axios from 'axios';
 import { Typeahead } from 'react-bootstrap-typeahead';
-import { TermEntry, Selection } from '../../types/terms.types';
+import { TermEntry, Selection, Option } from '../../types/terms.types';
 
 const Header = () => {
   const selectedWords = useAppSelector(state => state.words.selectedWords);
@@ -23,11 +23,11 @@ const Header = () => {
   const selectedSelection = useAppSelector(state => state.selections.selectedSelection);
   const dispatch = useAppDispatch();
   const location = useLocation();
-  const [options, setOptions] = useState([]);
-  const [singleSelections, setSingleSelections] = useState([]);
-  const [errorMsg, setErrorMsg] = useState('');
+  const [options, setOptions] = useState<Option[]>([]);
+  const [singleSelections, setSingleSelections] = useState<Option[]>([]);
+  const [, setErrorMsg] = useState('');
 
-  const compare = (a: { [key: string]: string }, b: { [key: string]: string }) => {
+  const compare = (a: Option, b: Option) => {
     if (a.label < b.label) {
       return -1;
     }
@@ -74,7 +74,6 @@ const Header = () => {
   }
 
   const selectSelection = (selection: Selection) => {
-    console.log(`Selecting selection... ${selection.selectionTitle}`);
     unselectAll();
     
     const selectedWordIds: string[] = [];
@@ -96,7 +95,6 @@ const Header = () => {
     dispatch({ type: 'selections/selectSelection', payload: selection });
     dispatch({ type: 'game/setGameTitle', payload: selection.gameTitle });
 
-    console.log('Checking classlist again...')
     selection.selection.forEach(word => {
       console.log(document.getElementById(word._id));
     });
@@ -116,10 +114,11 @@ const Header = () => {
 
   const getTermEntry = async (id: string) => {  
     try {
-      const { data } = await axios.get('term/' + id);
+      const { data } = await axios.get<TermEntry>('term/' + id);
       setErrorMsg('');
+
       return data;
-    } catch (error) {
+    } catch (error: any) {
       error.response && setErrorMsg(error.response.data);
     }
   };
@@ -128,15 +127,15 @@ const Header = () => {
     const selectedWord = await getTermEntry(singleSelections[0].id);
     
     clearSelectedSelection();
-    document.getElementById(selectedWord._id)!.classList.toggle('bg-success');
+    document.getElementById(selectedWord!._id)!.classList.toggle('bg-success');
     const sortedWordList = wordList.reduce((acc: TermEntry[], word: TermEntry) => {
-      if (selectedWord._id === word._id) {
+      if (selectedWord!._id === word._id) {
         return [word, ...acc];
       }
       return [...acc, word];
     }, []);
     dispatch({ type: 'setWordList', payload: sortedWordList })
-    if (!selectedWords.find((e: TermEntry) => e.term === selectedWord.term)) {
+    if (!selectedWords.find((e: TermEntry) => e.term === selectedWord!.term)) {
       dispatch({ type: 'selectWord', payload: selectedWord })
     } else {
       dispatch({ type: 'unselectWord', payload: selectedWord })

@@ -1,11 +1,10 @@
-import React from 'react';
 import { Button, ButtonGroup } from 'react-bootstrap';
 import SortAlpha from '../../components/buttons/SortAlpha';
 import SortModified from '../../components/buttons/SortModified';
 import { Selection } from '../../types/terms.types';
 
 type TableButtonsProps = {
-  selectedSelection: Selection,
+  selectedSelection: Selection | null,
   deleteSelection: (selectedSelection: Selection) => void
 }
 

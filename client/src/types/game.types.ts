@@ -3,11 +3,22 @@ export type Syllable = {
     content: string
 }
 
+export type Word = {
+    id: string,
+    content: string
+}
+
 export type Column = {
     id: string,
     title: string,
     syllableIds: string[],
     src: string,
+}
+
+export type AlphaSortColumn = {
+    id: string,
+    title: string,
+    wordIds: string[],
 }
 
 export type ColumnsData = {

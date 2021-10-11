@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import { useState } from 'react';
 import { Col, Form, Row } from 'react-bootstrap';
 import Submit from '../buttons/Submit';
 import Cancel from '../buttons/Cancel';
@@ -8,16 +7,11 @@ import Upload from './Upload';
 const TermEntryForm = (props) => {
   const [
     handleOnSubmit,
-    state,
-    setState,
-    file,
-    setFile,
-    errorMsg,
-    setErrorMsg,
-    previewSrc,
-    setPreviewSrc,
-    isPreviewAvailable,
-    setIsPreviewAvailable
+    state, setState,
+    file, setFile,
+    errorMsg, setErrorMsg,
+    previewSrc, setPreviewSrc,
+    isPreviewAvailable, setIsPreviewAvailable
   ] = props.functions;
 
   const handleInputChange = (event) => {

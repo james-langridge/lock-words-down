@@ -1,5 +1,15 @@
 import styled from 'styled-components';
 
+export const AlphaSortColumnContainer = styled.div`
+  width: 222px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  border: 1px solid lightgrey;
+  border-radius: 2px;
+  place-self: center;
+`;
+
 export const ColumnContainer = styled.div`
   height: 100%;
   display: flex;

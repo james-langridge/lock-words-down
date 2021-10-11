@@ -1,27 +1,29 @@
-import React, { useState, useEffect } from "react";
-import { useSelector } from 'react-redux';
+import { useState, useEffect } from "react";
+import { useAppSelector } from "../../../store/hooks";
 import { DragDropContext } from 'react-beautiful-dnd';
 import { Link } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import AlphaSortCol from './AlphaSortCol';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
+import { shuffle } from '../../../utils/helpers';
+import { Word, AlphaSortColumn } from '../../../types/game.types';
 
 const AlphaSort = () => {
-  const shuffle = array =>
-    [...Array(array.length)]
-      .map((...args) => Math.floor(Math.random() * (args[1] + 1)))
-      .reduce( (a, rv, i) => ([a[i], a[rv]] = [a[rv], a[i]]) && a, array);
-  const selectedWords = useSelector(state => state.words.selectedWords);
+  const selectedWords = useAppSelector(state => state.words.selectedWords);
   const words = shuffle(selectedWords.map(word => word.term));
-  const columnData = selectedWords.map(word => {
-    const data = {};
-    data.term = word.term;
 
-    return data;
-  });
-  const shuffledcolumnData = shuffle([...columnData]);
-  const initialData = {
+  type InitialData = {
+    words: {
+      [key: string]: Word
+    },
+    columns: {
+      [key: string]: AlphaSortColumn
+    },
+    columnOrder: string[]
+  }
+
+  const initialData: InitialData = {
     words: {
       // id: `word-${i+1}`,
       // content: word
@@ -41,12 +43,12 @@ const AlphaSort = () => {
         id: `word-${i+1}`,
         content: word
       }
-      initialData.columns.['column-1'].wordIds.push(`word-${i+1}`);
+      initialData.columns['column-1'].wordIds.push(`word-${i+1}`);
   });
 
   const [state, setState] = useState(initialData);
 
-  const onDragEnd = result => {
+  const onDragEnd = (result: any) => {
     const { destination, source, draggableId } = result;
 
     if (!destination) {
@@ -85,7 +87,7 @@ const AlphaSort = () => {
 
   const checkAnswers = () => {
     for (const column in state.columns) {
-      const answers = state.columns[column].wordIds.map(wordId => state.words[wordId].content)
+      const answers = state.columns[column].wordIds.map((wordId: string) => state.words[wordId].content)
       const element = document.getElementById(column);
       let isCorrect = true;
 
@@ -96,11 +98,11 @@ const AlphaSort = () => {
       }
 
       if (isCorrect) {
-        element.classList.add('bg-success');
-        return setTimeout(() => { element.classList.remove('bg-success'); }, 2000);
+        element!.classList.add('bg-success');
+        return setTimeout(() => { element!.classList.remove('bg-success'); }, 2000);
       } else {
-        element.classList.add('bg-danger');
-        return setTimeout(() => { element.classList.remove('bg-danger'); }, 2000);
+        element!.classList.add('bg-danger');
+        return setTimeout(() => { element!.classList.remove('bg-danger'); }, 2000);
       }
     }
   }
@@ -131,11 +133,11 @@ const AlphaSort = () => {
         </Nav>
       </Navbar>
       <DragDropContext onDragEnd={onDragEnd}>
-        {state.columnOrder.map((columnId, index) => {
+        {state.columnOrder.map(columnId => {
           const column = state.columns[columnId];
-          const words = column.wordIds.map(wordId => state.words[wordId]);
+          const words = column.wordIds.map((wordId: string) => state.words[wordId]);
 
-          return <AlphaSortCol key={column.id} column={column} words={words} index={index} />
+          return <AlphaSortCol key={column.id} column={column} words={words} />
         })}
       </DragDropContext>
     </>

@@ -1,8 +1,7 @@
-import React from 'react';
 import { Droppable } from 'react-beautiful-dnd';
 import SyllableIcon from './SyllableIcon';
 import { Syllable, Column } from '../../types/game.types';
-import { ColumnContainer, SyllableList, Title, ImageContainer, Image } from '../../styles/styles';
+import { ColumnContainer, SyllableList, Title, Image } from '../../styles/styles';
 import { useAppSelector } from "../../store/hooks";
 
 type ColumnCardProps = {
@@ -26,7 +25,7 @@ const ColumnCard = (props: ColumnCardProps) => {
             <SyllableList
               ref={provided.innerRef}
               {...provided.droppableProps}
-              isDraggingOver={snapshot.isDraggingOver}
+              data-isDraggingOver={snapshot.isDraggingOver}
               id={props.column.id}
             >
               {props.syllables.map((syllable, index) => (
