@@ -6,15 +6,15 @@ type GameTitleInputProps = {
   changeGameTitle: (e: ChangeEvent<HTMLInputElement>) => void
 }
 
-const GameTitleInput = (props: GameTitleInputProps) =>
+const GameTitleInput = ({ gameTitle, changeGameTitle }: GameTitleInputProps) =>
     <InputGroup className="mb-3">
       <InputGroup.Prepend>
         <InputGroup.Text>Game title:</InputGroup.Text>
       </InputGroup.Prepend>
       <Form.Control
         placeholder="e.g. Syllables..."
-        onChange={props.changeGameTitle}
-        value={props.gameTitle || ''}
+        onChange={changeGameTitle}
+        value={gameTitle || ''}
       />
     </InputGroup>;
 

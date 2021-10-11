@@ -17,9 +17,9 @@ type SyllableProps = {
   index: number
 }
 
-const SyllableIcon = (props: SyllableProps) => {
+const SyllableIcon = ({ syllable, index }: SyllableProps) => {
   return (
-    <Draggable draggableId={props.syllable.id} index={props.index}>
+    <Draggable draggableId={syllable.id} index={index}>
     {(provided, snapshot) => (
       <Container
         ref={provided.innerRef}
@@ -27,7 +27,7 @@ const SyllableIcon = (props: SyllableProps) => {
         {...provided.dragHandleProps}
         data-isDragging={snapshot.isDragging}
       >
-        {props.syllable.content}
+        {syllable.content}
       </Container>
     )}
     </Draggable>

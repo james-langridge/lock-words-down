@@ -6,7 +6,7 @@ type ScrollingToggleProps = {
   toggleScrolling: () => void
 }
 
-const ScrollingToggle = (props: ScrollingToggleProps) => {
+const ScrollingToggle = ({ toggleScrolling }: ScrollingToggleProps) => {
     const enableScrolling = useAppSelector(state => state.game.enableScrolling);
     const [scrolling, setScrolling] = useState('false');
   
@@ -32,7 +32,7 @@ const ScrollingToggle = (props: ScrollingToggleProps) => {
                 checked={scrolling === radio.value}
                 onChange={(e) => {
                     setScrolling(e.currentTarget.value);
-                    props.toggleScrolling();
+                    toggleScrolling();
                 }}
                 >
                 {radio.name}

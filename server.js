@@ -8,6 +8,7 @@ const path = require('path');
 const termEntryRoute = require('./routes/termEntries');
 const selectionRoute = require('./routes/selections');
 const userRoute = require("./routes/users");
+const studentRoute = require("./routes/students");
 
 const app = express();
 
@@ -37,6 +38,7 @@ require("./config/passport")(passport);
 app.use("/term", termEntryRoute);
 app.use("/selection", selectionRoute);
 app.use("/user", userRoute);
+app.use("/student", studentRoute);
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'))

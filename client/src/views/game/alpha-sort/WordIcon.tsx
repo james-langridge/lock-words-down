@@ -16,9 +16,9 @@ type WordIconProps = {
   index: number
 }
 
-const WordIcon = (props: WordIconProps) => {
+const WordIcon = ({ word, index}: WordIconProps) => {
   return (
-    <Draggable draggableId={props.word.id} index={props.index}>
+    <Draggable draggableId={word.id} index={index}>
     {(provided, snapshot) => (
       <Container
         ref={provided.innerRef}
@@ -26,7 +26,7 @@ const WordIcon = (props: WordIconProps) => {
         {...provided.dragHandleProps}
         data-isDragging={snapshot.isDragging}
       >
-        {props.word.content}
+        {word.content}
       </Container>
     )}
     </Draggable>
