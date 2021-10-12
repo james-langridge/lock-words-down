@@ -80,7 +80,6 @@ const Header = () => {
     selection.selection.forEach(word => {
       dispatch({ type: 'selectWord', payload: word });
       document.getElementById(word._id)!.classList.add('bg-success');
-      console.log(document.getElementById(word._id));
       selectedWordIds.push(word._id);
     });
 
@@ -94,10 +93,6 @@ const Header = () => {
     dispatch({ type: 'setWordList', payload: sortedWordList })
     dispatch({ type: 'selections/selectSelection', payload: selection });
     dispatch({ type: 'game/setGameTitle', payload: selection.gameTitle });
-
-    selection.selection.forEach(word => {
-      console.log(document.getElementById(word._id));
-    });
   }
 
   const selectAll = () => {
@@ -170,6 +165,17 @@ const Header = () => {
             >
               Add word
             </Button>
+            <DropdownButton
+              title="Students"
+              className="mr-2"
+            >
+              <Dropdown.Item as={Link} to="/students/save">
+                Add student
+              </Dropdown.Item>
+              <Dropdown.Item as={Link} to="/students/manage">
+                Manage students
+              </Dropdown.Item>
+            </DropdownButton>
             <Button
               variant="primary"
               as={Link}

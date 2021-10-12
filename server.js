@@ -38,7 +38,7 @@ require("./config/passport")(passport);
 app.use("/term", termEntryRoute);
 app.use("/selection", selectionRoute);
 app.use("/user", userRoute);
-app.use("/student", studentRoute);
+app.use("/students", studentRoute);
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'))

@@ -3,14 +3,14 @@ const Student = require('../models/student');
 const Router = express.Router();
 require("dotenv").config();
 
-// @route POST student
+// @route POST students
 // @desc Save student
 // @access Public
-Router.post('/', async (req, res) => {
+Router.post('/save', async (req, res) => {
     try {
       const { studentName, userId } = req.body;
       const student = new Student({
-        studentName,
+        name: studentName,
         created_by: userId
       });
       await student.save();
@@ -28,10 +28,10 @@ Router.post('/', async (req, res) => {
   }
 );
 
-// @route GET student/:id
+// @route GET students/all/:id
 // @desc Get all students
 // @access Public
-Router.get('/:id', async (req, res) => {
+Router.get('/all/:id', async (req, res) => {
   try {
     const students = await Student.find({ created_by: req.params.id });
     const sortedByCreationDate = students.sort(
@@ -43,7 +43,7 @@ Router.get('/:id', async (req, res) => {
   }
 });
 
-// @route DELETE student/:id
+// @route DELETE students/:id
 // @desc Delete student
 // @access Public
 Router.delete('/:id', async (req, res) => {

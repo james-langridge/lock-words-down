@@ -17,6 +17,8 @@ import TermEntryEdit from './views/termEntries/TermEntryEdit';
 import Game from './views/game/Game';
 import SelectionSave from './views/selection/SelectionSave';
 import AlphaSort from './views/game/alpha-sort/AlphaSort';
+import StudentSave from "./views/students/StudentSave";
+import StudentsManage from "./views/students/StudentsManage";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
@@ -61,6 +63,8 @@ const App = () => {
           <PrivateRoute exact path="/list" component={TermEntryList} />
           <PrivateRoute exact path="/upload" component={TermEntrySave} />
           <PrivateRoute exact path="/edit" component={TermEntryEdit} />
+          <PrivateRoute exact path="/students/save" component={StudentSave} />
+          <PrivateRoute exact path="/students/manage" component={StudentsManage} />
         </>
       </Switch>
     </div>

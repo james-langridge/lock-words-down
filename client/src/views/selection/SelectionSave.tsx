@@ -1,38 +1,27 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useHistory } from "react-router-dom";
-import { useSelector } from 'react-redux';
-import { Form, Row, Col, Button } from 'react-bootstrap';
-import Table from 'react-bootstrap/Table';
+import { useAppSelector } from "../../store/hooks";
+import { Form, Row, Col, Button, Table } from 'react-bootstrap';
 import axios from 'axios';
 
 const SelectionSave = () => {
-  const selectedWords = useSelector(state => state.words.selectedWords);
+  const selectedWords = useAppSelector(state => state.words.selectedWords);
   const history = useHistory();
-  const userId = useSelector(state => state.auth.user.id);
+  const userId = useAppSelector(state => state.auth.user.id);
   const [errorMsg, setErrorMsg] = useState('');
   const [titles, setTitles] = useState({
     selectionTitle: '',
     gameTitle: '',
   });
-  const selection = selectedWords.map(termEntry => {
-    const obj = {};
-    obj.term = termEntry.term;
-    obj.syllable = termEntry.syllable;
-    obj.image_url = termEntry.image_url;
-    obj.id = termEntry._id;
 
-    return obj;
-  });
-
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: { target: { name: string; value: string; }; }) => {
     setTitles({
       ...titles,
       [event.target.name]: event.target.value,
     });
-    console.log('titles:', titles);
   };
 
-  const handleOnSubmit = async (event) => {
+  const handleOnSubmit = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
     try {
       if (titles.selectionTitle.trim() !== '') {
@@ -49,14 +38,13 @@ const SelectionSave = () => {
       } else {
         setErrorMsg('Please enter all the field values.');
       }
-    } catch (error) {
+    } catch (error: any) {
       error.response && setErrorMsg(error.response.data);
-      console.log(error);
     }
   };
 
   return (
-    <React.Fragment>
+    <>
       <Form className="form-upload" onSubmit={handleOnSubmit}>
         {errorMsg && <p className="errorMsg">{errorMsg}</p>}
         <Row>
@@ -103,21 +91,10 @@ const SelectionSave = () => {
             </Table>
           </Col>
         </Row>
-        <Row>
-          <Col>
-            <Form.Group>
-              <Form.Control
-                type="hidden"
-                name="selection"
-                value={selection}
-              />
-            </Form.Group>
-          </Col>
-        </Row>
         <Button variant="primary" type="submit">Submit</Button>
         <Button className="mx-2" variant="secondary" as={Link} to="/list">Cancel</Button>
       </Form>
-    </React.Fragment>
+    </>
   );
 };
 
