@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 import { TermEntry } from '../../types/terms.types';
 import { Image } from '../../styles/styles';
 
-type TermEntryProps = {
+type TermEntryCardProps = {
   termEntry: TermEntry;
   functions: ((termEntry: TermEntry) => void)[];
 }
 
-const TermEntryCard = ({ termEntry, functions }: TermEntryProps ) => {
+const TermEntryCard = ({ termEntry, functions }: TermEntryCardProps ) => {
   const [handleClick, deleteTermEntry] = functions;
 
   return (

@@ -157,38 +157,25 @@ const Header = () => {
                 Sort
               </Dropdown.Item>
             </DropdownButton>
-            <Button
-              variant="primary"
-              as={Link}
-              to="/upload"
-              className="mr-2"
-            >
-              Add word
-            </Button>
             <DropdownButton
-              title="Students"
+              title="Words"
               className="mr-2"
             >
-              <Dropdown.Item as={Link} to="/students/save">
-                Add student
+              <Dropdown.Item as={Link} to="/upload">
+                Add word
               </Dropdown.Item>
-              <Dropdown.Item as={Link} to="/students/manage">
-                Manage students
+              <Dropdown.Item as={Link} to="/list">
+                Manage words
               </Dropdown.Item>
             </DropdownButton>
-            <Button
-              variant="primary"
-              as={Link}
-              to="/selection"
-              className={selectedWords.length ? "mr-2" : "mr-2 disabled"}
-            >
-              Save selection
-            </Button>
             <DropdownButton
-              title="Select"
+              title="Selections"
               disabled={!(selectionList && location.pathname === '/list')}
               className="mr-2"
             >
+              <Dropdown.Item as={Link} to="/selection" disabled={!selectedWords.length}>
+                Save selection
+              </Dropdown.Item>
               <Dropdown.Item onClick={() => selectAll()}>
                 Select all
               </Dropdown.Item>
@@ -204,6 +191,17 @@ const Header = () => {
                     {selection.selectionTitle}
                 </Dropdown.Item>
               )}
+            </DropdownButton>
+            <DropdownButton
+              title="Students"
+              className="mr-2"
+            >
+              <Dropdown.Item as={Link} to="/students/save">
+                Add student
+              </Dropdown.Item>
+              <Dropdown.Item as={Link} to="/students/manage">
+                Manage students
+              </Dropdown.Item>
             </DropdownButton>
             <Form.Group style={{ marginBottom: 'unset' }}>
               <InputGroup>

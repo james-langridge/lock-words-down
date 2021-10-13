@@ -28,6 +28,39 @@ Router.post('/save', async (req, res) => {
   }
 );
 
+// @route POST students/:studentId
+// @desc Update student
+// @access Public
+Router.post('/:studentId', async (req, res) => {
+  try {
+      const student = await Student.findById(req.params.studentId);
+      const { studentName } = req.body;
+      student.name = studentName;
+      await student.save();
+      res.send('Student updated successfully.');
+    } catch (error) {
+      res.status(500).send(error.message);
+    }
+  },
+  (error, req, res, next) => {
+    if (error) {
+      res.status(500).send(error.message);
+    }
+  }
+);
+
+// @route GET students/:studentId
+// @desc Get one student
+// @access Public
+Router.get('/:studentId', async (req, res) => {
+  try {
+    const student = await Student.findById(req.params.studentId);
+    res.send(student);
+  } catch (error) {
+    res.status(500).send('Error while getting student. Try again later.');
+  }
+});
+
 // @route GET students/all/:id
 // @desc Get all students
 // @access Public

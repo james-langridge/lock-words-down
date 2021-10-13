@@ -1,11 +1,11 @@
 import { Button, ButtonGroup } from 'react-bootstrap';
-import SortAlpha from '../../components/buttons/SortAlpha';
-import SortModified from '../../components/buttons/SortModified';
+import SortAlpha from './SortAlphaTerms';
+import SortModified from './SortModifiedTerms';
 import { Selection } from '../../types/terms.types';
 
 type TableButtonsProps = {
   selectedSelection: Selection | null,
-  deleteSelection: (selectedSelection: Selection) => void
+  deleteSelection: ((selectedSelection: Selection) => void) | null
 }
 
 const TableButtons = ({ selectedSelection, deleteSelection }: TableButtonsProps) =>
@@ -15,7 +15,7 @@ const TableButtons = ({ selectedSelection, deleteSelection }: TableButtonsProps)
       {selectedSelection && Object.keys(selectedSelection).length !== 0 &&
         <Button
           variant="outline-danger"
-          onClick={() => deleteSelection(selectedSelection)}
+          onClick={() => deleteSelection!(selectedSelection)}
         >
           Delete selection
         </Button>

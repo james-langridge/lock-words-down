@@ -5,7 +5,7 @@ import ArrowDown from '../icons/ArrowDown';
 import ArrowUp from '../icons/ArrowUp';
 import { TermEntry } from '../../types/terms.types';
 
-const SortModified = () => {
+const SortModifiedTerms = () => {
   const [sortDirection, setsortDirection] = useState('za');
   const wordList = useAppSelector(state => state.words.wordList);
   const dispatch = useAppDispatch();
@@ -50,4 +50,4 @@ const SortModified = () => {
   );
 };
 
-export default SortModified;
+export default SortModifiedTerms;

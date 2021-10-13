@@ -3,22 +3,22 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import Button from 'react-bootstrap/Button';
 import ArrowDown from '../icons/ArrowDown';
 import ArrowUp from '../icons/ArrowUp';
-import { TermEntry } from '../../types/terms.types';
+import { Student } from '../../types/students.types';
 
 const SortAlpha = () => {
   const [sortDirection, setsortDirection] = useState('za');
-  const wordList = useAppSelector(state => state.words.wordList);
+  const studentList = useAppSelector(state => state.students.studentList);
   const dispatch = useAppDispatch();
 
-  const compare = (a: TermEntry, b: TermEntry) => {
-    if ( a.term < b.term ) {
+  const compare = (a: Student, b: Student) => {
+    if ( a.name < b.name ) {
       if (sortDirection === 'za') {
         return -1;
       } else {
         return 1;
       }
     }
-    if ( a.term > b.term ) {
+    if ( a.name > b.name ) {
       if (sortDirection === 'za') {
         return 1;
       } else {
@@ -30,9 +30,9 @@ const SortAlpha = () => {
   }
 
   const handleClick = () => {
-    const newWordList = [...wordList];
-    newWordList.sort(compare);
-    dispatch({ type: 'setWordList', payload: newWordList })
+    const newStudentList = [...studentList!];
+    newStudentList.sort(compare);
+    dispatch({ type: 'setStudentList', payload: newStudentList })
     if (sortDirection === 'az') {
       setsortDirection('za');
     } else {

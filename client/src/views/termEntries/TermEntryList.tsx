@@ -2,10 +2,10 @@ import {useState, useEffect, ChangeEvent} from 'react';
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import axios from 'axios';
 import { Container, Row } from 'react-bootstrap';
-import EmptyTableAlert from './EmptyTableAlert';
-import GameTitleInput from './GameTitleInput';
-import ScrollingToggle from './ScrollingToggle';
-import TableButtons from './TableButtons';
+import EmptyTableAlert from '../gallery/EmptyTableAlert';
+import GameTitleInput from '../gallery/GameTitleInput';
+import ScrollingToggle from '../gallery/ScrollingToggle';
+import TableButtons from '../../components/buttons/TableButtons';
 import TermEntryCard from '../termEntries/TermEntryCard';
 import { TermEntry, Selection } from '../../types/terms.types';
 

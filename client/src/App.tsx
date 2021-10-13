@@ -11,7 +11,7 @@ import Header from "./components/layout/Header";
 import Register from "./views/auth/Register";
 import Login from "./views/auth/Login";
 import PrivateRoute from "./components/routing/PrivateRoute";
-import TermEntryList from './views/gallery/TermEntryList';
+import TermEntryList from './views/termEntries/TermEntryList';
 import TermEntrySave from './views/termEntries/TermEntrySave';
 import TermEntryEdit from './views/termEntries/TermEntryEdit';
 import Game from './views/game/Game';
@@ -19,6 +19,7 @@ import SelectionSave from './views/selection/SelectionSave';
 import AlphaSort from './views/game/alpha-sort/AlphaSort';
 import StudentSave from "./views/students/StudentSave";
 import StudentsManage from "./views/students/StudentsManage";
+import StudentEdit from "./views/students/StudentEdit";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
@@ -65,6 +66,7 @@ const App = () => {
           <PrivateRoute exact path="/edit" component={TermEntryEdit} />
           <PrivateRoute exact path="/students/save" component={StudentSave} />
           <PrivateRoute exact path="/students/manage" component={StudentsManage} />
+          <PrivateRoute exact path="/students/edit" component={StudentEdit} />
         </>
       </Switch>
     </div>
