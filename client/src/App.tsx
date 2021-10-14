@@ -1,9 +1,11 @@
-import { useEffect } from "react";
-import { Route, Switch, useLocation } from "react-router-dom";
-import { useDispatch } from 'react-redux';
+import { useState, useEffect } from "react";
+import { Route, Switch } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../src/store/hooks";
 import jwt_decode, { JwtPayload } from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser, logoutUser } from "./store/authentication/authentication.actions";
+import axios from 'axios';
+import { TermEntry, Selection } from './types/terms.types';
 
 import store from "./store/store";
 
@@ -29,26 +31,55 @@ if (localStorage.jwtToken) {
   setAuthToken(token);
   const decoded = jwt_decode<JwtPayload>(token);
   store.dispatch(setCurrentUser(decoded));
-
   const currentTime = Date.now() / 1000;
   if (decoded.exp! < currentTime) {
     store.dispatch(logoutUser());
-
     window.location.href = "./login";
   }
 }
 
 const App = () => {
-  const location = useLocation();
-  const dispatch = useDispatch();
+  const userId = useAppSelector((state) => state.auth.user.id);
+  const [errorMsg, setErrorMsg] = useState<string>('');
+  const dispatch = useAppDispatch();
+
+  const getTermEntries = async () => {
+    try {
+      const { data } = await axios.get<TermEntry[]>(`term/all/${userId}`);
+      setErrorMsg('');
+      dispatch({ type: 'setWordList', payload: data })
+    } catch (error: any) {
+      error.response && setErrorMsg(error.response.data);
+    }
+  };
+
+  const getSelections = async () => {
+    try {
+      const { data } = await axios.get<Selection[]>(`selection/${userId}`);
+      setErrorMsg('');
+      if (data) {
+        dispatch({ type: 'selections/setSelectionList', payload: data });
+      }
+    } catch (error: any) {
+      error.response && setErrorMsg(error.response.data);
+    }
+  };
+
+  const getStudents = async () => {
+    try {
+      const { data } = await axios.get(`students/all/${userId}`);
+      setErrorMsg('');
+      dispatch({ type: 'setStudentList', payload: data })
+    } catch (error: any) {
+      error.response && setErrorMsg(error.response.data);
+    }
+  };
 
   useEffect(() => {
-    if (location.pathname !== '/game' && location.pathname !== '/selection' && location.pathname !== '/game/alpha-sort') {
-      dispatch({ type: 'unselectAllWords' });
-      dispatch({ type: 'selections/unselectSelection' });
-      dispatch({ type: 'game/setGameTitle', payload: '' });
-    }
-  }, [location]);
+      getTermEntries();
+      getSelections();
+      getStudents();
+  }, []);
 
   return (
     <div className="App">
@@ -60,6 +91,7 @@ const App = () => {
         <PrivateRoute exact path="/game/alpha-sort" component={AlphaSort} />
         <>
           <Header />
+          {errorMsg && <p className="errorMsg">{errorMsg}</p>}
           <PrivateRoute exact path="/selection" component={SelectionSave} />
           <PrivateRoute exact path="/list" component={TermEntryList} />
           <PrivateRoute exact path="/upload" component={TermEntrySave} />

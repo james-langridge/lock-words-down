@@ -15,11 +15,13 @@ import {
 import axios from 'axios';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import { TermEntry, Selection, Option } from '../../types/terms.types';
+import { Student } from "../../types/students.types";
 
 const Header = () => {
   const selectedWords = useAppSelector(state => state.words.selectedWords);
   const wordList = useAppSelector(state => state.words.wordList);
   const selectionList = useAppSelector(state => state.selections.selectionList);
+  const studentList = useAppSelector(state => state.students.studentList);
   const selectedSelection = useAppSelector(state => state.selections.selectedSelection);
   const dispatch = useAppDispatch();
   const location = useLocation();
@@ -137,6 +139,10 @@ const Header = () => {
     }
   }
 
+  const selectStudent = (student: Student) => dispatch({ type: 'selectStudent', payload: student });
+
+  const unselectStudent = () => dispatch({ type: 'unselectStudent' });
+
   return (
     <Navbar className="headerComponent" variant="dark" fixed="top" bg="dark" expand="lg">
       <Container fluid>
@@ -188,7 +194,7 @@ const Header = () => {
                   onClick={() => selectSelection(selection)}
                   key={selection._id}
                 >
-                    {selection.selectionTitle}
+                  {selection.selectionTitle}
                 </Dropdown.Item>
               )}
             </DropdownButton>
@@ -199,9 +205,21 @@ const Header = () => {
               <Dropdown.Item as={Link} to="/students/save">
                 Add student
               </Dropdown.Item>
+              <Dropdown.Item onClick={() => unselectStudent()}>
+                Select none
+              </Dropdown.Item>
               <Dropdown.Item as={Link} to="/students/manage">
                 Manage students
               </Dropdown.Item>
+              <Dropdown.Divider />
+              {studentList && studentList.map((student: Student) =>
+                <Dropdown.Item
+                  onClick={() => selectStudent(student)}
+                  key={student._id}
+                >
+                  {student.name}
+                </Dropdown.Item>
+              )}
             </DropdownButton>
             <Form.Group style={{ marginBottom: 'unset' }}>
               <InputGroup>

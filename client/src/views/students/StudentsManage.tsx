@@ -15,6 +15,12 @@ const StudentsManage = () => {
   const dispatch = useAppDispatch();
   const [errorMsg, setErrorMsg] = useState('');
 
+  useEffect(() => {
+    if (selectedStudent) {
+      document.getElementById(selectedStudent._id)!.classList.toggle('bg-success');
+    }
+  }, []);
+
   const getStudents = async () => {
     try {
       const { data } = await axios.get(`all/${userId}`);
@@ -24,10 +30,6 @@ const StudentsManage = () => {
       error.response && setErrorMsg(error.response.data);
     }
   };
-
-  useEffect(() => {
-    getStudents();
-  }, []);
 
   const deleteStudent = async (student: Student) => {
     const result = window.confirm(`Delete student: ${student.name}? You cannot undo this!`)
@@ -64,7 +66,6 @@ const StudentsManage = () => {
   return (
     <Container>
       {errorMsg && <p className="errorMsg">{errorMsg}</p>}
-      {selectedStudent && <h1>Selected student: {selectedStudent.name}</h1>}
       {students.length > 0 &&
         <ButtonGroup size="sm" className="mb-3">
           <SortAlphaStudents/>

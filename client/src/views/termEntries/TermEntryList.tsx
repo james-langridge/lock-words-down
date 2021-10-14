@@ -1,7 +1,7 @@
 import {useState, useEffect, ChangeEvent} from 'react';
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import axios from 'axios';
-import { Container, Row } from 'react-bootstrap';
+import { Alert, Container, Row } from 'react-bootstrap';
 import EmptyTableAlert from '../gallery/EmptyTableAlert';
 import GameTitleInput from '../gallery/GameTitleInput';
 import ScrollingToggle from '../gallery/ScrollingToggle';
@@ -15,8 +15,17 @@ const TermEntryList = () => {
   const selectedWords = useAppSelector((state) => state.words.selectedWords);
   const termEntries = useAppSelector((state) => state.words.wordList);
   const selectedSelection = useAppSelector((state) => state.selections.selectedSelection);
+  const selectedStudent = useAppSelector((state) => state.students.selectedStudent);
   const [errorMsg, setErrorMsg] = useState<string>('');
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (selectedSelection) {
+      selectedSelection.selection.forEach(word => {
+        document.getElementById(word._id)!.classList.add('bg-success');
+      });
+    }
+  }, []);
 
   const getTermEntries = async () => {
     try {
@@ -27,23 +36,6 @@ const TermEntryList = () => {
       error.response && setErrorMsg(error.response.data);
     }
   };
-
-  const getSelections = async () => {
-    try {
-      const { data } = await axios.get<Selection[]>(`selection/${userId}`);
-      setErrorMsg('');
-      if (data) {
-        dispatch({ type: 'selections/setSelectionList', payload: data });
-      }
-    } catch (error: any) {
-      error.response && setErrorMsg(error.response.data);
-    }
-  };
-
-  useEffect(() => {
-    getTermEntries();
-    getSelections();
-  }, []);
 
   const deleteTermEntry = async (termEntry: TermEntry) => {
     const result = window.confirm(`Delete word: ${termEntry.term}? You cannot undo this!`)
@@ -60,6 +52,18 @@ const TermEntryList = () => {
         dispatch({ type: 'unselectWord', payload: termEntry })
       }
       getTermEntries();
+    }
+  };
+
+  const getSelections = async () => {
+    try {
+      const { data } = await axios.get<Selection[]>(`selection/${userId}`);
+      setErrorMsg('');
+      if (data) {
+        dispatch({ type: 'selections/setSelectionList', payload: data });
+      }
+    } catch (error: any) {
+      error.response && setErrorMsg(error.response.data);
     }
   };
 
@@ -111,7 +115,12 @@ const TermEntryList = () => {
         toggleScrolling={toggleScrolling}
       />
       <br />
-     {selectedSelection && <h1>{selectedSelection.selectionTitle}</h1>}
+      <Alert variant={selectedStudent ? 'success' : 'danger'}>
+        Student: {selectedStudent ? selectedStudent.name : 'none selected'}
+      </Alert>
+      <Alert variant={selectedSelection ? 'success' : 'danger'}>
+        Word Selection: {selectedSelection ? selectedSelection.selectionTitle : 'none selected'}
+      </Alert>
       <TableButtons
         selectedSelection={selectedSelection}
         deleteSelection={deleteSelection}

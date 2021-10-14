@@ -4,11 +4,12 @@ import rootReducer from "./rootReducer";
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 const initialState = {};
+const composeEnhancers = composeWithDevTools({ trace: true, traceLimit: 25});
 
 const store = createStore(
   rootReducer,
   initialState,
-  composeWithDevTools(applyMiddleware(thunk))
+  composeEnhancers(applyMiddleware(thunk))
 );
 
 export type RootState = ReturnType<typeof store.getState>
