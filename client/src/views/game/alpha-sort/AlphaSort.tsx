@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 import AlphaSortCol from './AlphaSortCol';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import { shuffle } from '../../../utils/helpers';
+import { shuffle } from '../../../utils';
 import { Word, AlphaSortColumn } from '../../../types/game.types';
 
 const AlphaSort = () => {

@@ -5,7 +5,7 @@ type WordsState = {
   wordList: TermEntry[]
 }
 
-export const initialState: WordsState = {
+const initialState: WordsState = {
   selectedWords: [],
   wordList: [],
 }

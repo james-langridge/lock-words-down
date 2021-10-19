@@ -144,7 +144,7 @@ const Header = () => {
   const unselectStudent = () => dispatch({ type: 'unselectStudent' });
 
   return (
-    <Navbar className="headerComponent" variant="dark" fixed="top" bg="dark" expand="lg">
+    <Navbar data-test="headerComponent" variant="dark" fixed="top" bg="dark" expand="lg">
       <Container fluid>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">

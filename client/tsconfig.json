@@ -27,7 +27,7 @@
   },
   "include": [
     "src/**/*"
-  ],
+, "src/utils"  ],
   "exclude": [
     "node_modules",
     "build"

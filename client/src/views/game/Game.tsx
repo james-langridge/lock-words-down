@@ -6,7 +6,7 @@ import { Row, Col, Button, Nav, Navbar } from 'react-bootstrap';
 import ColumnCard from './ColumnCard';
 import { TermEntry } from '../../types/terms.types';
 import { Syllable, Column, GivenAnswer, CorrectAnswer } from '../../types/game.types';
-import { shuffle } from '../../utils/helpers';
+import { shuffle } from '../../utils';
 
 const Game = () => {
   const selectedWords = useAppSelector(state => state.words.selectedWords);
