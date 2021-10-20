@@ -10,5 +10,5 @@ export default combineReducers({
   game: gameReducers,
   selections: selectionReducers,
   words: wordReducers,
-  students: studentReducers
+  students: studentReducers,
 });

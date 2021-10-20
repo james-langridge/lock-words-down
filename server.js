@@ -2,10 +2,10 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const passport = require("passport");
-const path = require('path');
+const path = require("path");
 
-const termEntryRoute = require('./routes/termEntries');
-const selectionRoute = require('./routes/selections');
+const termEntryRoute = require("./routes/termEntries");
+const selectionRoute = require("./routes/selections");
 const userRoute = require("./routes/users");
 const studentRoute = require("./routes/students");
 
@@ -13,7 +13,7 @@ const app = express();
 
 app.use(
   express.urlencoded({
-    extended: false
+    extended: false,
   })
 );
 app.use(express.json());
@@ -24,7 +24,7 @@ const db = process.env.MONGO_URI;
 mongoose
   .connect(db)
   .then(() => console.log("MongoDB successfully connected"))
-  .catch(err => console.log(err));
+  .catch((err) => console.log(err));
 
 app.use(passport.initialize());
 
@@ -35,11 +35,11 @@ app.use("/selection", selectionRoute);
 app.use("/user", userRoute);
 app.use("/students", studentRoute);
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('client/build'))
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
-  })
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
 }
 
 const port = process.env.PORT || 5000;

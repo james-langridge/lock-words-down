@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loginUser } from "../../store/authentication/authentication.actions";
-import styled from 'styled-components';
-import { Form, Button } from 'react-bootstrap';
+import styled from "styled-components";
+import { Form, Button } from "react-bootstrap";
 
 const Container = styled.div`
   width: 100%;
@@ -22,7 +22,7 @@ class Login extends Component {
     this.state = {
       email: "",
       password: "",
-      errors: {}
+      errors: {},
     };
   }
 
@@ -39,21 +39,21 @@ class Login extends Component {
 
     if (nextProps.errors) {
       this.setState({
-        errors: nextProps.errors
+        errors: nextProps.errors,
       });
     }
   }
 
-  onChange = e => {
+  onChange = (e) => {
     this.setState({ [e.target.id]: e.target.value });
   };
 
-  onSubmit = e => {
+  onSubmit = (e) => {
     e.preventDefault();
 
     const userData = {
       email: this.state.email,
-      password: this.state.password
+      password: this.state.password,
     };
 
     this.props.loginUser(userData);
@@ -97,7 +97,8 @@ class Login extends Component {
               {errors.passwordincorrect}
             </span>
           </Form.Group>
-          <Button block
+          <Button
+            block
             variant="primary"
             type="submit"
             size="lg"
@@ -105,7 +106,9 @@ class Login extends Component {
           >
             Sign in
           </Button>
-          <p>No account yet?  <Link to="/register">Register here</Link></p>
+          <p>
+            No account yet? <Link to="/register">Register here</Link>
+          </p>
           <p className="mt-5 mb-3 text-muted">© James Langridge 2021</p>
         </Form>
       </Container>
@@ -116,15 +119,12 @@ class Login extends Component {
 Login.propTypes = {
   loginUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
-  errors: state.errors
+  errors: state.errors,
 });
 
-export default connect(
-  mapStateToProps,
-  { loginUser }
-)(Login);
+export default connect(mapStateToProps, { loginUser })(Login);

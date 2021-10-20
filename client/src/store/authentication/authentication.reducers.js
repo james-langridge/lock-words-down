@@ -3,21 +3,21 @@ const isEmpty = require("is-empty");
 const initialState = {
   isAuthenticated: false,
   user: {},
-  loading: false
+  loading: false,
 };
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   switch (action.type) {
-    case 'auth/setCurrentUser':
+    case "auth/setCurrentUser":
       return {
         ...state,
         isAuthenticated: !isEmpty(action.payload),
-        user: action.payload
+        user: action.payload,
       };
-    case 'auth/userLoading':
+    case "auth/userLoading":
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     default:
       return state;

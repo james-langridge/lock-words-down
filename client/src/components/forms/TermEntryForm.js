@@ -1,23 +1,28 @@
-import { useState } from 'react';
-import { Col, Form, Row } from 'react-bootstrap';
-import Submit from '../buttons/Submit';
-import Cancel from '../buttons/Cancel';
-import Upload from './Upload';
+import { useState } from "react";
+import { Col, Form, Row } from "react-bootstrap";
+import Submit from "../buttons/Submit";
+import Cancel from "../buttons/Cancel";
+import Upload from "./Upload";
 
 const TermEntryForm = (props) => {
   const [
     handleOnSubmit,
-    state, setState,
-    file, setFile,
-    errorMsg, setErrorMsg,
-    previewSrc, setPreviewSrc,
-    isPreviewAvailable, setIsPreviewAvailable
+    state,
+    setState,
+    file,
+    setFile,
+    errorMsg,
+    setErrorMsg,
+    previewSrc,
+    setPreviewSrc,
+    isPreviewAvailable,
+    setIsPreviewAvailable,
   ] = props.functions;
 
   const handleInputChange = (event) => {
     setState({
       ...state,
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   };
 
@@ -31,7 +36,7 @@ const TermEntryForm = (props) => {
             <Form.Control
               type="text"
               name="term"
-              value={state.term || ''}
+              value={state.term || ""}
               placeholder="Enter term"
               onChange={handleInputChange}
             />
@@ -43,21 +48,23 @@ const TermEntryForm = (props) => {
             <Form.Control
               type="text"
               name="syllable"
-              value={state.syllable || ''}
+              value={state.syllable || ""}
               placeholder="Enter syllable"
               onChange={handleInputChange}
             />
           </Form.Group>
         </Col>
       </Row>
-      <Upload functions={[
-        file,
-        setFile,
-        previewSrc,
-        setPreviewSrc,
-        isPreviewAvailable,
-        setIsPreviewAvailable
-      ]} />
+      <Upload
+        functions={[
+          file,
+          setFile,
+          previewSrc,
+          setPreviewSrc,
+          isPreviewAvailable,
+          setIsPreviewAvailable,
+        ]}
+      />
       <Submit />
       <Cancel />
     </Form>

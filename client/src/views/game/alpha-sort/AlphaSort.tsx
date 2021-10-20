@@ -1,27 +1,27 @@
 import { useState, useEffect } from "react";
 import { useAppSelector } from "../../../store/hooks";
-import { DragDropContext } from 'react-beautiful-dnd';
+import { DragDropContext } from "react-beautiful-dnd";
 import { Link } from "react-router-dom";
-import Button from 'react-bootstrap/Button';
-import AlphaSortCol from './AlphaSortCol';
-import Navbar from 'react-bootstrap/Navbar';
-import Nav from 'react-bootstrap/Nav';
-import { shuffle } from '../../../utils';
-import { Word, AlphaSortColumn } from '../../../types/game.types';
+import Button from "react-bootstrap/Button";
+import AlphaSortCol from "./AlphaSortCol";
+import Navbar from "react-bootstrap/Navbar";
+import Nav from "react-bootstrap/Nav";
+import { shuffle } from "../../../utils";
+import { Word, AlphaSortColumn } from "../../../types/game.types";
 
 const AlphaSort = () => {
-  const selectedWords = useAppSelector(state => state.words.selectedWords);
-  const words = shuffle(selectedWords.map(word => word.term));
+  const selectedWords = useAppSelector((state) => state.words.selectedWords);
+  const words = shuffle(selectedWords.map((word) => word.term));
 
   type InitialData = {
     words: {
-      [key: string]: Word
-    },
+      [key: string]: Word;
+    };
     columns: {
-      [key: string]: AlphaSortColumn
-    },
-    columnOrder: string[]
-  }
+      [key: string]: AlphaSortColumn;
+    };
+    columnOrder: string[];
+  };
 
   const initialData: InitialData = {
     words: {
@@ -29,21 +29,21 @@ const AlphaSort = () => {
       // content: word
     },
     columns: {
-      'column-1': {
-        id: 'column-1',
-        title: 'Words',
+      "column-1": {
+        id: "column-1",
+        title: "Words",
         wordIds: [],
       },
     },
-    columnOrder: ['column-1'],
+    columnOrder: ["column-1"],
   };
 
   words.forEach((word, i) => {
-    initialData.words[`word-${i+1}`] = {
-        id: `word-${i+1}`,
-        content: word
-      }
-      initialData.columns['column-1'].wordIds.push(`word-${i+1}`);
+    initialData.words[`word-${i + 1}`] = {
+      id: `word-${i + 1}`,
+      content: word,
+    };
+    initialData.columns["column-1"].wordIds.push(`word-${i + 1}`);
   });
 
   const [state, setState] = useState(initialData);
@@ -87,7 +87,9 @@ const AlphaSort = () => {
 
   const checkAnswers = () => {
     for (const column in state.columns) {
-      const answers = state.columns[column].wordIds.map((wordId: string) => state.words[wordId].content)
+      const answers = state.columns[column].wordIds.map(
+        (wordId: string) => state.words[wordId].content
+      );
       const element = document.getElementById(column);
       let isCorrect = true;
 
@@ -98,14 +100,18 @@ const AlphaSort = () => {
       }
 
       if (isCorrect) {
-        element!.classList.add('bg-success');
-        return setTimeout(() => { element!.classList.remove('bg-success'); }, 2000);
+        element!.classList.add("bg-success");
+        return setTimeout(() => {
+          element!.classList.remove("bg-success");
+        }, 2000);
       } else {
-        element!.classList.add('bg-danger');
-        return setTimeout(() => { element!.classList.remove('bg-danger'); }, 2000);
+        element!.classList.add("bg-danger");
+        return setTimeout(() => {
+          element!.classList.remove("bg-danger");
+        }, 2000);
       }
     }
-  }
+  };
 
   useEffect(() => {
     document.body.style.backgroundColor = "#F6FCE6";
@@ -114,7 +120,7 @@ const AlphaSort = () => {
     return () => {
       document.body.style.backgroundColor = "white";
       document.body.style.overflow = "auto";
-    }
+    };
   }, []);
 
   return (
@@ -123,25 +129,31 @@ const AlphaSort = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto mb-2 mb-md-0">
-            <Button variant="primary" size="lg" onClick={() => checkAnswers()}>Check answers</Button>
+            <Button variant="primary" size="lg" onClick={() => checkAnswers()}>
+              Check answers
+            </Button>
           </Nav>
         </Navbar.Collapse>
         <Nav>
           <Nav.Item>
-            <Button size="sm" variant="outline-secondary" as={Link} to="/list">Exit</Button>
+            <Button size="sm" variant="outline-secondary" as={Link} to="/list">
+              Exit
+            </Button>
           </Nav.Item>
         </Nav>
       </Navbar>
       <DragDropContext onDragEnd={onDragEnd}>
-        {state.columnOrder.map(columnId => {
+        {state.columnOrder.map((columnId) => {
           const column = state.columns[columnId];
-          const words = column.wordIds.map((wordId: string) => state.words[wordId]);
+          const words = column.wordIds.map(
+            (wordId: string) => state.words[wordId]
+          );
 
-          return <AlphaSortCol key={column.id} column={column} words={words} />
+          return <AlphaSortCol key={column.id} column={column} words={words} />;
         })}
       </DragDropContext>
     </>
   );
-}
+};
 
 export default AlphaSort;

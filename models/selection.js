@@ -1,20 +1,20 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const TermEntrySchema = mongoose.model('term_entries').schema;
+const TermEntrySchema = mongoose.model("term_entries").schema;
 
 const SelectionSchema = new Schema({
   selectionTitle: {
     type: String,
-    required: true
+    required: true,
   },
   gameTitle: {
-    type: String
+    type: String,
   },
   selection: [TermEntrySchema],
   created_by: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 });
 
-module.exports = Selection = mongoose.model('selections', SelectionSchema);
+module.exports = Selection = mongoose.model("selections", SelectionSchema);

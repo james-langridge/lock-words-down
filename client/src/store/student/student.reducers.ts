@@ -1,48 +1,50 @@
-import { Student } from '../../types/students.types';
+import { Student } from "../../types/students.types";
 
 type StudentsState = {
-  studentList: Student[] | [],
-  selectedStudent: Student | null
-}
+  studentList: Student[] | [];
+  selectedStudent: Student | null;
+};
 
 export const initialState: StudentsState = {
-    studentList: [],
-    selectedStudent: null
-}
+  studentList: [],
+  selectedStudent: null,
+};
 
 type SelectStudentAction = {
-  type: 'selectStudent',
-  payload: Student
-}
+  type: "selectStudent";
+  payload: Student;
+};
 
 type UnselectStudentAction = {
-  type: 'unselectStudent'
-}
+  type: "unselectStudent";
+};
 
 type SetStudentListAction = {
-  type: 'setStudentList',
-  payload: Student[] | []
-}
+  type: "setStudentList";
+  payload: Student[] | [];
+};
 
-type Actions = SelectStudentAction | UnselectStudentAction | SetStudentListAction;
+type Actions =
+  | SelectStudentAction
+  | UnselectStudentAction
+  | SetStudentListAction;
 
-
-export default function(state: StudentsState = initialState, action: Actions) {
+export default function (state: StudentsState = initialState, action: Actions) {
   switch (action.type) {
-    case 'selectStudent':
+    case "selectStudent":
       return {
         ...state,
-        selectedStudent: action.payload
+        selectedStudent: action.payload,
       };
-    case 'unselectStudent':
+    case "unselectStudent":
       return {
         ...state,
-        selectedStudent: null
+        selectedStudent: null,
       };
     case "setStudentList":
       return {
         ...state,
-        studentList: action.payload
+        studentList: action.payload,
       };
     default:
       return state;

@@ -1,20 +1,26 @@
-import { Col, Form, Row } from 'react-bootstrap';
-import Submit from '../buttons/Submit';
-import Cancel from '../buttons/Cancel';
+import { Col, Form, Row } from "react-bootstrap";
+import Submit from "../buttons/Submit";
+import Cancel from "../buttons/Cancel";
 
 type StudentFormProps = {
-  state: { name: string },
-  setState: React.Dispatch<React.SetStateAction<{ name: string }>>,
-  handleOnSubmit: (event: { preventDefault: () => void }) => Promise<void>,
-  errorMsg: string
-}
+  state: { name: string };
+  setState: React.Dispatch<React.SetStateAction<{ name: string }>>;
+  handleOnSubmit: (event: { preventDefault: () => void }) => Promise<void>;
+  errorMsg: string;
+};
 
-const StudentForm = ({ state, setState, handleOnSubmit, errorMsg }: StudentFormProps) => {
-
-  const handleInputChange = (event: { target: { name: string; value: string; }; }) => {
+const StudentForm = ({
+  state,
+  setState,
+  handleOnSubmit,
+  errorMsg,
+}: StudentFormProps) => {
+  const handleInputChange = (event: {
+    target: { name: string; value: string };
+  }) => {
     setState({
       ...state,
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   };
 
@@ -28,7 +34,7 @@ const StudentForm = ({ state, setState, handleOnSubmit, errorMsg }: StudentFormP
             <Form.Control
               type="text"
               name="name"
-              value={state.name || ''}
+              value={state.name || ""}
               placeholder="Enter student name"
               onChange={handleInputChange}
             />

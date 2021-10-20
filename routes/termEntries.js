@@ -1,8 +1,8 @@
-const AWS = require('aws-sdk');
-const express = require('express');
-const multer = require('multer');
-const multerS3 = require('multer-s3');
-const TermEntry = require('../models/termEntry');
+const AWS = require("aws-sdk");
+const express = require("express");
+const multer = require("multer");
+const multerS3 = require("multer-s3");
+const TermEntry = require("../models/termEntry");
 const Router = express.Router();
 require("dotenv").config();
 
@@ -27,38 +27,34 @@ const upload = multer({
   }),
   fileFilter(req, file, cb) {
     if (!file.originalname.match(/\.(jpeg|jpg|png)$/)) {
-      return cb(
-        new Error(
-          'Only upload files with jpg, jpeg, or png format.'
-        )
-      );
+      return cb(new Error("Only upload files with jpg, jpeg, or png format."));
     }
     cb(undefined, true);
-  }
+  },
 });
 
 // @route POST term
 // @desc Save term entry
 // @access Public
 Router.post(
-  '/',
-  upload.single('file'),
+  "/",
+  upload.single("file"),
   async (req, res) => {
     try {
       const { term, syllable, userId } = req.body;
       const termEntry = new TermEntry({
         term,
         syllable,
-        created_by: userId
+        created_by: userId,
       });
       if (req.file) {
         const imageUrl = req.file.location;
         termEntry.image_url = imageUrl;
       }
       await termEntry.save();
-      res.send('Term entry saved successfully.');
+      res.send("Term entry saved successfully.");
     } catch (error) {
-      res.status(500).send('Error while saving term entry. Try again later.');
+      res.status(500).send("Error while saving term entry. Try again later.");
     }
   },
   (error, req, res, next) => {
@@ -72,8 +68,8 @@ Router.post(
 // @desc Update term entry
 // @access Public
 Router.post(
-  '/:termId',
-  upload.single('file'),
+  "/:termId",
+  upload.single("file"),
   async (req, res) => {
     try {
       const termEntry = await TermEntry.findById(req.params.termId);
@@ -85,7 +81,7 @@ Router.post(
       termEntry.term = term;
       termEntry.syllable = syllable;
       await termEntry.save();
-      res.send('Term entry updated successfully.');
+      res.send("Term entry updated successfully.");
     } catch (error) {
       res.status(500).send(error.message);
     }
@@ -100,19 +96,19 @@ Router.post(
 // @route GET term/:termId
 // @desc Get one term entry
 // @access Public
-Router.get('/:termId', async (req, res) => {
+Router.get("/:termId", async (req, res) => {
   try {
     const termEntry = await TermEntry.findById(req.params.termId);
     res.send(termEntry);
   } catch (error) {
-    res.status(500).send('Error while getting term entry. Try again later.');
+    res.status(500).send("Error while getting term entry. Try again later.");
   }
 });
 
 // @route GET term/all/:userId
 // @desc Get all term entries
 // @access Public
-Router.get('/all/:userId', async (req, res) => {
+Router.get("/all/:userId", async (req, res) => {
   try {
     const termEntries = await TermEntry.find({ created_by: req.params.userId });
     const sortedByCreationDate = termEntries.sort(
@@ -120,19 +116,21 @@ Router.get('/all/:userId', async (req, res) => {
     );
     res.send(sortedByCreationDate);
   } catch (error) {
-    res.status(500).send('Error while getting list of term entries. Try again later.');
+    res
+      .status(500)
+      .send("Error while getting list of term entries. Try again later.");
   }
 });
 
 // @route DELETE term/:termId
 // @desc Delete single term entry
 // @access Public
-Router.delete('/:termId', async (req, res) => {
+Router.delete("/:termId", async (req, res) => {
   try {
     await TermEntry.findByIdAndDelete(req.params.termId);
-    res.send('Term entry deleted successfully.');
+    res.send("Term entry deleted successfully.");
   } catch (error) {
-    res.status(400).send('Error while deleting term entry. Try again later.');
+    res.status(400).send("Error while deleting term entry. Try again later.");
   }
 });
 

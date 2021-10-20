@@ -3,8 +3,8 @@ import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { registerUser } from "../../store/authentication/authentication.actions";
-import styled from 'styled-components';
-import { Form, Button } from 'react-bootstrap';
+import styled from "styled-components";
+import { Form, Button } from "react-bootstrap";
 
 const Container = styled.div`
   width: 100%;
@@ -24,7 +24,7 @@ class Register extends Component {
       email: "",
       password: "",
       password2: "",
-      errors: {}
+      errors: {},
     };
   }
 
@@ -37,23 +37,23 @@ class Register extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       this.setState({
-        errors: nextProps.errors
+        errors: nextProps.errors,
       });
     }
   }
 
-  onChange = e => {
+  onChange = (e) => {
     this.setState({ [e.target.id]: e.target.value });
   };
 
-  onSubmit = e => {
+  onSubmit = (e) => {
     e.preventDefault();
 
     const newUser = {
       name: this.state.name,
       email: this.state.email,
       password: this.state.password,
-      password2: this.state.password2
+      password2: this.state.password2,
     };
 
     this.props.registerUser(newUser, this.props.history);
@@ -84,41 +84,42 @@ class Register extends Component {
           </Form.Group>
           <Form.Group controlId="email">
             <Form.Label srOnly>Email</Form.Label>
-              <Form.Control
-                onChange={this.onChange}
-                error={errors.email}
-                value={this.state.email}
-                type="email"
-                placeholder="Email"
-                required=""
-              />
+            <Form.Control
+              onChange={this.onChange}
+              error={errors.email}
+              value={this.state.email}
+              type="email"
+              placeholder="Email"
+              required=""
+            />
             <span className="red-text">{errors.email}</span>
           </Form.Group>
           <Form.Group controlId="password">
             <Form.Label srOnly>Password</Form.Label>
-              <Form.Control
-                onChange={this.onChange}
-                error={errors.password}
-                value={this.state.password}
-                type="password"
-                placeholder="Password"
-                required=""
-              />
+            <Form.Control
+              onChange={this.onChange}
+              error={errors.password}
+              value={this.state.password}
+              type="password"
+              placeholder="Password"
+              required=""
+            />
             <span className="red-text">{errors.password}</span>
           </Form.Group>
           <Form.Group controlId="password2">
             <Form.Label className="sr-only">Confirm password</Form.Label>
-              <Form.Control
-                onChange={this.onChange}
-                error={errors.password2}
-                value={this.state.password2}
-                type="password"
-                placeholder="Confirm password"
-                required=""
-              />
+            <Form.Control
+              onChange={this.onChange}
+              error={errors.password2}
+              value={this.state.password2}
+              type="password"
+              placeholder="Confirm password"
+              required=""
+            />
             <span className="red-text">{errors.password2}</span>
           </Form.Group>
-          <Button block
+          <Button
+            block
             variant="primary"
             type="submit"
             size="lg"
@@ -126,7 +127,9 @@ class Register extends Component {
           >
             Sign up
           </Button>
-          <p>Already have an account? <Link to="/login">Log in</Link></p>
+          <p>
+            Already have an account? <Link to="/login">Log in</Link>
+          </p>
           <p className="mt-5 mb-3 text-muted">© James Langridge 2021</p>
         </Form>
       </Container>
@@ -137,15 +140,12 @@ class Register extends Component {
 Register.propTypes = {
   registerUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
-}
+  errors: PropTypes.object.isRequired,
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
-  errors: state.errors
+  errors: state.errors,
 });
 
-export default connect(
-  mapStateToProps,
-  { registerUser }
-)(withRouter(Register));
+export default connect(mapStateToProps, { registerUser })(withRouter(Register));

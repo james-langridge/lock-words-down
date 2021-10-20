@@ -2,50 +2,50 @@ import axios from "axios";
 import setAuthToken from "../../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
 
-export const registerUser = (userData, history) => dispatch => {
+export const registerUser = (userData, history) => (dispatch) => {
   axios
     .post("user/register", userData)
-    .then(res => history.push("/login"))
-    .catch(err =>
+    .then((res) => history.push("/login"))
+    .catch((err) =>
       dispatch({
-        type: 'getErrors',
-        payload: err.response.data
+        type: "getErrors",
+        payload: err.response.data,
       })
     );
 };
 
-export const loginUser = userData => dispatch => {
+export const loginUser = (userData) => (dispatch) => {
   axios
     .post("user/login", userData)
-    .then(res => {
+    .then((res) => {
       const { token } = res.data;
       localStorage.setItem("jwtToken", token);
       setAuthToken(token);
       const decoded = jwt_decode(token);
       dispatch(setCurrentUser(decoded));
     })
-    .catch(err =>
+    .catch((err) =>
       dispatch({
-        type: 'getErrors',
-        payload: err.response.data
+        type: "getErrors",
+        payload: err.response.data,
       })
     );
 };
 
-export const setCurrentUser = decoded => {
+export const setCurrentUser = (decoded) => {
   return {
-    type: 'auth/setCurrentUser',
-    payload: decoded
+    type: "auth/setCurrentUser",
+    payload: decoded,
   };
 };
 
 export const setUserLoading = () => {
   return {
-    type: 'auth/userLoading'
+    type: "auth/userLoading",
   };
 };
 
-export const logoutUser = () => dispatch => {
+export const logoutUser = () => (dispatch) => {
   localStorage.removeItem("jwtToken");
   setAuthToken(false);
   dispatch(setCurrentUser({}));

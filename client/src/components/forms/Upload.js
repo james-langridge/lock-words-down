@@ -1,5 +1,5 @@
-import { useState, useRef } from 'react';
-import Dropzone from 'react-dropzone';
+import { useState, useRef } from "react";
+import Dropzone from "react-dropzone";
 
 const Upload = (props) => {
   const [
@@ -8,7 +8,7 @@ const Upload = (props) => {
     previewSrc,
     setPreviewSrc,
     isPreviewAvailable,
-    setIsPreviewAvailable
+    setIsPreviewAvailable,
   ] = props.functions;
   const dropRef = useRef();
 
@@ -22,14 +22,14 @@ const Upload = (props) => {
     };
     fileReader.readAsDataURL(uploadedFile);
     setIsPreviewAvailable(uploadedFile.name.match(/\.(jpeg|jpg|png)$/));
-    dropRef.current.style.border = '2px dashed #e9ebeb';
+    dropRef.current.style.border = "2px dashed #e9ebeb";
   };
 
   const updateBorder = (dragState) => {
-    if (dragState === 'over') {
-      dropRef.current.style.border = '2px solid #000';
-    } else if (dragState === 'leave') {
-      dropRef.current.style.border = '2px dashed #e9ebeb';
+    if (dragState === "over") {
+      dropRef.current.style.border = "2px solid #000";
+    } else if (dragState === "leave") {
+      dropRef.current.style.border = "2px dashed #e9ebeb";
     }
   };
 
@@ -37,11 +37,11 @@ const Upload = (props) => {
     <div className="upload-section">
       <Dropzone
         onDrop={onDrop}
-        onDragEnter={() => updateBorder('over')}
-        onDragLeave={() => updateBorder('leave')}
+        onDragEnter={() => updateBorder("over")}
+        onDragLeave={() => updateBorder("leave")}
       >
         {({ getRootProps, getInputProps }) => (
-          <div {...getRootProps({ className: 'drop-zone' })} ref={dropRef}>
+          <div {...getRootProps({ className: "drop-zone" })} ref={dropRef}>
             <input {...getInputProps()} />
             <p>Drag and drop a file OR click here to select a file</p>
             {file && (

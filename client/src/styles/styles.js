@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const AlphaSortColumnContainer = styled.div`
   width: 222px;
@@ -18,7 +18,7 @@ export const ColumnContainer = styled.div`
   border: 1px solid lightgrey;
   border-radius: 2px;
   place-self: center;
-  color: #5A70D9;
+  color: #5a70d9;
   justify-content: center;
 `;
 
@@ -33,7 +33,8 @@ export const Image = styled.img`
 export const SyllableList = styled.div`
   padding: 8px;
   transition: background-color 0.2s ease;
-  background-color: ${props => (props.isDraggingOver ? '#485DF0' : '#F6FCE6')};
+  background-color: ${(props) =>
+    props.isDraggingOver ? "#485DF0" : "#F6FCE6"};
   flex-grow: 1;
   min-height: 50px;
   text-align: center;
@@ -47,7 +48,8 @@ export const Title = styled.h3`
 export const WordList = styled.div`
   padding: 8px;
   transition: background-color 0.2s ease;
-  background-color: ${props => (props.isDraggingOver ? '#485DF0' : '#F6FCE6')};
+  background-color: ${(props) =>
+    props.isDraggingOver ? "#485DF0" : "#F6FCE6"};
   flex-grow: 1;
   min-height: 50px;
   text-align: center;

@@ -1,12 +1,14 @@
 {
-  "name": "Lock Words Down",
+  "name": "lock-words-down",
   "version": "1.0.0",
   "engines": {
-    "node": "15.x"
+    "node": "14.x"
   },
   "description": "An educational word game app for use by specialist teachers of dyslexic children.",
   "main": "server.js",
   "scripts": {
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx}\"",
+    "lint": "eslint \"**/*.{js,jsx,ts,tsx}\" --quiet",
     "start": "node server.js",
     "server": "DEBUG=express:* DEBUG_COLORS=true DEBUG_FD=1 nodemon server.js",
     "client": "npm start --prefix client",
@@ -47,6 +49,9 @@
   },
   "devDependencies": {
     "concurrently": "^6.3.0",
-    "nodemon": "^2.0.14"
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "nodemon": "^2.0.14",
+    "prettier": "^2.4.1"
   }
 }

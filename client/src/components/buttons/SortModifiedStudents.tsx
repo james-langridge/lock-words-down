@@ -1,25 +1,25 @@
-import { useState } from 'react';
+import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import Button from 'react-bootstrap/Button';
-import ArrowDown from '../icons/ArrowDown';
-import ArrowUp from '../icons/ArrowUp';
-import { Student } from '../../types/students.types';
+import Button from "react-bootstrap/Button";
+import ArrowDown from "../icons/ArrowDown";
+import ArrowUp from "../icons/ArrowUp";
+import { Student } from "../../types/students.types";
 
 const SortModifiedStudents = () => {
-  const [sortDirection, setsortDirection] = useState('za');
-  const studentList = useAppSelector(state => state.students.studentList);
+  const [sortDirection, setsortDirection] = useState("za");
+  const studentList = useAppSelector((state) => state.students.studentList);
   const dispatch = useAppDispatch();
 
   const compare = (a: Student, b: Student) => {
-    if ( a.updatedAt < b.updatedAt ) {
-      if (sortDirection === 'za') {
+    if (a.updatedAt < b.updatedAt) {
+      if (sortDirection === "za") {
         return -1;
       } else {
         return 1;
       }
     }
-    if ( a.updatedAt > b.updatedAt ) {
-      if (sortDirection === 'za') {
+    if (a.updatedAt > b.updatedAt) {
+      if (sortDirection === "za") {
         return 1;
       } else {
         return -1;
@@ -27,25 +27,22 @@ const SortModifiedStudents = () => {
     }
 
     return 0;
-  }
+  };
 
   const handleClick = () => {
     const newStudentList = [...studentList!];
     newStudentList.sort(compare);
-    dispatch({ type: 'setStudentList', payload: newStudentList })
-    if (sortDirection === 'az') {
-      setsortDirection('za');
+    dispatch({ type: "setStudentList", payload: newStudentList });
+    if (sortDirection === "az") {
+      setsortDirection("za");
     } else {
-      setsortDirection('az');
+      setsortDirection("az");
     }
-  }
+  };
 
   return (
-    <Button
-      variant="outline-info"
-      onClick={() => handleClick()}
-    >
-      Modified {sortDirection === 'az' ? <ArrowDown/> : <ArrowUp/>}
+    <Button variant="outline-info" onClick={() => handleClick()}>
+      Modified {sortDirection === "az" ? <ArrowDown /> : <ArrowUp />}
     </Button>
   );
 };
