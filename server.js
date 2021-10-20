@@ -1,7 +1,6 @@
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
 const passport = require("passport");
 const path = require('path');
 
@@ -13,21 +12,17 @@ const studentRoute = require("./routes/students");
 const app = express();
 
 app.use(
-  bodyParser.urlencoded({
+  express.urlencoded({
     extended: false
   })
 );
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(express.static(__dirname));
 
 const db = process.env.MONGO_URI;
 
 mongoose
-  .connect(db, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true
-  })
+  .connect(db)
   .then(() => console.log("MongoDB successfully connected"))
   .catch(err => console.log(err));
 
