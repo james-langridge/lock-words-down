@@ -45,6 +45,7 @@
     "multer-s3": "^2.10.0",
     "passport": "^0.5.0",
     "passport-jwt": "^4.0.0",
+    "redux-devtools-extension": "^2.13.9",
     "validator": "^13.6.0"
   },
   "devDependencies": {
